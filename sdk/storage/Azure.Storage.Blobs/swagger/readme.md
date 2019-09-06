@@ -1043,3 +1043,27 @@ directive:
   where: $.parameters.BlobPublicAccess
   transform: $.required = true;
 ```
+
+### Make lease duration a long
+Lease Duration is represented as a TimeSpan in the .NET client libraries, but TimeSpan.MaxValue would overflow an int. Because of this, we are changing the 
+type used in the BlobRestClient from an int to a long. This will allow values larger than int.MaxValue (e.g. TimeSpan.MaxValue) to be successfully passed on to the service layer. 
+``` yaml
+directive:
+- from: swagger-document
+  where:
+    - $.definitions.PublicAccessType
+    - $.parameters.BlobPublicAccess
+    - $["x-ms-paths"]["/{containerName}?restype=container"].get.responses["200"].headers["x-ms-blob-public-access"]
+    - $["x-ms-paths"]["/{containerName}?restype=container&comp=acl"].get.responses["200"].headers["x-ms-blob-public-access"]
+  transform: >
+    $.enum = [ "none", "container", "blob" ];
+    $["x-ms-enum"].values = [ { name: "none", value: null }, { name: "container", value: "container" }, { name: "blob", value: "blob" }];
+    $["x-az-enum-skip-value"] = "none";
+- from: swagger-document
+  where: $.definitions.PublicAccessType
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+- from: swagger-document
+  where: $.parameters.BlobPublicAccess
+  transform: $.required = true;
+```
