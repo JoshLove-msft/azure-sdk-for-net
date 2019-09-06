@@ -50,10 +50,26 @@ namespace Azure.Storage.Blobs
         /// The <see cref="ServiceVersion"/> of the service API used when
         /// making requests.
         /// </param>
-        public BlobClientOptions(ServiceVersion version = LatestVersion)
+        /// <param name="PrimaryUri"></param>
+        /// <param name="SecondaryUri"></param>
+        //public BlobClientOptions(ServiceVersion version = LatestVersion)
+        //{
+        //    this.Version = version;
+        //    this.Initialize();
+        //}
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        public BlobClientOptions(ServiceVersion version = LatestVersion, Uri PrimaryUri = null, Uri SecondaryUri = null)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
+            if (PrimaryUri != null && SecondaryUri != null)
+            {
+                this.RetryRequestModifier = new StorageRetryRequestModifier(PrimaryUri, SecondaryUri);
+            }
+
             this.Version = version;
             this.Initialize();
         }
+
     }
 }

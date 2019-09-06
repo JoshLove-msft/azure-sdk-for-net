@@ -24,7 +24,7 @@ namespace Azure.Core.Pipeline
 
             RetryOptions retryOptions = options.Retry;
             policies.Add(new RetryPolicy(retryOptions.Mode, retryOptions.Delay, retryOptions.MaxDelay, retryOptions.MaxRetries));
-
+            //auth policy needs to be last
             policies.AddRange(clientPolicies);
 
             policies.AddRange(options.PerRetryPolicies);
@@ -40,7 +40,7 @@ namespace Azure.Core.Pipeline
 
             policies.RemoveAll(policy => policy == null);
 
-            return new HttpPipeline(options.Transport, policies.ToArray(), options.ResponseClassifier, new ClientDiagnostics(options.Diagnostics.IsLoggingEnabled));
+            return new HttpPipeline(options.Transport, policies.ToArray(), options.ResponseClassifier, new ClientDiagnostics(options.Diagnostics.IsLoggingEnabled), options.RetryRequestModifier);
         }
 
         // internal for testing

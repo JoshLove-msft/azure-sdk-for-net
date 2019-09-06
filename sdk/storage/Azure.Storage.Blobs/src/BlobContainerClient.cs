@@ -38,7 +38,7 @@ namespace Azure.Storage.Blobs
         /// Gets the container's primary <see cref="Uri"/> endpoint.
         /// </summary>
         private readonly Uri _uri;
-        #pragma warning restore IDE0032 // Use auto property
+#pragma warning restore IDE0032 // Use auto property
 
         /// <summary>
         /// Gets the container's primary <see cref="Uri"/> endpoint.
@@ -109,7 +109,9 @@ namespace Azure.Storage.Blobs
             var conn = StorageConnectionString.Parse(connectionString);
             var builder = new BlobUriBuilder(conn.BlobEndpoint) { ContainerName = containerName };
             this._uri = builder.ToUri();
-            this._pipeline = (options ?? new BlobClientOptions()).Build(conn.Credentials);
+            this._pipeline = (options ?? new BlobClientOptions(BlobClientOptions.LatestVersion,
+                conn.BlobStorageUri.PrimaryUri,
+                conn.BlobStorageUri.SecondaryUri)).Build(conn.Credentials);
         }
 
         /// <summary>

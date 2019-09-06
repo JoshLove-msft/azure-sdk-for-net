@@ -71,6 +71,7 @@ namespace Azure.Core.Pipeline
                     exceptions.Add(ex);
 
                     lastException = ex;
+                    message.PreRetryHook.onBeforeRetryPolicy(message);
                 }
 
                 TimeSpan delay;
