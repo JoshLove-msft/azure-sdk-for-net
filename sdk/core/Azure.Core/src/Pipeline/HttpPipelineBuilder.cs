@@ -40,7 +40,7 @@ namespace Azure.Core.Pipeline
 
             policies.RemoveAll(policy => policy == null);
 
-            return new HttpPipeline(options.Transport, policies.ToArray(), options.ResponseClassifier, new ClientDiagnostics(options.Diagnostics.IsLoggingEnabled), options.RetryRequestModifier);
+            return new HttpPipeline(options.Transport, policies.ToArray(), options.ResponseClassifier, new ClientDiagnostics(options.Diagnostics.IsLoggingEnabled));
         }
 
         // internal for testing
