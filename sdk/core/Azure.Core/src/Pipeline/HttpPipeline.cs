@@ -15,7 +15,7 @@ namespace Azure.Core.Pipeline
         private readonly ResponseClassifier _responseClassifier;
         private readonly ReadOnlyMemory<HttpPipelinePolicy> _pipeline;
 
-        public HttpPipeline(HttpPipelineTransport transport, HttpPipelinePolicy[]? policies = null, ResponseClassifier? responseClassifier = null, ClientDiagnostics? clientDiagnostics = null, RetryRequestModifier? retryRequestModifier = null)
+        public HttpPipeline(HttpPipelineTransport transport, HttpPipelinePolicy[]? policies = null, ResponseClassifier? responseClassifier = null, ClientDiagnostics? clientDiagnostics = null)
         {
             _transport = transport ?? throw new ArgumentNullException(nameof(transport));
             _responseClassifier = responseClassifier ?? new ResponseClassifier();
@@ -34,8 +34,6 @@ namespace Azure.Core.Pipeline
             => _transport.CreateRequest();
 
         public ClientDiagnostics Diagnostics { get; }
-
-        public RetryRequestModifier RetryRequestModifier { get; }
 
         public Task<Response> SendRequestAsync(Request request, CancellationToken cancellationToken)
         {
@@ -63,7 +61,7 @@ namespace Azure.Core.Pipeline
 
         private HttpPipelineMessage BuildMessage(Request request, bool bufferResponse, CancellationToken cancellationToken)
         {
-            var message = new HttpPipelineMessage(request, _responseClassifier, RetryRequestModifier, cancellationToken);
+            var message = new HttpPipelineMessage(request, _responseClassifier, cancellationToken);
             message.Request = request;
             message.BufferResponse = bufferResponse;
             message.ResponseClassifier = _responseClassifier;//why do we do this after passing to constructor?

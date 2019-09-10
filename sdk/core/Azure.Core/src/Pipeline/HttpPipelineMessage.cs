@@ -18,12 +18,11 @@ namespace Azure.Core.Pipeline
 
         public CancellationToken CancellationToken { get; }
 
-        public HttpPipelineMessage(Request request, ResponseClassifier responseClassifier, RetryRequestModifier preRetryHook, CancellationToken cancellationToken)
+        public HttpPipelineMessage(Request request, ResponseClassifier responseClassifier, CancellationToken cancellationToken)
         {
             Request = request;
             ResponseClassifier = responseClassifier;
             CancellationToken = cancellationToken;
-            PreRetryHook = preRetryHook;
         }
 
         public Request Request { get; set; }
