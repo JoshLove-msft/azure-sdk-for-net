@@ -9,7 +9,7 @@ namespace Azure.Storage.Common
         private const string PreviousHostSetting = "Azure.Storage.Common.PreviousHost";
         private const string ResourceNotReplicatedToSecondaryStorage = "Azure.Storage.Common.ResourceNotReplicatedToSecondaryStorage";
 
-        public string _secondaryStorageHost;
+        private readonly string _secondaryStorageHost;
 
         public GeoRedundantReadPolicy(Uri secondaryStorageUri) => this._secondaryStorageHost = secondaryStorageUri.Host;
 
