@@ -82,20 +82,28 @@ namespace Azure.Storage
         /// </summary>
         /// <param name="options">The Storage ClientOptions.</param>
         /// <param name="authentication">Optional authentication policy.</param>
+        /// <param name="geoRedundantSecondaryStorageUri">The secondary URI to be used for retries on failed read requests</param>
         /// <returns>An HttpPipeline to use for Storage requests.</returns>
-        public static HttpPipeline Build(this ClientOptions options, HttpPipelinePolicy authentication = null) =>
-            HttpPipelineBuilder.Build(
-                options,
-                authentication
-               );
-
+        public static HttpPipeline Build(this ClientOptions options, HttpPipelinePolicy authentication = null, Uri geoRedundantSecondaryStorageUri = null)
+        {
+            GeoRedundantReadPolicy geoRedundantReadPolicy = null;
+            if (geoRedundantSecondaryStorageUri != null)
+            {
+                geoRedundantReadPolicy = new GeoRedundantReadPolicy(geoRedundantSecondaryStorageUri);
+            }
+            return HttpPipelineBuilder.Build(
+               options,
+               geoRedundantReadPolicy,
+               authentication); // authentication needs to be the last of the client policies passed in to Build 
+        }
         /// <summary>
         /// Create an HttpPipeline from Storage ClientOptions.
         /// </summary>
         /// <param name="options">The Storage ClientOptions.</param>
         /// <param name="credentials">Optional authentication credentials.</param>
+        /// <param name="geoRedundantSecondaryStorageUri">The secondary URI to be used for retries on failed read requests</param>
         /// <returns>An HttpPipeline to use for Storage requests.</returns>
-        public static HttpPipeline Build(this ClientOptions options, object credentials) =>
-            Build(options, GetAuthenticationPolicy(credentials));
+        public static HttpPipeline Build(this ClientOptions options, object credentials, Uri geoRedundantSecondaryStorageUri = null) =>
+            Build(options, GetAuthenticationPolicy(credentials), geoRedundantSecondaryStorageUri);
     }
 }

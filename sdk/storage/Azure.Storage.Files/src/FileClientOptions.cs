@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for
 // license information.
 
+using System;
 using Azure.Core.Pipeline;
 
 namespace Azure.Storage.Files
@@ -53,5 +54,12 @@ namespace Azure.Storage.Files
             this.Version = version;
             this.Initialize();
         }
+
+        /// <summary>
+        /// Secondary storage <see cref="Uri"/> that can be read from for the storage account. If this
+        /// property is set, the Secondary Host will be used for GET or HEAD requests during retries.
+        /// </summary>
+        public Uri GeoRedundantSecondaryUri { get; set; }
+
     }
 }
