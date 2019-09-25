@@ -16,6 +16,7 @@ using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Common;
 using Azure.Storage.Common.Test;
+using Azure.Storage.Common.Tests.Shared;
 using Azure.Storage.Test;
 using Azure.Storage.Test.Shared;
 using NUnit.Framework;
@@ -71,6 +72,16 @@ namespace Azure.Storage.Blobs.Test
             Assert.AreEqual(accountName, builder.AccountName);
         }
 
+        [Test]
+        public void BlobDownloadInfo_Dispose()
+        {
+            MockStream stream = new MockStream();
+            BlobDownloadInfo blobDownloadInfo = BlobsModelFactory.BlobDownloadInfo(content: stream);
+            Assert.IsFalse(stream.IsDisposed);
+            blobDownloadInfo.Dispose();
+            Assert.IsTrue(stream.IsDisposed);
+        }
+
         #region Sequential Download
 
         [Test]
@@ -88,7 +99,7 @@ namespace Azure.Storage.Blobs.Test
 
                 // Act
                 Response<BlobDownloadInfo> response = await blob.DownloadAsync();
-
+                
                 // Assert
                 Assert.AreEqual(data.Length, response.Value.ContentLength);
                 var actual = new MemoryStream();

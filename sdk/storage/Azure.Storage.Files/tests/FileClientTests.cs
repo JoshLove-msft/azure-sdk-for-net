@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Azure.Core.Http;
 using Azure.Core.Testing;
 using Azure.Storage.Common;
+using Azure.Storage.Common.Tests.Shared;
 using Azure.Storage.Files.Models;
 using Azure.Storage.Files.Tests;
 using Azure.Storage.Test;
@@ -49,6 +50,17 @@ namespace Azure.Storage.Files.Test
             Assert.AreEqual(shareName, builder.ShareName);
             Assert.AreEqual(filePath, builder.DirectoryOrFilePath);
             //Assert.AreEqual("accountName", builder.AccountName);
+        }
+
+        [Test]
+        public void StorageFileDownloadInfo_Dispose()
+        {
+            MockStream stream = new MockStream();
+            StorageFileDownloadInfo storageFileDownloadInfo = 
+                FilesModelFactory.StorageFileDownloadInfo(content: stream);
+            Assert.IsFalse(stream.IsDisposed);
+            storageFileDownloadInfo.Dispose();
+            Assert.IsTrue(stream.IsDisposed);
         }
 
         [Test]

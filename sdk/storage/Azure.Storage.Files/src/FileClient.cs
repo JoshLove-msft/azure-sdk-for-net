@@ -901,9 +901,7 @@ namespace Azure.Storage.Files
                                 cancellationToken)
                                 .ConfigureAwait(false))
                                 .Item2,
-                        // TODO: For now we're using the default ResponseClassifier
-                        // on FileConnectionOptions so we'll do the same here
-                        new ResponseClassifier(),
+                        Pipeline.ResponseClassifier,
                         Constants.MaxReliabilityRetries);
 
                     // Wrap the FlattenedStorageFileProperties into a StorageFileDownloadInfo
