@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using Azure.Core;
 using Azure.Core.Pipeline;
 
@@ -16,6 +18,18 @@ namespace Azure.Storage
             SecondaryStorageUri = secondaryStorageUri;
         }
 
+        ///// <summary>
+        ///// Specifies if the operation that caused the exception should be retried.
+        ///// </summary>
+        //public override bool IsRetriableException(Exception exception)
+        //{
+        //    if (exception is TaskCanceledException)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
         /// <summary>
         /// Overridden version of IsRetriableResponse that allows for retrying 404 that occurs against the secondary host.
         /// </summary>
@@ -23,7 +37,7 @@ namespace Azure.Storage
         /// <returns></returns>
         public override bool IsRetriableResponse(HttpMessage message)
         {
-            if (message.Request.Uri.Host == SecondaryStorageUri.Host && message.Response.Status == Constants.HttpStatusCode.NotFound)
+            if (message.Request.Uri.Host == SecondaryStorageUri?.Host && message.Response.Status == Constants.HttpStatusCode.NotFound)
             {
                 return true;
             }
