@@ -56,13 +56,6 @@ namespace Azure.Messaging.ServiceBus.Receiver
         internal string EntityName => Connection.EntityName;
 
         /// <summary>
-        ///   The name of the consumer group that this consumer is associated with.  Events will be read
-        ///   only in the context of this group.
-        /// </summary>
-        ///
-        internal string ConsumerGroup { get; }
-
-        /// <summary>
         ///
         /// </summary>
         public ReceiveMode ReceiveMode { get; private set; }
@@ -183,9 +176,7 @@ namespace Azure.Messaging.ServiceBus.Receiver
                                       ServiceBusReceiverClientOptions clientOptions = default)
         {
             Argument.AssertNotNullOrEmpty(connectionString, nameof(connectionString));
-
-            //clientOptions = clientOptions?.Clone() ?? new ServiceBusReceiverClientOptions();
-
+            Argument.AssertNotNull(clientOptions, nameof(clientOptions));
             OwnsConnection = true;
             Connection = new ServiceBusConnection(connectionString, entityName, clientOptions.ConnectionOptions);
             RetryPolicy = clientOptions.RetryOptions.ToRetryPolicy();

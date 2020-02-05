@@ -15,6 +15,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Microsoft.Azure.Amqp.Framing;
+using System.Threading;
 
 namespace Microsoft.Azure.Template.Tests
 {
@@ -36,6 +37,47 @@ namespace Microsoft.Azure.Template.Tests
             var sender = new ServiceBusSenderClient(ConnString, QueueName);
             await sender.SendRangeAsync(GetMessages(10));
         }
+
+        private QueueReceiverClient queueClient;
+
+        [Test]
+        public async Task Register_handler()
+        {
+            var sender = new ServiceBusSenderClient(ConnString, QueueName);
+            await sender.SendRangeAsync(GetMessages(10));
+            var receiver = new QueueReceiverClient(ConnString, QueueName);
+            queueClient = receiver;
+            // Configure the MessageHandler Options in terms of exception handling, number of concurrent messages to deliver etc.
+            var messageHandlerOptions = new MessageHandlerOptions(ExceptionHandler)
+            {
+                // Maximum number of Concurrent calls to the callback `ProcessMessagesAsync`, set to 1 for simplicity.
+                // Set it according to how many messages the application wants to process in parallel.
+                MaxConcurrentCalls = 5,
+
+                // Indicates whether MessagePump should automatically complete the messages after returning from User Callback.
+                // False below indicates the Complete will be handled by the User Callback as in `ProcessMessagesAsync` below.
+                AutoComplete = false
+            };
+            receiver.RegisterMessageHandler(ProcessMessagesAsync, ExceptionHandler);
+        }
+
+        private async Task ProcessMessagesAsync(ServiceBusMessage message, CancellationToken token)
+        {
+            // Process the message
+            Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{Encoding.UTF8.GetString(message.Body)}");
+
+            // Complete the message so that it is not received again.
+            await queueClient.CompleteAsync(message.SystemProperties.LockToken);
+        }
+
+        private Task ExceptionHandler(ExceptionReceivedEventArgs args)
+        {
+            // Process the message
+
+            // Complete the message so that it is not received again.
+            return Task.CompletedTask;
+        }
+
 
         [Test]
         public async Task Send_Token()

@@ -84,7 +84,7 @@ namespace Azure.Messaging.ServiceBus.Receiver
         ///
         public QueueReceiverClient(string connectionString, string queueName,
             ReceiveMode receiveMode = ReceiveMode.PeekLock, QueueReceiverClientOptions clientOptions = default)
-            : base(connectionString, queueName, receiveMode, clientOptions)
+            : base(connectionString, queueName, receiveMode, clientOptions ?? new QueueReceiverClientOptions())
         {
         }
 
