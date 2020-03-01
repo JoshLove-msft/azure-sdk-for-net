@@ -115,6 +115,44 @@ namespace Azure.Messaging.ServiceBus.Core
         /// <summary>
         ///
         /// </summary>
+        /// <param name="timeout"></param>
+        /// <param name="fromSequenceNumber"></param>
+        /// <param name="messageCount"></param>
+        /// <param name="sessionId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public abstract Task<IEnumerable<ServiceBusReceivedMessage>> PeekAsync(
+            TimeSpan timeout,
+            long? fromSequenceNumber,
+            int messageCount = 1,
+            string sessionId = null,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="lockTokens"></param>
+        /// <param name="timeout"></param>
+        /// <param name="sessionId"></param>
+        /// <param name="isSessionReceiver"></param>
+        /// <param name="dispositionStatus"></param>
+        /// <param name="propertiesToModify"></param>
+        /// <param name="deadLetterReason"></param>
+        /// <param name="deadLetterDescription"></param>
+        /// <returns></returns>
+        internal abstract Task DisposeMessageRequestResponseAsync(
+            Guid[] lockTokens,
+            TimeSpan timeout,
+            DispositionStatus dispositionStatus,
+            bool isSessionReceiver,
+            string sessionId = null,
+            IDictionary<string, object> propertiesToModify = null,
+            string deadLetterReason = null,
+            string deadLetterDescription = null);
+
+        /// <summary>
+        ///
+        /// </summary>
         /// <param name="lockTokens"></param>
         /// <param name="outcome"></param>
         /// <param name="timeout"></param>
