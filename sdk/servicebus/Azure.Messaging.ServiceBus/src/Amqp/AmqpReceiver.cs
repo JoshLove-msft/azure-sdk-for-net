@@ -350,7 +350,6 @@ namespace Azure.Messaging.ServiceBus.Amqp
         /// </summary>
         /// <param name="fromSequenceNumber"></param>
         /// <param name="messageCount"></param>
-        /// <param name="sessionId"></param>
         /// <param name="timeout"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
@@ -358,33 +357,6 @@ namespace Azure.Messaging.ServiceBus.Amqp
             TimeSpan timeout,
             long? fromSequenceNumber,
             int messageCount = 1,
-            string sessionId = null,
-            CancellationToken cancellationToken = default)
-        {
-            IEnumerable<ServiceBusReceivedMessage> messages = await PeekInternal(
-                    fromSequenceNumber,
-                    messageCount,
-                    sessionId,
-                    timeout,
-                    cancellationToken).ConfigureAwait(false);
-
-            return messages;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="fromSequenceNumber"></param>
-        /// <param name="messageCount"></param>
-        /// <param name="sessionId"></param>
-        /// <param name="timeout"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        internal async Task<IEnumerable<ServiceBusReceivedMessage>> PeekInternal(
-            long? fromSequenceNumber,
-            int messageCount,
-            string sessionId,
-            TimeSpan timeout,
             CancellationToken cancellationToken = default)
         {
             var stopWatch = new Stopwatch();
@@ -403,9 +375,9 @@ namespace Azure.Messaging.ServiceBus.Amqp
             amqpRequestMessage.Map[ManagementConstants.Properties.FromSequenceNumber] = fromSequenceNumber ?? LastPeekedSequenceNumber + 1;
             amqpRequestMessage.Map[ManagementConstants.Properties.MessageCount] = messageCount;
 
-            if (!string.IsNullOrWhiteSpace(sessionId))
+            if (!string.IsNullOrWhiteSpace(SessionId))
             {
-                amqpRequestMessage.Map[ManagementConstants.Properties.SessionId] = sessionId;
+                amqpRequestMessage.Map[ManagementConstants.Properties.SessionId] = SessionId;
             }
 
             RequestResponseAmqpLink link = await _managementLink.GetOrCreateAsync(
