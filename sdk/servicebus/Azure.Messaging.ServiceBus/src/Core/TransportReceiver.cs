@@ -118,14 +118,12 @@ namespace Azure.Messaging.ServiceBus.Core
         /// <param name="timeout"></param>
         /// <param name="fromSequenceNumber"></param>
         /// <param name="messageCount"></param>
-        /// <param name="sessionId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public abstract Task<IEnumerable<ServiceBusReceivedMessage>> PeekAsync(
             TimeSpan timeout,
             long? fromSequenceNumber,
             int messageCount = 1,
-            string sessionId = null,
             CancellationToken cancellationToken = default);
 
         /// <summary>
