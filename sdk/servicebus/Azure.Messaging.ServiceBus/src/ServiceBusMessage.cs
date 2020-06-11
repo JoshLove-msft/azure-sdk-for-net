@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using Azure.Core;
+using Azure.Messaging.ServiceBus.Transports;
+using Azure.Messaging.ServiceBus.Transports.Amqp;
 
 namespace Azure.Messaging.ServiceBus
 {
@@ -27,8 +30,8 @@ namespace Azure.Messaging.ServiceBus
         /// <summary>
         /// Creates a new message.
         /// </summary>
-        public ServiceBusMessage()
-            : this(default(ReadOnlyMemory<byte>))
+        public ServiceBusMessage() :
+            this(default(ReadOnlyMemory<byte>))
         {
         }
 
@@ -49,7 +52,7 @@ namespace Azure.Messaging.ServiceBus
         public ServiceBusMessage(string body, Encoding encoding)
         {
             Argument.AssertNotNull(encoding, nameof(encoding));
-            Body = BinaryData.Create(body, encoding);
+            TransportBody = new AmqpTransportBody { Body = BinaryData.Create(body, encoding) };
             Properties = new Dictionary<string, object>();
         }
 
@@ -57,19 +60,23 @@ namespace Azure.Messaging.ServiceBus
         /// Creates a new message from the specified payload.
         /// </summary>
         /// <param name="body">The payload of the message in bytes.</param>
-        public ServiceBusMessage(ReadOnlyMemory<byte> body)
+        public ServiceBusMessage(ReadOnlyMemory<byte> body) :
+            this(new BinaryData(body))
         {
-            Body = new BinaryData(body);
-            Properties = new Dictionary<string, object>();
         }
 
         /// <summary>
         /// Creates a new message from the specified <see cref="BinaryData"/> instance.
         /// </summary>
         /// <param name="body">The payload of the message.</param>
-        public ServiceBusMessage(BinaryData body)
+        public ServiceBusMessage(BinaryData body) :
+            this(new AmqpTransportBody { Body = body })
         {
-            Body = body;
+        }
+
+        internal ServiceBusMessage(ITransportBody transportBody)
+        {
+            TransportBody = transportBody;
             Properties = new Dictionary<string, object>();
         }
 
@@ -81,7 +88,7 @@ namespace Azure.Messaging.ServiceBus
         {
             Argument.AssertNotNull(receivedMessage, nameof(receivedMessage));
 
-            Body = receivedMessage.Body;
+            TransportBody = receivedMessage.SentMessage.TransportBody;
             ContentType = receivedMessage.ContentType;
             CorrelationId = receivedMessage.CorrelationId;
             Label = receivedMessage.Label;
@@ -106,7 +113,13 @@ namespace Azure.Messaging.ServiceBus
         /// message.Body = System.Text.Encoding.UTF8.GetBytes("Message1");
         /// </code>
         /// </remarks>
-        public BinaryData Body { get; set; }
+        public BinaryData Body
+        {
+            get => TransportBody.Body;
+            set => TransportBody.Body = value;
+        }
+
+        internal ITransportBody TransportBody { get; }
 
         /// <summary>
         /// Gets or sets the MessageId to identify the message.

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using Azure.Core;
+using Azure.Messaging.ServiceBus.Transports;
 
 namespace Azure.Messaging.ServiceBus
 {
@@ -234,8 +235,6 @@ namespace Azure.Messaging.ServiceBus
         public DateTimeOffset EnqueuedTime { get; internal set; }
 
         internal Guid LockTokenGuid { get; set; }
-
-        internal object BodyObject { get; set;}
 
         /// <summary>Gets the date and time in UTC at which the message is set to expire.</summary>
         /// <value>The message expiration time in UTC. This property is read-only.</value>
