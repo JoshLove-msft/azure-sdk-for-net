@@ -39,8 +39,10 @@ namespace Azure.Core
         /// </summary>
         /// <param name="data">The string data.</param>
         /// <returns>A <see cref="BinaryData"/> instance.</returns>
-        public static BinaryData Create(string data) =>
-            Create(data, Encoding.UTF8);
+        public BinaryData(string data)
+            : this(data, Encoding.UTF8)
+        {
+        }
 
         /// <summary>
         /// Creates a binary data instance from a string
@@ -50,10 +52,10 @@ namespace Azure.Core
         /// <param name="encoding">The encoding to use when converting
         /// the data to bytes.</param>
         /// <returns>A <see cref="BinaryData"/> instance.</returns>
-        public static BinaryData Create(string data, Encoding encoding)
+        public BinaryData(string data, Encoding encoding)
         {
             Argument.AssertNotNull(encoding, nameof(encoding));
-            return new BinaryData(encoding.GetBytes(data));
+            Data = encoding.GetBytes(data);
         }
 
         /// <summary>
@@ -154,8 +156,8 @@ namespace Azure.Core
         /// Converts the BinaryData to a string using UTF-8.
         /// </summary>
         /// <returns>The string representation of the data.</returns>
-        public string AsString() =>
-           AsString(Encoding.UTF8);
+        public override string ToString() =>
+           ToString(Encoding.UTF8);
 
         /// <summary>
         /// Converts the BinaryData to a string using the specified
@@ -164,7 +166,7 @@ namespace Azure.Core
         /// <param name="encoding">The encoding to use when decoding
         /// the bytes.</param>
         /// <returns>The string representation of the data.</returns>
-        public string AsString(
+        public string ToString(
             Encoding encoding)
         {
             Argument.AssertNotNull(encoding, nameof(encoding));
@@ -207,8 +209,8 @@ namespace Azure.Core
         /// <param name="serializer">The serializer to use
         /// when deserializing the data.</param>
         ///<returns>The data converted to the specified type.</returns>
-        public T As<T>(ObjectSerializer serializer) =>
-            AsAsync<T>(serializer, false).EnsureCompleted();
+        public T Deserialize<T>(ObjectSerializer serializer) =>
+            DeserializeAsync<T>(serializer, false).EnsureCompleted();
 
         /// <summary>
         /// Converts the BinaryData to the specified type.
@@ -222,11 +224,11 @@ namespace Azure.Core
         ///thrown.</returns>
         /// TODO - add cancellation token support
         /// once ObjectSerializer.DeserializeAsync adds it.
-        public async ValueTask<T> AsAsync<T>(
+        public async ValueTask<T> DeserializeAsync<T>(
             ObjectSerializer serializer) =>
-            await AsAsync<T>(serializer, true).ConfigureAwait(false);
+            await DeserializeAsync<T>(serializer, true).ConfigureAwait(false);
 
-        private async ValueTask<T> AsAsync<T>(
+        private async ValueTask<T> DeserializeAsync<T>(
             ObjectSerializer serializer,
             bool async)
         {
