@@ -1,7 +1,10 @@
 # Release History
 
-## 12.3.0-preview.1 (Unreleased)
-
+## 12.3.0-preview.1 (2020-06)
+- Added support for service version 2019-12-12.
+- Added support for Large Files.
+- Added support for File Soft Delete.
+- Fixed bug where ShareDirectoryClient and ShareFileClient.Name and .Path were sometimes URL-encoded.
 
 ## 12.2.3 (2020-06)
 - This release contains bug fixes to improve quality.
