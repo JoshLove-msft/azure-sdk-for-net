@@ -39,7 +39,7 @@ namespace Azure.Core
         /// <summary>
         ///
         /// </summary>
-        public BinaryDataFormat? Format { get; }
+        public BinaryDataFormat Format { get; }
 
         /// <summary>
         /// The backing store for the <see cref="BinaryData"/> instance.
@@ -63,7 +63,7 @@ namespace Azure.Core
         /// </summary>
         /// <param name="data">Byte data.</param>
         /// <param name="format"></param>
-        private BinaryData(ReadOnlyMemory<byte> data, BinaryDataFormat? format = default)
+        private BinaryData(ReadOnlyMemory<byte> data, BinaryDataFormat format = default)
         {
             Bytes = data;
             Format = format;
