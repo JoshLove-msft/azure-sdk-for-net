@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using Azure.Core;
 
 namespace Azure.Messaging.EventGrid.Models
 {
@@ -19,7 +20,7 @@ namespace Azure.Messaging.EventGrid.Models
         /// <param name="eventType"> The type of the event that occurred. </param>
         /// <param name="eventTime"> The time (in UTC) the event was generated. </param>
         /// <param name="dataVersion"> The schema version of the data object. </param>
-        public EventGridEvent(string id, string subject, object data, string eventType, DateTimeOffset eventTime, string dataVersion)
+        public EventGridEvent(string id, string subject, BinaryData data, string eventType, DateTimeOffset eventTime, string dataVersion)
         {
             if (id == null)
             {
@@ -29,7 +30,7 @@ namespace Azure.Messaging.EventGrid.Models
             {
                 throw new ArgumentNullException(nameof(subject));
             }
-            if (data == null)
+            if (data.Bytes.IsEmpty)
             {
                 throw new ArgumentNullException(nameof(data));
             }
@@ -59,7 +60,7 @@ namespace Azure.Messaging.EventGrid.Models
         /// <param name="eventTime"> The time (in UTC) the event was generated. </param>
         /// <param name="metadataVersion"> The schema version of the event metadata. </param>
         /// <param name="dataVersion"> The schema version of the data object. </param>
-        internal EventGridEvent(string id, string topic, string subject, object data, string eventType, DateTimeOffset eventTime, string metadataVersion, string dataVersion)
+        internal EventGridEvent(string id, string topic, string subject, BinaryData data, string eventType, DateTimeOffset eventTime, string metadataVersion, string dataVersion)
         {
             Id = id;
             Topic = topic;
@@ -78,7 +79,7 @@ namespace Azure.Messaging.EventGrid.Models
         /// <summary> A resource path relative to the topic path. </summary>
         public string Subject { get; }
         /// <summary> Event data specific to the event type. </summary>
-        public object Data { get; }
+        public BinaryData Data { get; }
         /// <summary> The type of the event that occurred. </summary>
         public string EventType { get; }
         /// <summary> The time (in UTC) the event was generated. </summary>
@@ -87,5 +88,10 @@ namespace Azure.Messaging.EventGrid.Models
         public string MetadataVersion { get; }
         /// <summary> The schema version of the data object. </summary>
         public string DataVersion { get; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Type DataType { get; }
     }
 }

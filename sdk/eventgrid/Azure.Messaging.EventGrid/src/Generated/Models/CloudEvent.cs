@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using Azure.Core;
 
 namespace Azure.Messaging.EventGrid.Models
 {
@@ -52,7 +53,7 @@ namespace Azure.Messaging.EventGrid.Models
         /// <param name="dataschema"> Identifies the schema that data adheres to. </param>
         /// <param name="datacontenttype"> Content type of data value. </param>
         /// <param name="subject"> This describes the subject of the event in the context of the event producer (identified by source). </param>
-        internal CloudEvent(string id, string source, object data, string type, DateTimeOffset? time, string specversion, string dataschema, string datacontenttype, string subject)
+        internal CloudEvent(string id, string source, BinaryData data, string type, DateTimeOffset? time, string specversion, string dataschema, string datacontenttype, string subject)
         {
             Id = id;
             Source = source;
@@ -70,7 +71,7 @@ namespace Azure.Messaging.EventGrid.Models
         /// <summary> Identifies the context in which an event happened. The combination of id and source must be unique for each distinct event. </summary>
         public string Source { get; }
         /// <summary> Event data specific to the event type. </summary>
-        public object Data { get; set; }
+        public BinaryData Data { get; set; }
         /// <summary> Type of event related to the originating occurrence. </summary>
         public string Type { get; }
         /// <summary> The time (in UTC) the event was generated, in RFC3339 format. </summary>
