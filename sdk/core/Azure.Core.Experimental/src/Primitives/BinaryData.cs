@@ -37,6 +37,11 @@ namespace Azure.Core
         private static readonly UTF8Encoding s_encoding = new UTF8Encoding(false);
 
         /// <summary>
+        ///
+        /// </summary>
+        public BinaryDataFormat? Format { get; }
+
+        /// <summary>
         /// The backing store for the <see cref="BinaryData"/> instance.
         /// </summary>
         public ReadOnlyMemory<byte> Bytes { get; }
@@ -49,6 +54,7 @@ namespace Azure.Core
         public BinaryData(ReadOnlySpan<byte> data)
         {
             Bytes = data.ToArray();
+            Format = BinaryDataFormat.Binary;
         }
 
         /// <summary>
@@ -56,20 +62,25 @@ namespace Azure.Core
         /// passed in bytes.
         /// </summary>
         /// <param name="data">Byte data.</param>
-        private BinaryData(ReadOnlyMemory<byte> data)
+        /// <param name="format"></param>
+        private BinaryData(ReadOnlyMemory<byte> data, BinaryDataFormat? format = default)
         {
             Bytes = data;
+            Format = format;
         }
+
         /// <summary>
         /// Creates a binary data instance from a string by converting
         /// the string to bytes using UTF-8 encoding.
         /// </summary>
         /// <param name="data">The string data.</param>
+        /// <param name="format"></param>
         /// <returns>A <see cref="BinaryData"/> instance.</returns>
         /// <remarks>The byte order mark is not included as part of the encoding process.</remarks>
-        public BinaryData(string data)
+        public BinaryData(string data, BinaryDataFormat format = BinaryDataFormat.Utf8)
         {
             Bytes = s_encoding.GetBytes(data);
+            Format = format;
         }
 
         /// <summary>
@@ -201,7 +212,12 @@ namespace Azure.Core
             {
                 serializer.Serialize(memoryStream, data, typeof(T), cancellationToken);
             }
-            return new BinaryData((ReadOnlyMemory<byte>) memoryStream.ToArray());
+            BinaryDataFormat format = BinaryDataFormat.ObjectSerializer;
+            if (serializer is JsonObjectSerializer)
+            {
+                format = BinaryDataFormat.JsonObjectSerializer;
+            }
+            return new BinaryData((ReadOnlyMemory<byte>)memoryStream.ToArray(), format);
         }
 
         /// <summary>
