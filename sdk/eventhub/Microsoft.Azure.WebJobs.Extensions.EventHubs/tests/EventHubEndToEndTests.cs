@@ -201,6 +201,22 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
             using (jobHost)
             {
                 int numEvents = 5;
+                await jobHost.CallAsync(nameof(EventHubTestMultipleDispatchJobsBinaryData.SendEvents_TestHub), new { numEvents = numEvents, input = _testId });
+
+                bool result = _eventWait.WaitOne(Timeout);
+                Assert.True(result);
+            }
+
+            AssertMultipleDispatchLogs(host);
+        }
+
+        [Test]
+        public async Task EventHub_MultipleDispatch_BinaryData()
+        {
+            var (jobHost, host) = BuildHost<EventHubTestMultipleDispatchJobsBinaryData>();
+            using (jobHost)
+            {
+                int numEvents = 5;
                 await jobHost.CallAsync(nameof(EventHubTestMultipleDispatchJobsBinaryData.SendEvents_TestHub), new { numEvents = numEvents, input = "data" });
 
                 bool result = _eventWait.WaitOne(Timeout);
@@ -487,6 +503,39 @@ namespace Microsoft.Azure.WebJobs.Host.EndToEndTests
 
                 // filter for the ID the current test is using
                 if (s_processedEventCount == s_eventCount)
+                {
+                    _eventWait.Set();
+                }
+            }
+        }
+
+        public class EventHubTestMultipleDispatchJobsBinaryData
+        {
+            private static int s_eventCount;
+            private static int s_processedEventCount;
+            public static void SendEvents_TestHub(int numEvents, string input, [EventHub(TestHubName)] out BinaryData[] events)
+            {
+                s_eventCount = numEvents;
+                events = new BinaryData[numEvents];
+                for (int i = 0; i < numEvents; i++)
+                {
+                    events[i] = new BinaryData(input);
+                }
+            }
+
+            public static void ProcessMultipleEventsBinaryData([EventHubTrigger(TestHubName)] BinaryData[] events,
+                    string[] partitionKeyArray, DateTime[] enqueuedTimeUtcArray, IDictionary<string, object>[] propertiesArray,
+                    IDictionary<string, object>[] systemPropertiesArray)
+            {
+                Assert.AreEqual(events.Length, partitionKeyArray.Length);
+                Assert.AreEqual(events.Length, enqueuedTimeUtcArray.Length);
+                Assert.AreEqual(events.Length, propertiesArray.Length);
+                Assert.AreEqual(events.Length, systemPropertiesArray.Length);
+
+                s_processedEventCount += events.Length;
+
+                // filter for the ID the current test is using
+                if (events[0].ToString() == _testId && s_processedEventCount == s_eventCount)
                 {
                     _eventWait.Set();
                 }
