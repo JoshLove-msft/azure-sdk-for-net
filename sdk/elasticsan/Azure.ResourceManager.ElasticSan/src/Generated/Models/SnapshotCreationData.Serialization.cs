@@ -8,24 +8,51 @@
 using System.Text.Json;
 using Azure.Core;
 
+<<<<<<<< HEAD:sdk/networkanalytics/Azure.ResourceManager.NetworkAnalytics/src/Generated/Models/DataProductVersion.Serialization.cs
+namespace Azure.ResourceManager.NetworkAnalytics.Models
+{
+    public partial class DataProductVersion : IUtf8JsonSerializable
+========
 namespace Azure.ResourceManager.ElasticSan.Models
 {
     public partial class SnapshotCreationData : IUtf8JsonSerializable
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/elasticsan/Azure.ResourceManager.ElasticSan/src/Generated/Models/SnapshotCreationData.Serialization.cs
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
+<<<<<<<< HEAD:sdk/networkanalytics/Azure.ResourceManager.NetworkAnalytics/src/Generated/Models/DataProductVersion.Serialization.cs
+            writer.WritePropertyName("version"u8);
+            writer.WriteStringValue(Version);
+            writer.WriteEndObject();
+        }
+
+        internal static DataProductVersion DeserializeDataProductVersion(JsonElement element)
+========
             writer.WritePropertyName("sourceId"u8);
             writer.WriteStringValue(SourceId);
             writer.WriteEndObject();
         }
 
         internal static SnapshotCreationData DeserializeSnapshotCreationData(JsonElement element)
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/elasticsan/Azure.ResourceManager.ElasticSan/src/Generated/Models/SnapshotCreationData.Serialization.cs
         {
             if (element.ValueKind == JsonValueKind.Null)
             {
                 return null;
             }
+<<<<<<<< HEAD:sdk/networkanalytics/Azure.ResourceManager.NetworkAnalytics/src/Generated/Models/DataProductVersion.Serialization.cs
+            string version = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("version"u8))
+                {
+                    version = property.Value.GetString();
+                    continue;
+                }
+            }
+            return new DataProductVersion(version);
+========
             ResourceIdentifier sourceId = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -36,6 +63,7 @@ namespace Azure.ResourceManager.ElasticSan.Models
                 }
             }
             return new SnapshotCreationData(sourceId);
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/elasticsan/Azure.ResourceManager.ElasticSan/src/Generated/Models/SnapshotCreationData.Serialization.cs
         }
     }
 }

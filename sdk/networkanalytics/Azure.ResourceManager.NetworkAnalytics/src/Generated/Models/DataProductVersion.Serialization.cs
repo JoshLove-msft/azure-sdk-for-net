@@ -6,10 +6,15 @@
 #nullable disable
 
 using System.Text.Json;
-using Azure.Core;
+using Azure;
 
 namespace Azure.ResourceManager.NetworkAnalytics.Models
 {
+<<<<<<<< HEAD:sdk/communication/Azure.Communication.JobRouter/src/Generated/UnknownExceptionTrigger.Serialization.cs
+    internal partial class UnknownExceptionTrigger
+    {
+        internal static UnknownExceptionTrigger DeserializeUnknownExceptionTrigger(JsonElement element)
+========
     public partial class DataProductVersion : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
@@ -21,6 +26,7 @@ namespace Azure.ResourceManager.NetworkAnalytics.Models
         }
 
         internal static DataProductVersion DeserializeDataProductVersion(JsonElement element)
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/networkanalytics/Azure.ResourceManager.NetworkAnalytics/src/Generated/Models/DataProductVersion.Serialization.cs
         {
             if (element.ValueKind == JsonValueKind.Null)
             {
@@ -36,6 +42,14 @@ namespace Azure.ResourceManager.NetworkAnalytics.Models
                 }
             }
             return new DataProductVersion(version);
+        }
+
+        /// <summary> Deserializes the model from a raw response. </summary>
+        /// <param name="response"> The response to deserialize the model from. </param>
+        internal static new UnknownExceptionTrigger FromResponse(Response response)
+        {
+            using var document = JsonDocument.Parse(response.Content);
+            return DeserializeUnknownExceptionTrigger(document.RootElement);
         }
     }
 }

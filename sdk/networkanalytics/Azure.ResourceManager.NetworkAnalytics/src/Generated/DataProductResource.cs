@@ -22,17 +22,25 @@ namespace Azure.ResourceManager.NetworkAnalytics
 {
     /// <summary>
     /// A Class representing a DataProduct along with the instance operations that can be performed on it.
-    /// If you have a <see cref="ResourceIdentifier" /> you can construct a <see cref="DataProductResource" />
-    /// from an instance of <see cref="ArmClient" /> using the GetDataProductResource method.
-    /// Otherwise you can get one from its parent resource <see cref="ResourceGroupResource" /> using the GetDataProduct method.
+    /// If you have a <see cref="ResourceIdentifier"/> you can construct a <see cref="DataProductResource"/>
+    /// from an instance of <see cref="ArmClient"/> using the GetDataProductResource method.
+    /// Otherwise you can get one from its parent resource <see cref="ResourceGroupResource"/> using the GetDataProduct method.
     /// </summary>
     public partial class DataProductResource : ArmResource
     {
+<<<<<<<< HEAD:sdk/connectedvmwarevsphere/Azure.ResourceManager.ConnectedVMwarevSphere/src/Generated/VirtualMachineResource.cs
+        /// <summary> Generate the resource identifier of a <see cref="VirtualMachineResource"/> instance. </summary>
+        /// <param name="subscriptionId"> The subscriptionId. </param>
+        /// <param name="resourceGroupName"> The resourceGroupName. </param>
+        /// <param name="virtualMachineName"> The virtualMachineName. </param>
+        public static ResourceIdentifier CreateResourceIdentifier(string subscriptionId, string resourceGroupName, string virtualMachineName)
+========
         /// <summary> Generate the resource identifier of a <see cref="DataProductResource"/> instance. </summary>
         /// <param name="subscriptionId"> The subscriptionId. </param>
         /// <param name="resourceGroupName"> The resourceGroupName. </param>
         /// <param name="dataProductName"> The dataProductName. </param>
         public static ResourceIdentifier CreateResourceIdentifier(string subscriptionId, string resourceGroupName, string dataProductName)
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/networkanalytics/Azure.ResourceManager.NetworkAnalytics/src/Generated/DataProductResource.cs
         {
             var resourceId = $"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}";
             return new ResourceIdentifier(resourceId);
@@ -44,12 +52,15 @@ namespace Azure.ResourceManager.NetworkAnalytics
         private readonly DataTypesRestOperations _dataTypesRestClient;
         private readonly DataProductData _data;
 
+        /// <summary> Gets the resource type for the operations. </summary>
+        public static readonly ResourceType ResourceType = "Microsoft.NetworkAnalytics/dataProducts";
+
         /// <summary> Initializes a new instance of the <see cref="DataProductResource"/> class for mocking. </summary>
         protected DataProductResource()
         {
         }
 
-        /// <summary> Initializes a new instance of the <see cref = "DataProductResource"/> class. </summary>
+        /// <summary> Initializes a new instance of the <see cref="DataProductResource"/> class. </summary>
         /// <param name="client"> The client parameters to use in these operations. </param>
         /// <param name="data"> The resource that is the target of operations. </param>
         internal DataProductResource(ArmClient client, DataProductData data) : this(client, data.Id)
@@ -73,9 +84,6 @@ namespace Azure.ResourceManager.NetworkAnalytics
 #endif
         }
 
-        /// <summary> Gets the resource type for the operations. </summary>
-        public static readonly ResourceType ResourceType = "Microsoft.NetworkAnalytics/dataProducts";
-
         /// <summary> Gets whether or not the current instance has data. </summary>
         public virtual bool HasData { get; }
 
@@ -97,6 +105,16 @@ namespace Azure.ResourceManager.NetworkAnalytics
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Invalid resource type {0} expected {1}", id.ResourceType, ResourceType), nameof(id));
         }
 
+<<<<<<<< HEAD:sdk/connectedvmwarevsphere/Azure.ResourceManager.ConnectedVMwarevSphere/src/Generated/VirtualMachineResource.cs
+        /// <summary> Gets a collection of HybridIdentityMetadataResources in the VirtualMachine. </summary>
+        /// <returns> An object representing collection of HybridIdentityMetadataResources and their operations over a HybridIdentityMetadataResource. </returns>
+        public virtual HybridIdentityMetadataCollection GetAllHybridIdentityMetadata()
+        {
+            return GetCachedClient(client => new HybridIdentityMetadataCollection(client, Id));
+        }
+
+========
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/networkanalytics/Azure.ResourceManager.NetworkAnalytics/src/Generated/DataProductResource.cs
         /// <summary>
         /// Retrieve data product resource.
         /// <list type="bullet">
@@ -106,7 +124,163 @@ namespace Azure.ResourceManager.NetworkAnalytics
         /// </item>
         /// <item>
         /// <term>Operation Id</term>
+<<<<<<<< HEAD:sdk/connectedvmwarevsphere/Azure.ResourceManager.ConnectedVMwarevSphere/src/Generated/VirtualMachineResource.cs
+        /// <description>HybridIdentityMetadata_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="metadataName"> Name of the HybridIdentityMetadata. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="metadataName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="metadataName"/> is an empty string, and was expected to be non-empty. </exception>
+        [ForwardsClientCalls]
+        public virtual async Task<Response<HybridIdentityMetadataResource>> GetHybridIdentityMetadataAsync(string metadataName, CancellationToken cancellationToken = default)
+        {
+            return await GetAllHybridIdentityMetadata().GetAsync(metadataName, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Implements HybridIdentityMetadata GET method.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/hybridIdentityMetadata/{metadataName}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>HybridIdentityMetadata_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="metadataName"> Name of the HybridIdentityMetadata. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="metadataName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="metadataName"/> is an empty string, and was expected to be non-empty. </exception>
+        [ForwardsClientCalls]
+        public virtual Response<HybridIdentityMetadataResource> GetHybridIdentityMetadata(string metadataName, CancellationToken cancellationToken = default)
+        {
+            return GetAllHybridIdentityMetadata().Get(metadataName, cancellationToken);
+        }
+
+        /// <summary> Gets a collection of MachineExtensionResources in the VirtualMachine. </summary>
+        /// <returns> An object representing collection of MachineExtensionResources and their operations over a MachineExtensionResource. </returns>
+        public virtual MachineExtensionCollection GetMachineExtensions()
+        {
+            return GetCachedClient(client => new MachineExtensionCollection(client, Id));
+        }
+
+        /// <summary>
+        /// The operation to get the extension.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/extensions/{extensionName}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>MachineExtensions_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="extensionName"> The name of the machine extension. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="extensionName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="extensionName"/> is an empty string, and was expected to be non-empty. </exception>
+        [ForwardsClientCalls]
+        public virtual async Task<Response<MachineExtensionResource>> GetMachineExtensionAsync(string extensionName, CancellationToken cancellationToken = default)
+        {
+            return await GetMachineExtensions().GetAsync(extensionName, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// The operation to get the extension.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{name}/extensions/{extensionName}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>MachineExtensions_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="extensionName"> The name of the machine extension. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="extensionName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="extensionName"/> is an empty string, and was expected to be non-empty. </exception>
+        [ForwardsClientCalls]
+        public virtual Response<MachineExtensionResource> GetMachineExtension(string extensionName, CancellationToken cancellationToken = default)
+        {
+            return GetMachineExtensions().Get(extensionName, cancellationToken);
+        }
+
+        /// <summary> Gets a collection of GuestAgentResources in the VirtualMachine. </summary>
+        /// <returns> An object representing collection of GuestAgentResources and their operations over a GuestAgentResource. </returns>
+        public virtual GuestAgentCollection GetGuestAgents()
+        {
+            return GetCachedClient(client => new GuestAgentCollection(client, Id));
+        }
+
+        /// <summary>
+        /// Implements GuestAgent GET method.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents/{name}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>GuestAgents_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="name"> Name of the GuestAgent. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="name"/> is an empty string, and was expected to be non-empty. </exception>
+        [ForwardsClientCalls]
+        public virtual async Task<Response<GuestAgentResource>> GetGuestAgentAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await GetGuestAgents().GetAsync(name, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Implements GuestAgent GET method.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents/{name}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>GuestAgents_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="name"> Name of the GuestAgent. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="name"/> is an empty string, and was expected to be non-empty. </exception>
+        [ForwardsClientCalls]
+        public virtual Response<GuestAgentResource> GetGuestAgent(string name, CancellationToken cancellationToken = default)
+        {
+            return GetGuestAgents().Get(name, cancellationToken);
+        }
+
+        /// <summary>
+        /// Implements virtual machine GET method.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>VirtualMachines_Get</description>
+========
         /// <description>DataProducts_Get</description>
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/networkanalytics/Azure.ResourceManager.NetworkAnalytics/src/Generated/DataProductResource.cs
         /// </item>
         /// </list>
         /// </summary>
@@ -659,7 +833,7 @@ namespace Azure.ResourceManager.NetworkAnalytics
         /// </list>
         /// </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <returns> An async collection of <see cref="DataProductDataType" /> that may take multiple service requests to iterate over. </returns>
+        /// <returns> An async collection of <see cref="DataProductDataType"/> that may take multiple service requests to iterate over. </returns>
         public virtual AsyncPageable<DataProductDataType> GetDataTypesAsync(CancellationToken cancellationToken = default)
         {
             HttpMessage FirstPageRequest(int? pageSizeHint) => _dataTypesRestClient.CreateListByDataProductRequest(Id.SubscriptionId, Id.ResourceGroupName, Id.Name);
@@ -681,7 +855,7 @@ namespace Azure.ResourceManager.NetworkAnalytics
         /// </list>
         /// </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <returns> A collection of <see cref="DataProductDataType" /> that may take multiple service requests to iterate over. </returns>
+        /// <returns> A collection of <see cref="DataProductDataType"/> that may take multiple service requests to iterate over. </returns>
         public virtual Pageable<DataProductDataType> GetDataTypes(CancellationToken cancellationToken = default)
         {
             HttpMessage FirstPageRequest(int? pageSizeHint) => _dataTypesRestClient.CreateListByDataProductRequest(Id.SubscriptionId, Id.ResourceGroupName, Id.Name);

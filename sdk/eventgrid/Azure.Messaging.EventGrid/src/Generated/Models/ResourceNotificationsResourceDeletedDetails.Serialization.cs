@@ -8,27 +8,55 @@
 using System.Text.Json;
 using Azure.Core;
 
+<<<<<<<< HEAD:sdk/monitor/Azure.Monitor.Query/src/Generated/Models/QueryBatchMetadataValue.Serialization.cs
+namespace Azure.Monitor.Query.Models
+{
+    public partial class QueryBatchMetadataValue
+    {
+        internal static QueryBatchMetadataValue DeserializeQueryBatchMetadataValue(JsonElement element)
+========
 namespace Azure.Messaging.EventGrid.SystemEvents
 {
     public partial class ResourceNotificationsResourceDeletedDetails
     {
         internal static ResourceNotificationsResourceDeletedDetails DeserializeResourceNotificationsResourceDeletedDetails(JsonElement element)
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/eventgrid/Azure.Messaging.EventGrid/src/Generated/Models/ResourceNotificationsResourceDeletedDetails.Serialization.cs
         {
             if (element.ValueKind == JsonValueKind.Null)
             {
                 return null;
             }
+<<<<<<<< HEAD:sdk/monitor/Azure.Monitor.Query/src/Generated/Models/QueryBatchMetadataValue.Serialization.cs
+            Optional<QueryBatchLocalizableString> name = default;
+            Optional<string> value = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("name"u8))
+========
             Optional<ResourceIdentifier> id = default;
             Optional<string> name = default;
             Optional<string> type = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"u8))
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/eventgrid/Azure.Messaging.EventGrid/src/Generated/Models/ResourceNotificationsResourceDeletedDetails.Serialization.cs
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
                         continue;
                     }
+<<<<<<<< HEAD:sdk/monitor/Azure.Monitor.Query/src/Generated/Models/QueryBatchMetadataValue.Serialization.cs
+                    name = QueryBatchLocalizableString.DeserializeQueryBatchLocalizableString(property.Value);
+                    continue;
+                }
+                if (property.NameEquals("value"u8))
+                {
+                    value = property.Value.GetString();
+                    continue;
+                }
+            }
+            return new QueryBatchMetadataValue(name.Value, value.Value);
+========
                     id = new ResourceIdentifier(property.Value.GetString());
                     continue;
                 }
@@ -44,6 +72,7 @@ namespace Azure.Messaging.EventGrid.SystemEvents
                 }
             }
             return new ResourceNotificationsResourceDeletedDetails(id.Value, name.Value, type.Value);
+>>>>>>>> 5235895a22dc11d7a9fd855defde775127e79e9c:sdk/eventgrid/Azure.Messaging.EventGrid/src/Generated/Models/ResourceNotificationsResourceDeletedDetails.Serialization.cs
         }
     }
 }

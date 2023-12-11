@@ -12,8 +12,13 @@ namespace Azure.Communication.JobRouter
     {
         public static IDictionary<TK, TV?> Append<TK, TV>(this IDictionary<TK, TV?> first, IDictionary<TK, TV?> second)
         {
-            second.ToList().ForEach(pair => first[pair.Key] = pair.Value);
-            return second;
+            second?.ToList().ForEach(pair => first[pair.Key] = pair.Value);
+            return first;
+        }
+
+        public static void AddRange<T>(this IList<T> list, IEnumerable<T> collection)
+        {
+            collection.ToList().ForEach(list.Add);
         }
 
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> collection)

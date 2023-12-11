@@ -1,14 +1,15 @@
 # Release History
 
-## 4.22.0-beta.1 (2023-11-13)
+## 4.22.0-beta.1 (Unreleased)
 
 ### Features Added
 
-- Added the following features to `EventGridClient`
-  - Release with delay
-  - Renew Locks
-  - Ability to publish events in Binary mode
-  
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.21.0 (2023-11-07)
 
 ### Features Added
