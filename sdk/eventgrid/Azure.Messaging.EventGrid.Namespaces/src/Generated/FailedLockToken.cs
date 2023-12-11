@@ -14,7 +14,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
     /// <summary> Failed LockToken information. </summary>
     public partial class FailedLockToken
     {
-        /// <summary> Initializes a new instance of FailedLockToken. </summary>
+        /// <summary> Initializes a new instance of <see cref="FailedLockToken"/>. </summary>
         /// <param name="lockToken"> The lock token of an entry in the request. </param>
         /// <param name="error"> Error information of the failed operation result for the lock token in the request. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="lockToken"/> or <paramref name="error"/> is null. </exception>

@@ -13,7 +13,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
     /// <summary> Properties of an event published to an Azure Messaging EventGrid Namespace topic using the CloudEvent 1.0 Schema. </summary>
     internal partial class CloudEvent
     {
-        /// <summary> Initializes a new instance of CloudEvent. </summary>
+        /// <summary> Initializes a new instance of <see cref="CloudEvent"/>. </summary>
         /// <param name="id"> An identifier for the event. The combination of id and source must be unique for each distinct event. </param>
         /// <param name="source"> Identifies the context in which an event happened. The combination of id and source must be unique for each distinct event. </param>
         /// <param name="type"> Type of event related to the originating occurrence. </param>
@@ -32,7 +32,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
             Specversion = specversion;
         }
 
-        /// <summary> Initializes a new instance of CloudEvent. </summary>
+        /// <summary> Initializes a new instance of <see cref="CloudEvent"/>. </summary>
         /// <param name="id"> An identifier for the event. The combination of id and source must be unique for each distinct event. </param>
         /// <param name="source"> Identifies the context in which an event happened. The combination of id and source must be unique for each distinct event. </param>
         /// <param name="data"> Event data specific to the event type. </param>

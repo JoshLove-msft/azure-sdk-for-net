@@ -13,7 +13,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
     /// <summary> Properties of the Event Broker operation. </summary>
     public partial class BrokerProperties
     {
-        /// <summary> Initializes a new instance of BrokerProperties. </summary>
+        /// <summary> Initializes a new instance of <see cref="BrokerProperties"/>. </summary>
         /// <param name="lockToken"> The token of the lock on the event. </param>
         /// <param name="deliveryCount"> The attempt count for delivering the event. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="lockToken"/> is null. </exception>

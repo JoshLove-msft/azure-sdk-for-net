@@ -12,14 +12,14 @@ using Azure.Core;
 
 namespace Azure.Messaging.EventGrid.Namespaces
 {
-    /// <summary> The result of the Release operation. </summary>
-    public partial class ReleaseResult
+    /// <summary> The result of the Reject operation. </summary>
+    public partial class RejectResult
     {
-        /// <summary> Initializes a new instance of ReleaseResult. </summary>
+        /// <summary> Initializes a new instance of <see cref="RejectResult"/>. </summary>
         /// <param name="failedLockTokens"> Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). </param>
-        /// <param name="succeededLockTokens"> Array of lock tokens for the successfully released cloud events. </param>
+        /// <param name="succeededLockTokens"> Array of lock tokens for the successfully rejected cloud events. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="failedLockTokens"/> or <paramref name="succeededLockTokens"/> is null. </exception>
-        internal ReleaseResult(IEnumerable<FailedLockToken> failedLockTokens, IEnumerable<string> succeededLockTokens)
+        internal RejectResult(IEnumerable<FailedLockToken> failedLockTokens, IEnumerable<string> succeededLockTokens)
         {
             Argument.AssertNotNull(failedLockTokens, nameof(failedLockTokens));
             Argument.AssertNotNull(succeededLockTokens, nameof(succeededLockTokens));
@@ -28,10 +28,10 @@ namespace Azure.Messaging.EventGrid.Namespaces
             SucceededLockTokens = succeededLockTokens.ToList();
         }
 
-        /// <summary> Initializes a new instance of ReleaseResult. </summary>
+        /// <summary> Initializes a new instance of <see cref="RejectResult"/>. </summary>
         /// <param name="failedLockTokens"> Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). </param>
-        /// <param name="succeededLockTokens"> Array of lock tokens for the successfully released cloud events. </param>
-        internal ReleaseResult(IReadOnlyList<FailedLockToken> failedLockTokens, IReadOnlyList<string> succeededLockTokens)
+        /// <param name="succeededLockTokens"> Array of lock tokens for the successfully rejected cloud events. </param>
+        internal RejectResult(IReadOnlyList<FailedLockToken> failedLockTokens, IReadOnlyList<string> succeededLockTokens)
         {
             FailedLockTokens = failedLockTokens;
             SucceededLockTokens = succeededLockTokens;
@@ -39,7 +39,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
 
         /// <summary> Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). </summary>
         public IReadOnlyList<FailedLockToken> FailedLockTokens { get; }
-        /// <summary> Array of lock tokens for the successfully released cloud events. </summary>
+        /// <summary> Array of lock tokens for the successfully rejected cloud events. </summary>
         public IReadOnlyList<string> SucceededLockTokens { get; }
     }
 }

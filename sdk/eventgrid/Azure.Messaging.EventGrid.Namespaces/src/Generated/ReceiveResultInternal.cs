@@ -15,7 +15,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
     /// <summary> Details of the Receive operation response. </summary>
     internal partial class ReceiveResultInternal
     {
-        /// <summary> Initializes a new instance of ReceiveResultInternal. </summary>
+        /// <summary> Initializes a new instance of <see cref="ReceiveResultInternal"/>. </summary>
         /// <param name="value"> Array of receive responses, one per cloud event. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
         internal ReceiveResultInternal(IEnumerable<ReceiveDetailsInternal> value)
@@ -25,7 +25,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
             Value = value.ToList();
         }
 
-        /// <summary> Initializes a new instance of ReceiveResultInternal. </summary>
+        /// <summary> Initializes a new instance of <see cref="ReceiveResultInternal"/>. </summary>
         /// <param name="value"> Array of receive responses, one per cloud event. </param>
         internal ReceiveResultInternal(IReadOnlyList<ReceiveDetailsInternal> value)
         {

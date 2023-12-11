@@ -10,7 +10,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
     /// <summary> The result of the Publish operation. </summary>
     public partial class PublishResult
     {
-        /// <summary> Initializes a new instance of PublishResult. </summary>
+        /// <summary> Initializes a new instance of <see cref="PublishResult"/>. </summary>
         internal PublishResult()
         {
         }

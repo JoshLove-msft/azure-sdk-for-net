@@ -20,7 +20,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
     {
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_AcknowledgeCloudEvents_ShortVersion()
+        public void Example_EventGrid_AcknowledgeCloudEvents_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -44,7 +44,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_AcknowledgeCloudEvents_ShortVersion_Async()
+        public async Task Example_EventGrid_AcknowledgeCloudEvents_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -68,7 +68,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_AcknowledgeCloudEvents_ShortVersion_Convenience()
+        public void Example_EventGrid_AcknowledgeCloudEvents_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -80,7 +80,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_AcknowledgeCloudEvents_ShortVersion_Convenience_Async()
+        public async Task Example_EventGrid_AcknowledgeCloudEvents_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -92,7 +92,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_AcknowledgeCloudEvents_AllParameters()
+        public void Example_EventGrid_AcknowledgeCloudEvents_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -118,7 +118,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_AcknowledgeCloudEvents_AllParameters_Async()
+        public async Task Example_EventGrid_AcknowledgeCloudEvents_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -144,7 +144,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_AcknowledgeCloudEvents_AllParameters_Convenience()
+        public void Example_EventGrid_AcknowledgeCloudEvents_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -156,7 +156,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_AcknowledgeCloudEvents_AllParameters_Convenience_Async()
+        public async Task Example_EventGrid_AcknowledgeCloudEvents_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -168,7 +168,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_ReleaseCloudEvents_ShortVersion()
+        public void Example_EventGrid_ReleaseCloudEvents_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -192,7 +192,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_ReleaseCloudEvents_ShortVersion_Async()
+        public async Task Example_EventGrid_ReleaseCloudEvents_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -216,7 +216,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_ReleaseCloudEvents_ShortVersion_Convenience()
+        public void Example_EventGrid_ReleaseCloudEvents_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -228,7 +228,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_ReleaseCloudEvents_ShortVersion_Convenience_Async()
+        public async Task Example_EventGrid_ReleaseCloudEvents_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -240,7 +240,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_ReleaseCloudEvents_AllParameters()
+        public void Example_EventGrid_ReleaseCloudEvents_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -266,7 +266,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_ReleaseCloudEvents_AllParameters_Async()
+        public async Task Example_EventGrid_ReleaseCloudEvents_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -292,7 +292,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_ReleaseCloudEvents_AllParameters_Convenience()
+        public void Example_EventGrid_ReleaseCloudEvents_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -304,7 +304,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_ReleaseCloudEvents_AllParameters_Convenience_Async()
+        public async Task Example_EventGrid_ReleaseCloudEvents_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -316,7 +316,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RejectCloudEvents_ShortVersion()
+        public void Example_EventGrid_RejectCloudEvents_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -340,7 +340,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RejectCloudEvents_ShortVersion_Async()
+        public async Task Example_EventGrid_RejectCloudEvents_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -364,7 +364,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RejectCloudEvents_ShortVersion_Convenience()
+        public void Example_EventGrid_RejectCloudEvents_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -376,7 +376,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RejectCloudEvents_ShortVersion_Convenience_Async()
+        public async Task Example_EventGrid_RejectCloudEvents_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -388,7 +388,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RejectCloudEvents_AllParameters()
+        public void Example_EventGrid_RejectCloudEvents_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -414,7 +414,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RejectCloudEvents_AllParameters_Async()
+        public async Task Example_EventGrid_RejectCloudEvents_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -440,7 +440,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RejectCloudEvents_AllParameters_Convenience()
+        public void Example_EventGrid_RejectCloudEvents_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -452,7 +452,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RejectCloudEvents_AllParameters_Convenience_Async()
+        public async Task Example_EventGrid_RejectCloudEvents_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -464,7 +464,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RenewCloudEventLocks_ShortVersion()
+        public void Example_EventGrid_RenewCloudEventLocks_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -488,7 +488,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RenewCloudEventLocks_ShortVersion_Async()
+        public async Task Example_EventGrid_RenewCloudEventLocks_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -512,7 +512,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RenewCloudEventLocks_ShortVersion_Convenience()
+        public void Example_EventGrid_RenewCloudEventLocks_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -524,7 +524,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RenewCloudEventLocks_ShortVersion_Convenience_Async()
+        public async Task Example_EventGrid_RenewCloudEventLocks_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -536,7 +536,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RenewCloudEventLocks_AllParameters()
+        public void Example_EventGrid_RenewCloudEventLocks_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -562,7 +562,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RenewCloudEventLocks_AllParameters_Async()
+        public async Task Example_EventGrid_RenewCloudEventLocks_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -588,7 +588,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RenewCloudEventLocks_AllParameters_Convenience()
+        public void Example_EventGrid_RenewCloudEventLocks_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");
@@ -600,7 +600,7 @@ namespace Azure.Messaging.EventGrid.Namespaces.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RenewCloudEventLocks_AllParameters_Convenience_Async()
+        public async Task Example_EventGrid_RenewCloudEventLocks_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             AzureKeyCredential credential = new AzureKeyCredential("<key>");

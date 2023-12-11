@@ -15,7 +15,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
     /// <summary> Array of lock tokens for the corresponding received Cloud Events to be released. </summary>
     public partial class ReleaseOptions
     {
-        /// <summary> Initializes a new instance of ReleaseOptions. </summary>
+        /// <summary> Initializes a new instance of <see cref="ReleaseOptions"/>. </summary>
         /// <param name="lockTokens"> Array of lock tokens. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="lockTokens"/> is null. </exception>
         public ReleaseOptions(IEnumerable<string> lockTokens)
@@ -25,7 +25,7 @@ namespace Azure.Messaging.EventGrid.Namespaces
             LockTokens = lockTokens.ToList();
         }
 
-        /// <summary> Initializes a new instance of ReleaseOptions. </summary>
+        /// <summary> Initializes a new instance of <see cref="ReleaseOptions"/>. </summary>
         /// <param name="lockTokens"> Array of lock tokens. </param>
         internal ReleaseOptions(IList<string> lockTokens)
         {

@@ -12,22 +12,22 @@ using Azure.Core;
 
 namespace Azure.Messaging.EventGrid.Namespaces
 {
-    /// <summary> Array of lock tokens for the corresponding received Cloud Events to be rejected. </summary>
-    public partial class RejectOptions
+    /// <summary> Array of lock tokens for the corresponding received Cloud Events to be acknowledged. </summary>
+    public partial class AcknowledgeOptions
     {
-        /// <summary> Initializes a new instance of RejectOptions. </summary>
+        /// <summary> Initializes a new instance of <see cref="AcknowledgeOptions"/>. </summary>
         /// <param name="lockTokens"> Array of lock tokens. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="lockTokens"/> is null. </exception>
-        public RejectOptions(IEnumerable<string> lockTokens)
+        public AcknowledgeOptions(IEnumerable<string> lockTokens)
         {
             Argument.AssertNotNull(lockTokens, nameof(lockTokens));
 
             LockTokens = lockTokens.ToList();
         }
 
-        /// <summary> Initializes a new instance of RejectOptions. </summary>
+        /// <summary> Initializes a new instance of <see cref="AcknowledgeOptions"/>. </summary>
         /// <param name="lockTokens"> Array of lock tokens. </param>
-        internal RejectOptions(IList<string> lockTokens)
+        internal AcknowledgeOptions(IList<string> lockTokens)
         {
             LockTokens = lockTokens;
         }
