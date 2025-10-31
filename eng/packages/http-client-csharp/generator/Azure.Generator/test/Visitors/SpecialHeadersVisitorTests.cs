@@ -21,36 +21,59 @@ namespace Azure.Generator.Tests.Visitors
             var parameters = CreateHttpParameters();
             var methodParameters = CreateMethodParameters();
             var responseModel = InputFactory.Model("foo");
-            var operation = InputFactory.Operation(
-                "foo",
-                parameters: parameters,
-                responses: [InputFactory.OperationResponse(bodytype: responseModel)]);
-            var serviceMethod = InputFactory.LongRunningServiceMethod(
-                "foo",
-                operation,
-                parameters: methodParameters,
-                response: InputFactory.ServiceMethodResponse(responseModel, ["result"]));
-            var inputClient = InputFactory.Client("TestClient", methods: [serviceMethod]);
+            var serviceMethods = new List<InputServiceMethod>();
 
-            // Verify initial parameters include special headers
-            Assert.AreEqual(3, serviceMethod.Parameters.Count);
-            Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "return-client-request-id"));
-            Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "x-ms-client-request-id"));
+            // Create two operations and service methods
+            for (int i = 1; i <= 2; i++)
+            {
+                var operation = InputFactory.Operation(
+                    $"operation{i}",
+                    parameters: parameters,
+                    responses: [InputFactory.OperationResponse(bodytype: responseModel)]);
+                var serviceMethod = InputFactory.LongRunningServiceMethod(
+                    $"operation{i}",
+                    operation,
+                    parameters: methodParameters,
+                    response: InputFactory.ServiceMethodResponse(responseModel, ["result"]));
+                serviceMethods.Add(serviceMethod);
+            }
+
+            var inputClient = InputFactory.Client("TestClient", methods: serviceMethods);
+
+            // Verify initial parameters include special headers for both methods
+            foreach (var serviceMethod in serviceMethods)
+            {
+                Assert.AreEqual(3, serviceMethod.Parameters.Count);
+                Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "return-client-request-id"));
+                Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "x-ms-client-request-id"));
+            }
 
             var generator = MockHelpers.LoadMockGenerator(
                 clients: () => [inputClient],
-                visitors: () => [new SpecialHeadersVisitor(addBackXMsClientRequestId)]);
+                visitors: () => []);
             var client = generator.Object.OutputLibrary.TypeProviders.OfType<ClientProvider>().First();
+            var visitor = new TestSpecialHeadersVisitor(addBackXMsClientRequestId);
 
-            // Verify special headers are removed
-            Assert.AreEqual(1, serviceMethod.Parameters.Count);
-            Assert.IsFalse(serviceMethod.Parameters.Any(p => p.SerializedName == "return-client-request-id"));
-            Assert.IsFalse(serviceMethod.Parameters.Any(p => p.SerializedName == "x-ms-client-request-id"));
-            Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "some-other-parameter"));
+            // Verify special headers are removed from both methods
+            foreach (var serviceMethod in serviceMethods)
+            {
+                var methodCollection = client.GetMethodCollectionByOperation(serviceMethod.Operation);
+                visitor.InvokePreVisit(serviceMethod, client, methodCollection);
+            }
 
-            // Verify x-ms-client-request-id is added back in the method body if specified
-            var restClientMethod = client.RestClient.Methods.First(m => m.Signature.Name == $"Create{serviceMethod.Name}Request");
-            Assert.AreEqual(addBackXMsClientRequestId, restClientMethod.BodyStatements!.ToDisplayString().Contains("request.Headers.SetValue(\"x-ms-client-request-id\", request.ClientRequestId);"));
+            foreach (var serviceMethod in serviceMethods)
+            {
+                var restClientMethod = client.RestClient.Methods.First(m => m.Signature.Name == $"Create{serviceMethod.Name}Request");
+
+                visitor.InvokeVisit((restClientMethod as ScmMethodProvider)!);
+                Assert.AreEqual(1, serviceMethod.Parameters.Count);
+                Assert.IsFalse(serviceMethod.Parameters.Any(p => p.SerializedName == "return-client-request-id"));
+                Assert.IsFalse(serviceMethod.Parameters.Any(p => p.SerializedName == "x-ms-client-request-id"));
+                Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "some-other-parameter"));
+
+                // Verify x-ms-client-request-id is added back in method body if specified
+                Assert.AreEqual(addBackXMsClientRequestId, restClientMethod.BodyStatements!.ToDisplayString().Contains("request.Headers.SetValue(\"x-ms-client-request-id\", request.ClientRequestId);"));
+            }
         }
 
         [Test]
@@ -92,7 +115,7 @@ namespace Azure.Generator.Tests.Visitors
             var originalParameter = serviceMethod.Parameters[0];
 
             // Act
-            visitor.InvokeRemoveSpecialHeaders(serviceMethod, client, methodCollection);
+            visitor.InvokePreVisit(serviceMethod, client, methodCollection);
 
             // Verify no changes
             Assert.AreEqual(1, serviceMethod.Parameters.Count);
@@ -150,9 +173,14 @@ namespace Azure.Generator.Tests.Visitors
                 : base(addBackXMsClientRequestId)
             {
             }
-            public void InvokeRemoveSpecialHeaders(InputServiceMethod serviceMethod, ClientProvider client, ScmMethodProviderCollection methods)
+            public void InvokePreVisit(InputServiceMethod serviceMethod, ClientProvider client, ScmMethodProviderCollection methods)
             {
                 base.Visit(serviceMethod, client, methods);
+            }
+
+            public void InvokeVisit(ScmMethodProvider method)
+            {
+                base.VisitMethod(method);
             }
         }
     }
