@@ -26,7 +26,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnections(string connectionType, bool? defaultConnection, string clientRequestId, RequestOptions options) instead.")]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnections(string connectionType, bool? defaultConnection, RequestOptions options) instead.")]
         public virtual CollectionResult GetConnections(string connectionType, bool? defaultConnection, string clientRequestId, RequestOptions options)
         {
             return GetConnections(connectionType, defaultConnection, options);
@@ -47,7 +47,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnectionsAsync(string connectionType, bool? defaultConnection, string clientRequestId, RequestOptions options) instead.")]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnectionsAsync(string connectionType, bool? defaultConnection, RequestOptions options) instead.")]
         public virtual AsyncCollectionResult GetConnectionsAsync(string connectionType, bool? defaultConnection, string clientRequestId, RequestOptions options)
         {
             return GetConnectionsAsync(connectionType, defaultConnection, options);
