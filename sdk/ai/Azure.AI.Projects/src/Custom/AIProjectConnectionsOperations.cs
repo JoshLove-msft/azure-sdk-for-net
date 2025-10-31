@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.ClientModel;
 using System.ClientModel.Primitives;
 using System.ComponentModel;
@@ -25,6 +26,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnections(string connectionType, bool? defaultConnection, string clientRequestId, RequestOptions options) instead.")]
         public virtual CollectionResult GetConnections(string connectionType, bool? defaultConnection, string clientRequestId, RequestOptions options)
         {
             return GetConnections(connectionType, defaultConnection, options);
@@ -45,6 +47,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnectionsAsync(string connectionType, bool? defaultConnection, string clientRequestId, RequestOptions options) instead.")]
         public virtual AsyncCollectionResult GetConnectionsAsync(string connectionType, bool? defaultConnection, string clientRequestId, RequestOptions options)
         {
             return GetConnectionsAsync(connectionType, defaultConnection, options);
@@ -57,6 +60,7 @@ namespace Azure.AI.Projects
         /// <param name="cancellationToken"> The cancellation token that can be used to cancel the operation. </param>
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnections(ConnectionType? connectionType, bool? defaultConnection, CancellationToken cancellationToken) instead.")]
         public virtual CollectionResult<AIProjectConnection> GetConnections(ConnectionType? connectionType, bool? defaultConnection, string clientRequestId, CancellationToken cancellationToken)
         {
             return GetConnections(connectionType, defaultConnection, cancellationToken);
@@ -69,6 +73,7 @@ namespace Azure.AI.Projects
         /// <param name="cancellationToken"> The cancellation token that can be used to cancel the operation. </param>
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnectionsAsync(ConnectionType? connectionType, bool? defaultConnection, CancellationToken cancellationToken) instead.")]
         public virtual AsyncCollectionResult<AIProjectConnection> GetConnectionsAsync(ConnectionType? connectionType, bool? defaultConnection, string clientRequestId, CancellationToken cancellationToken)
         {
             return GetConnectionsAsync(connectionType, defaultConnection, cancellationToken);
