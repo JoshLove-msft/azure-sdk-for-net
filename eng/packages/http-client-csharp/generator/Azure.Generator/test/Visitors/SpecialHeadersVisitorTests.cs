@@ -18,6 +18,7 @@ namespace Azure.Generator.Tests.Visitors
         [TestCase(false)]
         public void RemovesSpecialHeaderParametersFromServiceMethod(bool addBackXMsClientRequestId)
         {
+            var visitor = new TestSpecialHeadersVisitor(addBackXMsClientRequestId);
             var parameters = CreateHttpParameters();
             var methodParameters = CreateMethodParameters();
             var responseModel = InputFactory.Model("foo");
@@ -50,9 +51,8 @@ namespace Azure.Generator.Tests.Visitors
 
             var generator = MockHelpers.LoadMockGenerator(
                 clients: () => [inputClient],
-                visitors: () => []);
+                visitors: () => [visitor]);
             var client = generator.Object.OutputLibrary.TypeProviders.OfType<ClientProvider>().First();
-            var visitor = new TestSpecialHeadersVisitor(addBackXMsClientRequestId);
 
             // Verify special headers are removed from both methods
             foreach (var serviceMethod in serviceMethods)

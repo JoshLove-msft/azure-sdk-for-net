@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.TypeSpec.Generator.ClientModel;
 using Microsoft.TypeSpec.Generator.ClientModel.Providers;
 using Microsoft.TypeSpec.Generator.Expressions;
 using Microsoft.TypeSpec.Generator.Input;
 using Microsoft.TypeSpec.Generator.Providers;
 using Microsoft.TypeSpec.Generator.Statements;
+using System.Collections.Generic;
+using System.Linq;
 using static Microsoft.TypeSpec.Generator.Snippets.Snippet;
 
 namespace Azure.Generator.Visitors
@@ -21,11 +21,12 @@ namespace Azure.Generator.Visitors
         private readonly bool _includeClientRequestIdInRequest;
         private const string ReturnClientRequestIdParameterName = "return-client-request-id";
         private const string XMsClientRequestIdParameterName = "x-ms-client-request-id";
-        private readonly Dictionary<MethodProvider, (InputMethodParameter? ReturnClientRequestId, InputMethodParameter? XmsClientRequestId)> _methodParameterMap = new();
+        private readonly Dictionary<InputServiceMethod, (InputMethodParameter? ReturnClientRequestId, InputMethodParameter? XmsClientRequestId)> _serviceMethodParameterMap;
 
         public SpecialHeadersVisitor(bool includeXmsClientRequestIdInRequest = false)
         {
             _includeClientRequestIdInRequest = includeXmsClientRequestIdInRequest;
+            _serviceMethodParameterMap = [];
         }
 
         protected override ScmMethodProviderCollection? Visit(
@@ -47,8 +48,7 @@ namespace Azure.Generator.Visitors
                 methods = new ScmMethodProviderCollection(serviceMethod, client);
 
                 // Store the parameters for the CreateRequest method
-                var createRequestMethod = client.RestClient.GetCreateRequestMethod(serviceMethod.Operation);
-                _methodParameterMap[createRequestMethod] = (returnClientRequestIdParameter, xMsClientRequestIdParameter);
+                _serviceMethodParameterMap.TryAdd(serviceMethod, (returnClientRequestIdParameter, xMsClientRequestIdParameter));
 
                 // Reset the rest client so that its methods are rebuilt reflecting the new signatures
                 client.RestClient.Reset();
@@ -59,7 +59,7 @@ namespace Azure.Generator.Visitors
 
         protected override ScmMethodProvider? VisitMethod(ScmMethodProvider method)
         {
-            if (!_methodParameterMap.TryGetValue(method, out var parameters))
+            if (method.ServiceMethod is null || !_serviceMethodParameterMap.TryGetValue(method.ServiceMethod, out var parameters))
             {
                 return method;
             }
@@ -88,8 +88,8 @@ namespace Azure.Generator.Visitors
                 }
             }
 
-            var request = requestVariable!.ToApi<HttpRequestApi>();
-            if (returnClientRequestIdParameter?.DefaultValue?.Value != null)
+            var request = requestVariable?.ToApi<HttpRequestApi>();
+            if (request != null && returnClientRequestIdParameter?.DefaultValue?.Value != null)
             {
                 if (bool.TryParse(returnClientRequestIdParameter.DefaultValue.Value.ToString(), out bool value))
                 {
@@ -102,7 +102,7 @@ namespace Azure.Generator.Visitors
                 }
             }
 
-            if (_includeClientRequestIdInRequest && xMsClientRequestIdParameter != null)
+            if (request != null && _includeClientRequestIdInRequest && xMsClientRequestIdParameter != null)
             {
                 // Set the x-ms-client-request-id header
                 newStatements.Add(request.SetHeaders(
