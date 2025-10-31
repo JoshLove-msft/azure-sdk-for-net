@@ -17,8 +17,14 @@ namespace Azure.Generator.Visitors
     /// </summary>
     internal class SpecialHeadersVisitor : ScmLibraryVisitor
     {
+        private readonly bool _includeClientRequestIdInRequest;
         private const string ReturnClientRequestIdParameterName = "return-client-request-id";
         private const string XMsClientRequestIdParameterName = "x-ms-client-request-id";
+
+        public SpecialHeadersVisitor(bool includeXmsClientRequestIdInRequest = false)
+        {
+            _includeClientRequestIdInRequest = includeXmsClientRequestIdInRequest;
+        }
 
         protected override ScmMethodProviderCollection? Visit(
             InputServiceMethod serviceMethod,
@@ -64,17 +70,28 @@ namespace Azure.Generator.Visitors
                     }
                 }
 
+                var request = requestVariable!.ToApi<HttpRequestApi>();
                 if (returnClientRequestIdParameter?.DefaultValue?.Value != null)
                 {
                     if (bool.TryParse(returnClientRequestIdParameter.DefaultValue.Value.ToString(), out bool value))
                     {
                         // Set the return-client-request-id header
-                        newStatements.Add(requestVariable!.ToApi<HttpRequestApi>().SetHeaders(
+                        newStatements.Add(request.SetHeaders(
                         [
                             Literal(returnClientRequestIdParameter.SerializedName),
                             Literal(value.ToString().ToLowerInvariant())
                         ]));
                     }
+                }
+
+                if (_includeClientRequestIdInRequest && xMsClientRequestIdParameter != null)
+                {
+                    // Set the x-ms-client-request-id header
+                    newStatements.Add(request.SetHeaders(
+                    [
+                        Literal(xMsClientRequestIdParameter.SerializedName),
+                        request.Property("ClientRequestId")
+                    ]));
                 }
 
                 // Add the return statement back

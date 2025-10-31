@@ -8,15 +8,16 @@ using NUnit.Framework;
 using Azure.Generator.Tests.Common;
 using Azure.Generator.Tests.TestHelpers;
 using Azure.Generator.Visitors;
+using Microsoft.TypeSpec.Generator.ClientModel.Providers;
 
 namespace Azure.Generator.Tests.Visitors
 {
     public class SpecialHeadersVisitorTests
     {
-        [Test]
-        public void RemovesSpecialHeaderParametersFromServiceMethod()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void RemovesSpecialHeaderParametersFromServiceMethod(bool addBackXMsClientRequestId)
         {
-            var visitor = new TestSpecialHeadersVisitor();
             var parameters = CreateHttpParameters();
             var methodParameters = CreateMethodParameters();
             var responseModel = InputFactory.Model("foo");
@@ -30,21 +31,26 @@ namespace Azure.Generator.Tests.Visitors
                 parameters: methodParameters,
                 response: InputFactory.ServiceMethodResponse(responseModel, ["result"]));
             var inputClient = InputFactory.Client("TestClient", methods: [serviceMethod]);
-            MockHelpers.LoadMockGenerator(clients: () => [inputClient]);
 
             // Verify initial parameters include special headers
             Assert.AreEqual(3, serviceMethod.Parameters.Count);
             Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "return-client-request-id"));
             Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "x-ms-client-request-id"));
 
-            // Act - this would normally be called by the visitor framework, but we'll test the core logic
-            visitor.InvokeRemoveSpecialHeaders(serviceMethod);
+            var generator = MockHelpers.LoadMockGenerator(
+                clients: () => [inputClient],
+                visitors: () => [new SpecialHeadersVisitor(addBackXMsClientRequestId)]);
+            var client = generator.Object.OutputLibrary.TypeProviders.OfType<ClientProvider>().First();
 
             // Verify special headers are removed
             Assert.AreEqual(1, serviceMethod.Parameters.Count);
             Assert.IsFalse(serviceMethod.Parameters.Any(p => p.SerializedName == "return-client-request-id"));
             Assert.IsFalse(serviceMethod.Parameters.Any(p => p.SerializedName == "x-ms-client-request-id"));
             Assert.IsTrue(serviceMethod.Parameters.Any(p => p.SerializedName == "some-other-parameter"));
+
+            // Verify x-ms-client-request-id is added back in the method body if specified
+            var restClientMethod = client.RestClient.Methods.First(m => m.Signature.Name == $"Create{serviceMethod.Name}Request");
+            Assert.AreEqual(addBackXMsClientRequestId, restClientMethod.BodyStatements!.ToDisplayString().Contains("request.Headers.SetValue(\"x-ms-client-request-id\", request.ClientRequestId);"));
         }
 
         [Test]
@@ -76,13 +82,17 @@ namespace Azure.Generator.Tests.Visitors
                 operation,
                 parameters: methodParameters,
                 response: InputFactory.ServiceMethodResponse(responseModel, ["result"]));
+            var inputClient = InputFactory.Client("TestClient", methods: [serviceMethod]);
+            var generator = MockHelpers.LoadMockGenerator(clients: () => [inputClient]);
+            var client = generator.Object.OutputLibrary.TypeProviders.OfType<ClientProvider>().First();
+            var methodCollection = client.GetMethodCollectionByOperation(operation);
 
             // Verify initial state
             Assert.AreEqual(1, serviceMethod.Parameters.Count);
             var originalParameter = serviceMethod.Parameters[0];
 
             // Act
-            visitor.InvokeRemoveSpecialHeaders(serviceMethod);
+            visitor.InvokeRemoveSpecialHeaders(serviceMethod, client, methodCollection);
 
             // Verify no changes
             Assert.AreEqual(1, serviceMethod.Parameters.Count);
@@ -136,19 +146,13 @@ namespace Azure.Generator.Tests.Visitors
 
         private class TestSpecialHeadersVisitor : SpecialHeadersVisitor
         {
-            public void InvokeRemoveSpecialHeaders(InputServiceMethod serviceMethod)
+            public TestSpecialHeadersVisitor(bool addBackXMsClientRequestId = false)
+                : base(addBackXMsClientRequestId)
             {
-                // Simulate the core logic of removing special headers
-                var returnClientRequestIdParameter =
-                    serviceMethod.Parameters.FirstOrDefault(p => p.SerializedName == "return-client-request-id");
-                var xMsClientRequestIdParameter =
-                    serviceMethod.Parameters.FirstOrDefault(p => p.SerializedName == "x-ms-client-request-id");
-
-                if (returnClientRequestIdParameter != null || xMsClientRequestIdParameter != null)
-                {
-                    serviceMethod.Update(parameters: [.. serviceMethod.Parameters.Where(p => p.SerializedName != "return-client-request-id" && p.SerializedName != "x-ms-client-request-id")]);
-                    serviceMethod.Operation.Update(parameters: [.. serviceMethod.Operation.Parameters.Where(p => p.SerializedName != "return-client-request-id" && p.SerializedName != "x-ms-client-request-id")]);
-                }
+            }
+            public void InvokeRemoveSpecialHeaders(InputServiceMethod serviceMethod, ClientProvider client, ScmMethodProviderCollection methods)
+            {
+                base.Visit(serviceMethod, client, methods);
             }
         }
     }
