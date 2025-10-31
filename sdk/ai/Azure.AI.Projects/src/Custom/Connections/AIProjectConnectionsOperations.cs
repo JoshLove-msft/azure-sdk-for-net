@@ -3,6 +3,7 @@
 
 using System;
 using System.ClientModel;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,7 +20,38 @@ namespace Azure.AI.Projects
         /// <param name="cancellationToken"> The cancellation token that can be used to cancel the operation. </param>
         /// <returns>A <see cref="AIProjectConnection"/> object.</returns>
         /// <exception cref="RequestFailedException">Thrown when the request fails.</exception>
-        public AIProjectConnection GetConnection(string connectionName, bool includeCredentials = false, string clientRequestId = default, CancellationToken cancellationToken = default)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnection(string connectionName, bool includeCredentials, CancellationToken cancellationToken) instead.")]
+        public AIProjectConnection GetConnection(string connectionName, bool includeCredentials, string clientRequestId, CancellationToken cancellationToken)
+        {
+            return GetConnection(connectionName, includeCredentials, cancellationToken);
+        }
+
+        /// <summary>
+        /// Get a connection by name.
+        /// </summary>
+        /// <param name="connectionName">The name of the connection. Required.</param>
+        /// <param name="includeCredentials">Whether to include credentials in the response. Default is false.</param>
+        /// <param name="clientRequestId"> An opaque, globally-unique, client-generated string identifier for the request. </param>
+        /// <param name="cancellationToken"> The cancellation token that can be used to cancel the operation. </param>
+        /// <returns>A <see cref="AIProjectConnection"/> object.</returns>
+        /// <exception cref="RequestFailedException">Thrown when the request fails.</exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetConnectionAsync(string connectionName, bool includeCredentials, CancellationToken cancellationToken) instead.")]
+        public async Task<ClientResult<AIProjectConnection>> GetConnectionAsync(string connectionName, bool includeCredentials, string clientRequestId, CancellationToken cancellationToken)
+        {
+            return await GetConnectionAsync(connectionName, includeCredentials, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Get a connection by name.
+        /// </summary>
+        /// <param name="connectionName">The name of the connection. Required.</param>
+        /// <param name="includeCredentials">Whether to include credentials in the response. Default is false.</param>
+        /// <param name="cancellationToken"> The cancellation token that can be used to cancel the operation. </param>
+        /// <returns>A <see cref="AIProjectConnection"/> object.</returns>
+        /// <exception cref="RequestFailedException">Thrown when the request fails.</exception>
+        public AIProjectConnection GetConnection(string connectionName, bool includeCredentials = false, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(connectionName))
             {
@@ -40,11 +72,10 @@ namespace Azure.AI.Projects
         /// </summary>
         /// <param name="connectionName">The name of the connection. Required.</param>
         /// <param name="includeCredentials">Whether to include credentials in the response. Default is false.</param>
-        /// <param name="clientRequestId"> An opaque, globally-unique, client-generated string identifier for the request. </param>
         /// <param name="cancellationToken"> The cancellation token that can be used to cancel the operation. </param>
         /// <returns>A <see cref="AIProjectConnection"/> object.</returns>
         /// <exception cref="RequestFailedException">Thrown when the request fails.</exception>
-        public async Task<ClientResult<AIProjectConnection>> GetConnectionAsync(string connectionName, bool includeCredentials = false, string clientRequestId = default, CancellationToken cancellationToken = default)
+        public async Task<ClientResult<AIProjectConnection>> GetConnectionAsync(string connectionName, bool includeCredentials = false, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(connectionName))
             {
