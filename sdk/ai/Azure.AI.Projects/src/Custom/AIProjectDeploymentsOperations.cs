@@ -28,6 +28,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetDeployment(string name, RequestOptions options) instead.")]
         public virtual ClientResult GetDeployment(string name, string clientRequestId, RequestOptions options)
         {
             return GetDeployment(name, options);
@@ -49,6 +50,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetDeploymentAsync(string name, RequestOptions options) instead.")]
         public virtual async Task<ClientResult> GetDeploymentAsync(string name, string clientRequestId, RequestOptions options)
         {
             return await GetDeploymentAsync(name, options).ConfigureAwait(false);
@@ -62,6 +64,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ArgumentException"> <paramref name="name"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetDeploymentAsync(string name, CancellationToken cancellationToken) instead.")]
         public virtual ClientResult<AIProjectDeployment> GetDeployment(string name, string clientRequestId, CancellationToken cancellationToken)
         {
             return GetDeployment(name, cancellationToken);
@@ -75,6 +78,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ArgumentException"> <paramref name="name"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetDeploymentAsync(string name, CancellationToken cancellationToken) instead.")]
         public virtual async Task<ClientResult<AIProjectDeployment>> GetDeploymentAsync(string name, string clientRequestId, CancellationToken cancellationToken)
         {
             return await GetDeploymentAsync(name, cancellationToken).ConfigureAwait(false);
@@ -96,6 +100,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetDeployments(string modelPublisher, string modelName, string deploymentType, RequestOptions options) instead.")]
         public virtual CollectionResult GetDeployments(string modelPublisher, string modelName, string deploymentType, string clientRequestId, RequestOptions options)
         {
             return GetDeployments(modelPublisher, modelName, deploymentType, options);
@@ -117,6 +122,7 @@ namespace Azure.AI.Projects
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetDeploymentsAsync(string modelPublisher, string modelName, string deploymentType, RequestOptions options) instead.")]
         public virtual AsyncCollectionResult GetDeploymentsAsync(string modelPublisher, string modelName, string deploymentType, string clientRequestId, RequestOptions options)
         {
             return GetDeploymentsAsync(modelPublisher, modelName, deploymentType, options);
@@ -130,6 +136,7 @@ namespace Azure.AI.Projects
         /// <param name="cancellationToken"> The cancellation token that can be used to cancel the operation. </param>
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetDeploymentsAsync(string modelPublisher, string modelName, AIProjectDeploymentType? deploymentType, CancellationToken cancellationToken) instead.")]
         public virtual CollectionResult<AIProjectDeployment> GetDeployments(string modelPublisher, string modelName, AIProjectDeploymentType? deploymentType, string clientRequestId, CancellationToken cancellationToken)
         {
             return GetDeployments(modelPublisher, modelName, deploymentType, cancellationToken);
@@ -143,6 +150,7 @@ namespace Azure.AI.Projects
         /// <param name="cancellationToken"> The cancellation token that can be used to cancel the operation. </param>
         /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This method is obsolete as the clientRequestId parameter is not used. Please use GetDeploymentsAsync(string modelPublisher, string modelName, AIProjectDeploymentType? deploymentType, CancellationToken cancellationToken) instead.")]
         public virtual AsyncCollectionResult<AIProjectDeployment> GetDeploymentsAsync(string modelPublisher, string modelName, AIProjectDeploymentType? deploymentType, string clientRequestId, CancellationToken cancellationToken)
         {
             return GetDeploymentsAsync(modelPublisher, modelName, deploymentType, cancellationToken);
