@@ -8,12 +8,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Azure.AI.Language.Conversations;
+using Azure.AI.Language.Conversations.Models;
 
-namespace Azure.AI.Language.Conversations.Models
+namespace Azure.AI.Language.Conversations
 {
     /// <summary> A factory class for creating instances of the models for mocking. </summary>
-    public static partial class LanguageConversationsModelFactory
+    public static partial class ConversationsModelFactory
     {
         /// <summary>
         /// The base class of a conversation input task.

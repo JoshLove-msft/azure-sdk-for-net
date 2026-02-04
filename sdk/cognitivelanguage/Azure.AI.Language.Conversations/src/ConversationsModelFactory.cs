@@ -9,7 +9,7 @@ namespace Azure.AI.Language.Conversations
     /// <summary>
     /// Model factory for read-only models in the Conversations namespace.
     /// </summary>
-    [CodeGenType("AILanguageConversationsModelFactory")]
+    [CodeGenType("LanguageConversationsModelFactory")]
     public static partial class ConversationsModelFactory
     {
     }
