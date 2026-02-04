@@ -8,7 +8,8 @@
     <PackageTags>Azure AI Language Conversations</PackageTags>
     <TargetFrameworks>$(RequiredTargetFrameworks)</TargetFrameworks>
     <IncludeOperationsSharedSource>true</IncludeOperationsSharedSource>
-    <NoWarn>$(NoWarn);AZC0034;AZC0035</NoWarn></PropertyGroup>
+    <NoWarn>$(NoWarn);AZC0034;AZC0035</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Core" />
