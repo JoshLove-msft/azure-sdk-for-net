@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Azure.AI.Language.Conversations.Models;
 using Azure.Core;
 using Azure.Core.Pipeline;
 using Microsoft.TypeSpec.Generator.Customizations;
@@ -19,6 +21,46 @@ namespace Azure.AI.Language.Conversations
         /// Gets the service endpoint for this client.
         /// </summary>
         public virtual Uri Endpoint => _endpoint;
+
+        /// <summary>
+        /// Convenience method to submit an analysis long running operation for conversations and return the response once processed.
+        /// <param name="analyzeConversationOperationInput"> The input for the analyze conversations operation. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="analyzeConversationOperationInput"/> is null. </exception>
+        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
+        /// <returns> The <see cref="Response"/> representing the result of the long running operation on the service. </returns>
+        /// </summary>
+        public virtual Response<AnalyzeConversationOperationState> AnalyzeConversations(AnalyzeConversationOperationInput analyzeConversationOperationInput, CancellationToken cancellationToken = default)
+        {
+            Argument.AssertNotNull(analyzeConversationOperationInput, nameof(analyzeConversationOperationInput));
+
+            using RequestContent content = analyzeConversationOperationInput;
+            RequestContext context = cancellationToken.ToRequestContext();
+
+            Operation<BinaryData> operation = AnalyzeConversations(WaitUntil.Completed, content, context);
+            Response response = operation.GetRawResponse();
+            return Response.FromValue((AnalyzeConversationOperationState)response, response);
+        }
+
+        /// <summary>
+        /// Convenience method to submit an analysis long running operation for conversations and return the response once processed.
+        /// <param name="analyzeConversationOperationInput"> The input for the analyze conversations operation. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="analyzeConversationOperationInput"/> is null. </exception>
+        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
+        /// <returns> The <see cref="Response"/> representing the result of the long running operation on the service. </returns>
+        /// </summary>
+        public virtual async Task<Response<AnalyzeConversationOperationState>> AnalyzeConversationsAsync(AnalyzeConversationOperationInput analyzeConversationOperationInput, CancellationToken cancellationToken = default)
+        {
+            Argument.AssertNotNull(analyzeConversationOperationInput, nameof(analyzeConversationOperationInput));
+
+            using RequestContent content = analyzeConversationOperationInput;
+            RequestContext context = cancellationToken.ToRequestContext();
+
+            Operation<BinaryData> operation = await AnalyzeConversationsAsync(WaitUntil.Completed, content, context).ConfigureAwait(false);
+            Response response = operation.GetRawResponse();
+            return Response.FromValue((AnalyzeConversationOperationState)response, response);
+        }
 
         /// <summary>
         /// [Protocol Method] Submits an analysis long running operation for conversations and return the response once processed.
