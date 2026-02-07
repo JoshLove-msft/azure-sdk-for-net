@@ -38,7 +38,7 @@ extends:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
             Paths:
-              - "sdk/core/Azure.Core/src/Shared"
+              - "/sdk/core/Azure.Core/src/Shared"
         - template: /eng/pipelines/templates/steps/install-dotnet.yml
         - pwsh: |
             dotnet build .
