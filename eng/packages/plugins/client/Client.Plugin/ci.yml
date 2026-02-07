@@ -39,6 +39,7 @@ extends:
           parameters:
             Paths:
               - "/sdk"
+              - "/common"
         - template: /eng/pipelines/templates/steps/install-dotnet.yml
         - pwsh: |
             dotnet build .
