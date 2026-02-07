@@ -44,3 +44,10 @@ extends:
             dotnet build .
           displayName: 'Build client plugin'
           workingDirectory: eng/packages/plugins/client/Client.Plugin
+        - pwsh: |
+            dotnet test . --no-build
+          displayName: 'Test client plugin'
+          workingDirectory: eng/packages/plugins/client/Client.Plugin
+        - pwsh: |
+            ./eng/scripts/CodeChecks.ps1 -BuildArtifactsPath $(Build.ArtifactStagingDirectory) -RepoRoot $(Build.SourcesDirectory) -CheckEmitterPackage $false
+          displayName: 'Regenerate and verify no diff'
