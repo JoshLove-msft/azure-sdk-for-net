@@ -49,5 +49,5 @@ extends:
           displayName: 'Test client plugin'
           workingDirectory: eng/packages/plugins/client/Client.Plugin
         - pwsh: |
-            ./eng/scripts/CodeChecks.ps1
+            ./eng/scripts/CodeChecks.ps1 -ServiceDirectory ""
           displayName: 'Regenerate and verify no diff'
