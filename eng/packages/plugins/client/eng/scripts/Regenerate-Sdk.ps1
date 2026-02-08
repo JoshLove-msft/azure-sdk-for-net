@@ -1,5 +1,3 @@
-#!/usr/bin/env pwsh
-
 # Discovers all service directories containing a library with tsp-location.yaml
 # pointing to eng/http-client-csharp-emitter-package.json and runs CodeChecks for each.
 
