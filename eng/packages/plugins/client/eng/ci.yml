@@ -50,20 +50,6 @@ extends:
           displayName: 'Test client plugin'
           workingDirectory: eng/packages/plugins/client/Client.Plugin
         - pwsh: |
-            $tspLocations = Get-ChildItem -Path "./sdk" -Filter "tsp-location.yaml" -Recurse
-            $serviceDirectories = @()
-            foreach ($tspLocation in $tspLocations) {
-              $content = Get-Content $tspLocation.FullName -Raw
-              if ($content -match "eng/http-client-csharp-emitter-package.json") {
-                $relativePath = $tspLocation.DirectoryName -replace ".*[\\/]sdk[\\/]", ""
-                $serviceDirectory = $relativePath -replace "[\\/].*", ""
-                if ($serviceDirectories -notcontains $serviceDirectory) {
-                  $serviceDirectories += $serviceDirectory
-                }
-              }
-            }
-            foreach ($serviceDirectory in $serviceDirectories) {
-              Write-Host "Running CodeChecks for service directory: $serviceDirectory"
-              ./eng/scripts/CodeChecks.ps1 -ServiceDirectory $serviceDirectory
-            }
+            ./eng/packages/plugins/client/eng/scripts/Regenerate-Sdk.ps1
           displayName: 'Regenerate and verify no diff'
+
