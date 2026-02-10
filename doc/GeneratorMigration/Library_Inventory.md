@@ -13,14 +13,14 @@
 
 ## Summary
 
-- Total libraries: 398
+- Total libraries: 399
 - Management Plane (MPG): 226
-  - Autorest/Swagger: 141
-  - New Emitter (TypeSpec): 85
+  - Autorest/Swagger: 140
+  - New Emitter (TypeSpec): 86
   - Old TypeSpec: 0
-- Data Plane (DPG): 141
+- Data Plane (DPG): 142
   - Autorest/Swagger: 55
-  - New Emitter (TypeSpec): 31
+  - New Emitter (TypeSpec): 32
   - Old TypeSpec: 7
 - Provisioning: 31
   - Custom reflection-based generator: 31
@@ -31,12 +31,13 @@
 
 Libraries that provide client APIs for Azure services and have been migrated to the new TypeSpec emitter.
 
-**Migration Status**: 31 / 38 (81.6%)
+**Migration Status**: 32 / 39 (82.1%)
 
 | Service | Library | New Emitter | Using SCM |
 | ------- | ------- | ----------- | --------- |
 | ai | Azure.AI.Agents.Persistent |  |  |
 | ai | Azure.AI.Projects | ✅ | ✅ |
+| ai | Azure.AI.Projects.OpenAI | ✅ | ✅ |
 | ai | Azure.AI.VoiceLive | ✅ |  |
 | anomalydetector | Azure.AI.AnomalyDetector |  |  |
 | appconfiguration | Azure.Data.AppConfiguration | ✅ |  |
@@ -142,7 +143,7 @@ Libraries that have not yet been migrated to the new TypeSpec emitter. Total: 55
 
 Libraries that provide resource management APIs for Azure services and have been migrated to the new TypeSpec emitter.
 
-**Migration Status**: 85 / 85 (100%)
+**Migration Status**: 86 / 86 (100%)
 
 | Service | Library | New Emitter |
 | ------- | ------- | ----------- |
@@ -213,6 +214,7 @@ Libraries that provide resource management APIs for Azure services and have been
 | recoveryservices-datareplication | Azure.ResourceManager.RecoveryServicesDataReplication | ✅ |
 | resourceconnector | Azure.ResourceManager.ResourceConnector | ✅ |
 | resources | Azure.ResourceManager.Resources.Bicep | ✅ |
+| resources | Azure.ResourceManager.Resources.DeploymentStacks | ✅ |
 | secretsstoreextension | Azure.ResourceManager.SecretsStoreExtension | ✅ |
 | selfhelp | Azure.ResourceManager.SelfHelp | ✅ |
 | servicefabricmanagedclusters | Azure.ResourceManager.ServiceFabricManagedClusters | ✅ |
@@ -235,7 +237,7 @@ Libraries that provide resource management APIs for Azure services and have been
 
 ## Management Plane Libraries (MPG) - Still on Swagger
 
-Libraries that have not yet been migrated to the new TypeSpec emitter. Total: 141
+Libraries that have not yet been migrated to the new TypeSpec emitter. Total: 140
 
 | Service | Library |
 | ------- | ------- |
@@ -355,7 +357,6 @@ Libraries that have not yet been migrated to the new TypeSpec emitter. Total: 14
 | resourcemover | Azure.ResourceManager.ResourceMover |
 | resources | Azure.ResourceManager.Resources |
 | resources | Azure.ResourceManager.Resources.Deployments |
-| resources | Azure.ResourceManager.Resources.DeploymentStacks |
 | search | Azure.ResourceManager.Search |
 | securitycenter | Azure.ResourceManager.SecurityCenter |
 | securitydevops | Azure.ResourceManager.SecurityDevOps |
