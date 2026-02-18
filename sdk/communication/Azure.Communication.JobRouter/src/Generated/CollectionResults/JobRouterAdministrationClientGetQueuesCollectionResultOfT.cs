@@ -45,7 +45,7 @@ namespace Azure.Communication.JobRouter
                     yield break;
                 }
                 PagedRouterQueue result = (PagedRouterQueue)response;
-                yield return Page<RouterQueue>.FromValues((IReadOnlyList<RouterQueue>)result.Value, nextPage?.AbsoluteUri, response);
+                yield return Page<RouterQueue>.FromValues((IReadOnlyList<RouterQueue>)result.Value, nextPage?.IsAbsoluteUri == true ? nextPage.AbsoluteUri : nextPage?.OriginalString, response);
                 nextPage = result.NextLink;
                 if (nextPage == null)
                 {

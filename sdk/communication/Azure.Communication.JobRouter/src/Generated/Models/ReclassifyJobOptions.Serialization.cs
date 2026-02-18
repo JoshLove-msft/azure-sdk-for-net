@@ -32,6 +32,41 @@ namespace Azure.Communication.JobRouter
             }
         }
 
+        /// <param name="options"> The client options for reading and writing models. </param>
+        protected virtual BinaryData PersistableModelWriteCore(ModelReaderWriterOptions options)
+        {
+            string format = options.Format == "W" ? ((IPersistableModel<ReclassifyJobOptions>)this).GetFormatFromOptions(options) : options.Format;
+            switch (format)
+            {
+                case "J":
+                    return ModelReaderWriter.Write(this, options, AzureCommunicationJobRouterContext.Default);
+                default:
+                    throw new FormatException($"The model {nameof(ReclassifyJobOptions)} does not support writing '{options.Format}' format.");
+            }
+        }
+
+        /// <param name="options"> The client options for reading and writing models. </param>
+        BinaryData IPersistableModel<ReclassifyJobOptions>.Write(ModelReaderWriterOptions options) => PersistableModelWriteCore(options);
+
+        /// <param name="data"> The data to parse. </param>
+        /// <param name="options"> The client options for reading and writing models. </param>
+        ReclassifyJobOptions IPersistableModel<ReclassifyJobOptions>.Create(BinaryData data, ModelReaderWriterOptions options) => PersistableModelCreateCore(data, options);
+
+        /// <param name="options"> The client options for reading and writing models. </param>
+        string IPersistableModel<ReclassifyJobOptions>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
+
+        /// <param name="reclassifyJobOptions"> The <see cref="ReclassifyJobOptions"/> to serialize into <see cref="RequestContent"/>. </param>
+        public static implicit operator RequestContent(ReclassifyJobOptions reclassifyJobOptions)
+        {
+            if (reclassifyJobOptions == null)
+            {
+                return null;
+            }
+            Utf8JsonRequestContent content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(reclassifyJobOptions, ModelSerializationExtensions.WireOptions);
+            return content;
+        }
+
         /// <param name="writer"> The JSON writer. </param>
         /// <param name="options"> The client options for reading and writing models. </param>
         void IJsonModel<ReclassifyJobOptions>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
@@ -101,41 +136,6 @@ namespace Azure.Communication.JobRouter
                 }
             }
             return new ReclassifyJobOptions(additionalBinaryDataProperties);
-        }
-
-        /// <param name="options"> The client options for reading and writing models. </param>
-        BinaryData IPersistableModel<ReclassifyJobOptions>.Write(ModelReaderWriterOptions options) => PersistableModelWriteCore(options);
-
-        /// <param name="options"> The client options for reading and writing models. </param>
-        protected virtual BinaryData PersistableModelWriteCore(ModelReaderWriterOptions options)
-        {
-            string format = options.Format == "W" ? ((IPersistableModel<ReclassifyJobOptions>)this).GetFormatFromOptions(options) : options.Format;
-            switch (format)
-            {
-                case "J":
-                    return ModelReaderWriter.Write(this, options, AzureCommunicationJobRouterContext.Default);
-                default:
-                    throw new FormatException($"The model {nameof(ReclassifyJobOptions)} does not support writing '{options.Format}' format.");
-            }
-        }
-
-        /// <param name="data"> The data to parse. </param>
-        /// <param name="options"> The client options for reading and writing models. </param>
-        ReclassifyJobOptions IPersistableModel<ReclassifyJobOptions>.Create(BinaryData data, ModelReaderWriterOptions options) => PersistableModelCreateCore(data, options);
-
-        /// <param name="options"> The client options for reading and writing models. </param>
-        string IPersistableModel<ReclassifyJobOptions>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
-
-        /// <param name="reclassifyJobOptions"> The <see cref="ReclassifyJobOptions"/> to serialize into <see cref="RequestContent"/>. </param>
-        public static implicit operator RequestContent(ReclassifyJobOptions reclassifyJobOptions)
-        {
-            if (reclassifyJobOptions == null)
-            {
-                return null;
-            }
-            Utf8JsonRequestContent content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(reclassifyJobOptions, ModelSerializationExtensions.WireOptions);
-            return content;
         }
     }
 }

@@ -12,8 +12,6 @@ namespace Azure.Communication.JobRouter
 {
     [CodeGenSuppress("JobRouterClient", typeof(Uri))]
     [CodeGenSuppress("JobRouterClient", typeof(Uri), typeof(JobRouterClientOptions))]
-    [CodeGenSuppress("JobRouterClient", typeof(string), typeof(TokenCredential))]
-    [CodeGenSuppress("JobRouterClient", typeof(string), typeof(TokenCredential), typeof(JobRouterClientOptions))]
     [CodeGenSuppress("CreateGetJobsNextPageRequest", typeof(string), typeof(int?), typeof(string), typeof(string), typeof(string), typeof(string), typeof(DateTimeOffset), typeof(DateTimeOffset), typeof(RequestContext))]
     [CodeGenSuppress("CreateGetWorkersNextPageRequest", typeof(string), typeof(int?), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(RequestContext))]
     public partial class JobRouterClient

@@ -12,8 +12,6 @@ namespace Azure.Communication.JobRouter
 {
     [CodeGenSuppress("JobRouterAdministrationClient", typeof(Uri))]
     [CodeGenSuppress("JobRouterAdministrationClient", typeof(Uri), typeof(JobRouterClientOptions))]
-    [CodeGenSuppress("JobRouterAdministrationClient", typeof(string), typeof(TokenCredential))]
-    [CodeGenSuppress("JobRouterAdministrationClient", typeof(string), typeof(TokenCredential), typeof(JobRouterClientOptions))]
     [CodeGenSuppress("CreateGetExceptionPoliciesNextPageRequest", typeof(string), typeof(int?), typeof(RequestContext))]
     [CodeGenSuppress("CreateGetClassificationPoliciesNextPageRequest", typeof(string), typeof(int?), typeof(RequestContext))]
     [CodeGenSuppress("CreateGetQueuesNextPageRequest", typeof(string), typeof(int?), typeof(RequestContext))]
