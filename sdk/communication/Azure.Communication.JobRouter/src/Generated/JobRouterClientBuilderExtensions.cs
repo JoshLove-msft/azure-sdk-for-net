@@ -6,35 +6,13 @@
 #nullable disable
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using Azure;
-using Azure.Communication.JobRouter;
 using Azure.Core.Extensions;
 
-namespace Microsoft.Extensions.Azure
+namespace Azure.Communication.JobRouter
 {
     /// <summary> Extension methods to add clients to <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
     public static partial class JobRouterClientBuilderExtensions
     {
-        /// <summary> Registers a <see cref="JobRouterAdministrationClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
-        /// <param name="builder"> The builder to register with. </param>
-        /// <param name="connectionString"></param>
-        public static IAzureClientBuilder<JobRouterAdministrationClient, JobRouterClientOptions> AddJobRouterAdministrationClient<TBuilder>(this TBuilder builder, string connectionString)
-            where TBuilder : IAzureClientFactoryBuilder
-        {
-            return builder.RegisterClientFactory<JobRouterAdministrationClient, JobRouterClientOptions>(options => new JobRouterAdministrationClient(connectionString, options));
-        }
-
-        /// <summary> Registers a <see cref="JobRouterAdministrationClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
-        /// <param name="builder"> The builder to register with. </param>
-        /// <param name="endpoint"></param>
-        /// <param name="credential"></param>
-        public static IAzureClientBuilder<JobRouterAdministrationClient, JobRouterClientOptions> AddJobRouterAdministrationClient<TBuilder>(this TBuilder builder, Uri endpoint, AzureKeyCredential credential)
-            where TBuilder : IAzureClientFactoryBuilder
-        {
-            return builder.RegisterClientFactory<JobRouterAdministrationClient, JobRouterClientOptions>(options => new JobRouterAdministrationClient(endpoint, credential, options));
-        }
-
         /// <summary> Registers a <see cref="JobRouterAdministrationClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
         /// <param name="builder"> The builder to register with. </param>
         /// <param name="endpoint"></param>
@@ -44,36 +22,6 @@ namespace Microsoft.Extensions.Azure
             return builder.RegisterClientFactory<JobRouterAdministrationClient, JobRouterClientOptions>((options, credential) => new JobRouterAdministrationClient(endpoint, credential, options));
         }
 
-        /// <summary> Registers a <see cref="JobRouterAdministrationClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
-        /// <param name="builder"> The builder to register with. </param>
-        /// <param name="configuration"> The configuration to use for the client. </param>
-        [RequiresUnreferencedCode("Requires unreferenced code until we opt into EnableConfigurationBindingGenerator.")]
-        [RequiresDynamicCode("Requires unreferenced code until we opt into EnableConfigurationBindingGenerator.")]
-        public static IAzureClientBuilder<JobRouterAdministrationClient, JobRouterClientOptions> AddJobRouterAdministrationClient<TBuilder, TConfiguration>(this TBuilder builder, TConfiguration configuration)
-            where TBuilder : IAzureClientFactoryBuilderWithConfiguration<TConfiguration>
-        {
-            return builder.RegisterClientFactory<JobRouterAdministrationClient, JobRouterClientOptions>(configuration);
-        }
-
-        /// <summary> Registers a <see cref="JobRouterClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
-        /// <param name="builder"> The builder to register with. </param>
-        /// <param name="connectionString"></param>
-        public static IAzureClientBuilder<JobRouterClient, JobRouterClientOptions> AddJobRouterClient<TBuilder>(this TBuilder builder, string connectionString)
-            where TBuilder : IAzureClientFactoryBuilder
-        {
-            return builder.RegisterClientFactory<JobRouterClient, JobRouterClientOptions>(options => new JobRouterClient(connectionString, options));
-        }
-
-        /// <summary> Registers a <see cref="JobRouterClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
-        /// <param name="builder"> The builder to register with. </param>
-        /// <param name="endpoint"></param>
-        /// <param name="credential"></param>
-        public static IAzureClientBuilder<JobRouterClient, JobRouterClientOptions> AddJobRouterClient<TBuilder>(this TBuilder builder, Uri endpoint, AzureKeyCredential credential)
-            where TBuilder : IAzureClientFactoryBuilder
-        {
-            return builder.RegisterClientFactory<JobRouterClient, JobRouterClientOptions>(options => new JobRouterClient(endpoint, credential, options));
-        }
-
         /// <summary> Registers a <see cref="JobRouterClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
         /// <param name="builder"> The builder to register with. </param>
         /// <param name="endpoint"></param>
@@ -81,17 +29,6 @@ namespace Microsoft.Extensions.Azure
             where TBuilder : IAzureClientFactoryBuilderWithCredential
         {
             return builder.RegisterClientFactory<JobRouterClient, JobRouterClientOptions>((options, credential) => new JobRouterClient(endpoint, credential, options));
-        }
-
-        /// <summary> Registers a <see cref="JobRouterClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
-        /// <param name="builder"> The builder to register with. </param>
-        /// <param name="configuration"> The configuration to use for the client. </param>
-        [RequiresUnreferencedCode("Requires unreferenced code until we opt into EnableConfigurationBindingGenerator.")]
-        [RequiresDynamicCode("Requires unreferenced code until we opt into EnableConfigurationBindingGenerator.")]
-        public static IAzureClientBuilder<JobRouterClient, JobRouterClientOptions> AddJobRouterClient<TBuilder, TConfiguration>(this TBuilder builder, TConfiguration configuration)
-            where TBuilder : IAzureClientFactoryBuilderWithConfiguration<TConfiguration>
-        {
-            return builder.RegisterClientFactory<JobRouterClient, JobRouterClientOptions>(configuration);
         }
     }
 }
