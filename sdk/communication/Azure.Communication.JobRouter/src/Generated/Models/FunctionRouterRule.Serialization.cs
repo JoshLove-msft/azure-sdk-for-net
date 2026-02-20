@@ -126,7 +126,7 @@ namespace Azure.Communication.JobRouter
                 }
                 if (prop.NameEquals("functionUri"u8))
                 {
-                    functionUri = string.IsNullOrEmpty(prop.Value.GetString()) ? null : new Uri(prop.Value.GetString());
+                    functionUri = string.IsNullOrEmpty(prop.Value.GetString()) ? null : new Uri(prop.Value.GetString(), UriKind.RelativeOrAbsolute);
                     continue;
                 }
                 if (prop.NameEquals("credential"u8))

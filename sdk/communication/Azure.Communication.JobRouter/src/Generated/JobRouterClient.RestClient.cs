@@ -30,7 +30,10 @@ namespace Azure.Communication.JobRouter
             uri.Reset(_endpoint);
             uri.AppendPath("/routing/jobs/", false);
             uri.AppendPath(jobId, true);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200201);
             Request request = message.Request;
             request.Uri = uri;
@@ -51,7 +54,10 @@ namespace Azure.Communication.JobRouter
             uri.Reset(_endpoint);
             uri.AppendPath("/routing/jobs/", false);
             uri.AppendPath(jobId, true);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -66,7 +72,10 @@ namespace Azure.Communication.JobRouter
             uri.Reset(_endpoint);
             uri.AppendPath("/routing/jobs/", false);
             uri.AppendPath(jobId, true);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier204);
             Request request = message.Request;
             request.Uri = uri;
@@ -81,7 +90,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/routing/jobs/", false);
             uri.AppendPath(jobId, true);
             uri.AppendPath(":reclassify", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -102,7 +114,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/routing/jobs/", false);
             uri.AppendPath(jobId, true);
             uri.AppendPath(":cancel", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -125,7 +140,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/assignments/", false);
             uri.AppendPath(assignmentId, true);
             uri.AppendPath(":complete", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -148,7 +166,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/assignments/", false);
             uri.AppendPath(assignmentId, true);
             uri.AppendPath(":close", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -167,7 +188,10 @@ namespace Azure.Communication.JobRouter
             RawRequestUriBuilder uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/routing/jobs", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             if (maxpagesize != null)
             {
                 uri.AppendQuery("maxpagesize", TypeFormatters.ConvertToString(maxpagesize), true);
@@ -215,7 +239,10 @@ namespace Azure.Communication.JobRouter
             {
                 uri.Reset(new Uri(_endpoint, nextPage));
             }
-            uri.UpdateQuery("api-version", _apiVersion);
+            if (_apiVersion != null)
+            {
+                uri.UpdateQuery("api-version", _apiVersion);
+            }
             if (maxpagesize != null)
             {
                 uri.UpdateQuery("maxpagesize", TypeFormatters.ConvertToString(maxpagesize));
@@ -235,7 +262,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/routing/jobs/", false);
             uri.AppendPath(jobId, true);
             uri.AppendPath("/position", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -253,7 +283,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/assignments/", false);
             uri.AppendPath(assignmentId, true);
             uri.AppendPath(":unassign", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -276,7 +309,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/offers/", false);
             uri.AppendPath(offerId, true);
             uri.AppendPath(":accept", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -294,7 +330,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/offers/", false);
             uri.AppendPath(offerId, true);
             uri.AppendPath(":decline", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -315,7 +354,10 @@ namespace Azure.Communication.JobRouter
             uri.AppendPath("/routing/queues/", false);
             uri.AppendPath(queueId, true);
             uri.AppendPath("/statistics", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -330,7 +372,10 @@ namespace Azure.Communication.JobRouter
             uri.Reset(_endpoint);
             uri.AppendPath("/routing/workers/", false);
             uri.AppendPath(workerId, true);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200201);
             Request request = message.Request;
             request.Uri = uri;
@@ -351,7 +396,10 @@ namespace Azure.Communication.JobRouter
             uri.Reset(_endpoint);
             uri.AppendPath("/routing/workers/", false);
             uri.AppendPath(workerId, true);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier200);
             Request request = message.Request;
             request.Uri = uri;
@@ -366,7 +414,10 @@ namespace Azure.Communication.JobRouter
             uri.Reset(_endpoint);
             uri.AppendPath("/routing/workers/", false);
             uri.AppendPath(workerId, true);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             HttpMessage message = Pipeline.CreateMessage(context, PipelineMessageClassifier204);
             Request request = message.Request;
             request.Uri = uri;
@@ -379,7 +430,10 @@ namespace Azure.Communication.JobRouter
             RawRequestUriBuilder uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/routing/workers", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
+            if (_apiVersion != null)
+            {
+                uri.AppendQuery("api-version", _apiVersion, true);
+            }
             if (maxpagesize != null)
             {
                 uri.AppendQuery("maxpagesize", TypeFormatters.ConvertToString(maxpagesize), true);
@@ -419,7 +473,10 @@ namespace Azure.Communication.JobRouter
             {
                 uri.Reset(new Uri(_endpoint, nextPage));
             }
-            uri.UpdateQuery("api-version", _apiVersion);
+            if (_apiVersion != null)
+            {
+                uri.UpdateQuery("api-version", _apiVersion);
+            }
             if (maxpagesize != null)
             {
                 uri.UpdateQuery("maxpagesize", TypeFormatters.ConvertToString(maxpagesize));

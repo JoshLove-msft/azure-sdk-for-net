@@ -134,7 +134,7 @@ namespace Azure.Communication.JobRouter
                     {
                         continue;
                     }
-                    authorizationServerUri = string.IsNullOrEmpty(prop.Value.GetString()) ? null : new Uri(prop.Value.GetString());
+                    authorizationServerUri = string.IsNullOrEmpty(prop.Value.GetString()) ? null : new Uri(prop.Value.GetString(), UriKind.RelativeOrAbsolute);
                     continue;
                 }
                 if (prop.NameEquals("clientCredential"u8))
@@ -152,7 +152,7 @@ namespace Azure.Communication.JobRouter
                     {
                         continue;
                     }
-                    webhookUri = string.IsNullOrEmpty(prop.Value.GetString()) ? null : new Uri(prop.Value.GetString());
+                    webhookUri = string.IsNullOrEmpty(prop.Value.GetString()) ? null : new Uri(prop.Value.GetString(), UriKind.RelativeOrAbsolute);
                     continue;
                 }
                 if (options.Format != "W")
