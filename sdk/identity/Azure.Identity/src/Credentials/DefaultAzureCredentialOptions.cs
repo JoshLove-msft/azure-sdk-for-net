@@ -134,6 +134,33 @@ namespace Azure.Identity
             {
                 IsAzureProxyEnabled = isAzureProxyEnabled;
             }
+
+            if (bool.TryParse(section[nameof(DisableAutomaticAuthentication)], out bool disableAutomaticAuthentication))
+            {
+                DisableAutomaticAuthentication = disableAutomaticAuthentication;
+            }
+
+            if (section[nameof(LoginHint)] is string loginHint)
+            {
+                LoginHint = loginHint;
+            }
+
+            var browserSection = section.GetSection(nameof(BrowserCustomization));
+            if (browserSection.Exists())
+            {
+                BrowserCustomization = new BrowserCustomizationOptions(browserSection);
+            }
+
+            var authRecordSection = section.GetSection(nameof(AuthenticationRecord));
+            if (authRecordSection.Exists())
+            {
+                AuthenticationRecord = new AuthenticationRecord(authRecordSection);
+            }
+
+            if (bool.TryParse(section[nameof(UseDefaultBrokerAccount)], out bool useDefaultBrokerAccount))
+            {
+                UseDefaultBrokerAccount = useDefaultBrokerAccount;
+            }
         }
 
         private UpdateTracker<string> _tenantId = new UpdateTracker<string>(EnvironmentVariables.TenantId);
@@ -158,6 +185,7 @@ namespace Azure.Identity
 
         private static string ConvertCredentialSource(string value) => value switch
         {
+            null => throw new InvalidOperationException("CredentialSource is required when configuring credentials. Specify a valid CredentialSource in the configuration."),
             "VisualStudio" => Constants.VisualStudioCredential,
             "VisualStudioCode" => Constants.VisualStudioCodeCredential,
             "AzureCli" => Constants.AzureCliCredential,
@@ -169,7 +197,19 @@ namespace Azure.Identity
             "InteractiveBrowser" => Constants.InteractiveBrowserCredential,
             "Broker" => Constants.BrokerCredential,
             "ApiKey" => Constants.ApiKeyCredential,
-            _ => value,
+            // Accept already-converted values (e.g. from Clone)
+            Constants.VisualStudioCredential or
+            Constants.VisualStudioCodeCredential or
+            Constants.AzureCliCredential or
+            Constants.AzurePowerShellCredential or
+            Constants.AzureDeveloperCliCredential or
+            Constants.EnvironmentCredential or
+            Constants.WorkloadIdentityCredential or
+            Constants.ManagedIdentityCredential or
+            Constants.InteractiveBrowserCredential or
+            Constants.BrokerCredential or
+            Constants.ApiKeyCredential => value,
+            _ => throw new InvalidOperationException($"Unsupported CredentialSource found in configuration: {value}."),
         };
 
         /// <summary>
@@ -458,6 +498,16 @@ namespace Azure.Identity
 
         internal bool IsAzureProxyEnabled { get; set; }
 
+        internal bool DisableAutomaticAuthentication { get; set; }
+
+        internal string LoginHint { get; set; }
+
+        internal BrowserCustomizationOptions BrowserCustomization { get; set; }
+
+        internal AuthenticationRecord AuthenticationRecord { get; set; }
+
+        internal bool UseDefaultBrokerAccount { get; set; }
+
         internal override T Clone<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T>()
         {
             var clone = base.Clone<T>();
@@ -494,13 +544,24 @@ namespace Azure.Identity
                 dacClone.ExcludeAzurePowerShellCredential = ExcludeAzurePowerShellCredential;
                 dacClone.IsForceRefreshEnabled = IsForceRefreshEnabled;
                 dacClone.ExcludeBrokerCredential = ExcludeBrokerCredential;
-                dacClone.CredentialSource = CredentialSource;
+                if (CredentialSource is not null)
+                {
+                    dacClone.CredentialSource = CredentialSource;
+                }
                 dacClone.ApiKey = ApiKey;
                 if (!string.IsNullOrEmpty(Subscription))
                 {
                     dacClone.Subscription = Subscription;
                 }
                 dacClone.IsAzureProxyEnabled = IsAzureProxyEnabled;
+                dacClone.DisableAutomaticAuthentication = DisableAutomaticAuthentication;
+                dacClone.LoginHint = LoginHint;
+                if (BrowserCustomization != null)
+                {
+                    dacClone.BrowserCustomization = BrowserCustomization.Clone();
+                }
+                dacClone.AuthenticationRecord = AuthenticationRecord;
+                dacClone.UseDefaultBrokerAccount = UseDefaultBrokerAccount;
             }
 
             return clone;
