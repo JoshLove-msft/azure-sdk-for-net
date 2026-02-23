@@ -5,7 +5,6 @@ using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Specs.Azure.ClientGenerator.Core.ClientInitialization._IndividuallyParentClient;
-using Specs.Azure.Tcgc.ClientInitialization.Both;
 
 namespace TestProjects.Spector.Tests.Http.Azure.ClientGeneratorCore.ClientInitialization.IndividuallyParent
 {
