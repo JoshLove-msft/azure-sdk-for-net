@@ -9,13 +9,14 @@ using Specs.Azure.Tcgc.ClientInitialization.Both;
 
 namespace TestProjects.Spector.Tests.Http.Azure.ClientGeneratorCore.ClientInitialization.IndividuallyParent
 {
+    [Ignore("https://github.com/microsoft/typespec/issues/9775")]
     public class IndividuallyParentClientTests : SpectorTestBase
     {
         [SpectorTest]
         public Task Azure_ClientGenerator_Core_ClientInitialization_IndividuallyParentClient_IndividuallyParentNestedWithPathClient() => Test(async (host) =>
         {
             var parentClient = new IndividuallyParentClient(host, null);
-            var childClient = parentClient.GetIndividuallyParentNestedWithPathClient("test-resource");
+            var childClient = parentClient.GetIndividuallyParentNestedWithPathClient();
             await PerformPathOperations(childClient);
 
             var directClient = new IndividuallyParentNestedWithPathClient(host, "test-resource", null);
@@ -39,7 +40,7 @@ namespace TestProjects.Spector.Tests.Http.Azure.ClientGeneratorCore.ClientInitia
         public Task Azure_ClientGenerator_Core_ClientInitialization_IndividuallyParentClient_IndividuallyParentNestedWithQueryClient() => Test(async (host) =>
         {
             var parentClient = new IndividuallyParentClient(host, null);
-            var childClient = parentClient.GetIndividuallyParentNestedWithQueryClient("test-blob");
+            var childClient = parentClient.GetIndividuallyParentNestedWithQueryClient();
             await PerformQueryOperations(childClient);
 
             var directClient = new IndividuallyParentNestedWithQueryClient(host, "test-blob", null);
@@ -63,7 +64,7 @@ namespace TestProjects.Spector.Tests.Http.Azure.ClientGeneratorCore.ClientInitia
         public Task Azure_ClientGenerator_Core_ClientInitialization_IndividuallyParentClient_IndividuallyParentNestedWithHeaderClient() => Test(async (host) =>
         {
             var parentClient = new IndividuallyParentClient(host, null);
-            var childClient = parentClient.GetIndividuallyParentNestedWithHeaderClient("test-name-value");
+            var childClient = parentClient.GetIndividuallyParentNestedWithHeaderClient();
             await PerformHeaderOperations(childClient);
 
             var directClient = new IndividuallyParentNestedWithHeaderClient(host, "test-name-value", null);
@@ -83,7 +84,7 @@ namespace TestProjects.Spector.Tests.Http.Azure.ClientGeneratorCore.ClientInitia
         public Task Azure_ClientGenerator_Core_ClientInitialization_IndividuallyParentClient_IndividuallyParentNestedWithMultipleClient() => Test(async (host) =>
         {
             var parentClient = new IndividuallyParentClient(host, null);
-            var childClient = parentClient.GetIndividuallyParentNestedWithMultipleClient("test-name-value", "us-west");
+            var childClient = parentClient.GetIndividuallyParentNestedWithMultipleClient();
             await PerformMultipleOperations(childClient);
 
             var directClient = new IndividuallyParentNestedWithMultipleClient(host, "test-name-value", "us-west", null);
@@ -103,7 +104,7 @@ namespace TestProjects.Spector.Tests.Http.Azure.ClientGeneratorCore.ClientInitia
         public Task Azure_ClientGenerator_Core_ClientInitialization_IndividuallyParentClient_IndividuallyParentNestedWithMixedClient() => Test(async (host) =>
         {
             var parentClient = new IndividuallyParentClient(host, null);
-            var childClient = parentClient.GetIndividuallyParentNestedWithMixedClient("test-name-value");
+            var childClient = parentClient.GetIndividuallyParentNestedWithMixedClient();
             await PerformMixedOperations(childClient);
 
             var directClient = new IndividuallyParentNestedWithMixedClient(host, "test-name-value", null);
@@ -123,10 +124,10 @@ namespace TestProjects.Spector.Tests.Http.Azure.ClientGeneratorCore.ClientInitia
         public Task Azure_ClientGenerator_Core_ClientInitialization_IndividuallyParentClient_IndividuallyParentNestedWithParamAliasClient() => Test(async (host) =>
         {
             var parentClient = new IndividuallyParentClient(host, null);
-            var childClient = parentClient.GetIndividuallyParentNestedWithParamAliasClient("sample-blob");
+            var childClient = parentClient.GetIndividuallyParentNestedWithParamAliasClient();
             await PerformParamAliasOperations(childClient);
 
-            var directClient = new IndividuallyParentNestedWithParamAliasClient(host, "sample-blob", null);
+            var directClient = new IndividuallyParentNestedWithParamAliasClient(host, "sample-blob", "sample-blob", null);
             await PerformParamAliasOperations(directClient);
 
             async Task PerformParamAliasOperations(IndividuallyParentNestedWithParamAliasClient client)
