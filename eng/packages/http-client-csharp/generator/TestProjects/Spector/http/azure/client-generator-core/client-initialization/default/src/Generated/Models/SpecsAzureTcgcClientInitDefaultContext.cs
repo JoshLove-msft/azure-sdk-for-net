@@ -8,12 +8,12 @@
 using System.ClientModel.Primitives;
 using Specs.Azure.ClientGenerator.Core.ClientInitialization.DefaultClient;
 
-namespace Specs.Azure.Tcgc.ClientInitialization.Default
+namespace Specs.Azure.Tcgc.ClientInit.Default
 {
     [ModelReaderWriterBuildable(typeof(BlobProperties))]
     [ModelReaderWriterBuildable(typeof(Input))]
     [ModelReaderWriterBuildable(typeof(WithBodyRequest))]
-    public partial class SpecsAzureTcgcClientInitializationDefaultContext : ModelReaderWriterContext
+    public partial class SpecsAzureTcgcClientInitDefaultContext : ModelReaderWriterContext
     {
     }
 }
