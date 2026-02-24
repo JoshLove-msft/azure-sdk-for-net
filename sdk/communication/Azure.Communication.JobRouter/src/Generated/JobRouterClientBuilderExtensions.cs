@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System;
 using Azure.Core.Extensions;
 
 namespace Azure.Communication.JobRouter
@@ -13,22 +12,5 @@ namespace Azure.Communication.JobRouter
     /// <summary> Extension methods to add clients to <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
     public static partial class JobRouterClientBuilderExtensions
     {
-        /// <summary> Registers a <see cref="JobRouterAdministrationClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
-        /// <param name="builder"> The builder to register with. </param>
-        /// <param name="endpoint"></param>
-        public static IAzureClientBuilder<JobRouterAdministrationClient, JobRouterClientOptions> AddJobRouterAdministrationClient<TBuilder>(this TBuilder builder, Uri endpoint)
-            where TBuilder : IAzureClientFactoryBuilderWithCredential
-        {
-            return builder.RegisterClientFactory<JobRouterAdministrationClient, JobRouterClientOptions>((options, credential) => new JobRouterAdministrationClient(endpoint, credential, options));
-        }
-
-        /// <summary> Registers a <see cref="JobRouterClient"/> client with the specified <see cref="IAzureClientBuilder{TClient,TOptions}"/>. </summary>
-        /// <param name="builder"> The builder to register with. </param>
-        /// <param name="endpoint"></param>
-        public static IAzureClientBuilder<JobRouterClient, JobRouterClientOptions> AddJobRouterClient<TBuilder>(this TBuilder builder, Uri endpoint)
-            where TBuilder : IAzureClientFactoryBuilderWithCredential
-        {
-            return builder.RegisterClientFactory<JobRouterClient, JobRouterClientOptions>((options, credential) => new JobRouterClient(endpoint, credential, options));
-        }
     }
 }
