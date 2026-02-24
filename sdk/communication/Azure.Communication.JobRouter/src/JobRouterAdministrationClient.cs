@@ -200,7 +200,8 @@ namespace Azure.Communication.JobRouter
             {
                 var response = await UpsertClassificationPolicyAsync(
                         classificationPolicyId: classificationPolicy.Id,
-                        content: classificationPolicy.ToRequestContent(),                        requestConditions: requestConditions ?? new RequestConditions(),
+                        content: classificationPolicy.ToRequestContent(),
+                        requestConditions: requestConditions ?? new RequestConditions(),
                         context: cancellationToken.ToRequestContext())
                     .ConfigureAwait(false);
 
