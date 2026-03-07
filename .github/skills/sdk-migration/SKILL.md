@@ -92,7 +92,7 @@ Resolve the commit SHA using this algorithm:
    dotnet build <csproj_path> /t:GenerateCode
    ```
 2. Verify `src/Generated/` contains output files.
-3. If generation fails, check if a customization file is causing it. Fix/remove the problematic customization, then re-run. If it still fails with no customizations involved, it's a generator bug — report and stop.
+3. If generation fails, check if a **customization file** is causing it. Customization files are any hand-written `.cs` files under `{LIBRARY_PATH}/src/` that are **outside** the `Generated/` directory — these are typically partial classes, extension methods, or overrides that extend generated code. If a customization references types or members that no longer exist in the generated output, it can cause generation or compilation failures. Temporarily remove or fix the problematic customization, then re-run. If it still fails with no customizations involved, it's a generator bug — report and stop.
 
 **IMPORTANT**: Always use `dotnet build /t:GenerateCode` for SDK code generation. Do NOT use `tsp-client update` — it can produce different output and decorators may not take effect with it.
 
