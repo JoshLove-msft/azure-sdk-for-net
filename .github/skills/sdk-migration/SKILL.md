@@ -45,8 +45,8 @@ Shared migration workflow for Azure SDK for .NET libraries migrating from AutoRe
 ### Commit SHA Resolution
 
 The spec's `tspconfig.yaml` must contain a matching emitter entry for the target emitter. The emitter name depends on the plane:
-- **DPG**: `azure-typespec/http-client-csharp`
-- **MPG**: `azure-typespec/http-client-csharp-mgmt`
+- **DPG** (data-plane generation): `azure-typespec/http-client-csharp`
+- **MPG** (management-plane generation): `azure-typespec/http-client-csharp-mgmt`
 
 Resolve the commit SHA using this algorithm:
 
