@@ -87,9 +87,9 @@ Resolve the commit SHA using this algorithm:
 **Goal**: Regenerate code with the new TypeSpec emitter.
 **Actions**:
 
-1. Run:
+1. For each `.csproj` file found under `{LIBRARY_PATH}/src/` (using the pattern `{LIBRARY_PATH}/src/**/*.csproj`), run:
    ```shell
-   dotnet build {LIBRARY_PATH}/src/{PACKAGE_NAME}.csproj /t:GenerateCode
+   dotnet build <csproj_path> /t:GenerateCode
    ```
 2. Verify `src/Generated/` contains output files.
 3. If generation fails, check if a customization file is causing it. Fix/remove the problematic customization, then re-run. If it still fails with no customizations involved, it's a generator bug — report and stop.
