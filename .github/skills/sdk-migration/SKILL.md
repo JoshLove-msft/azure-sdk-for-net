@@ -174,6 +174,8 @@ These patterns apply to both MPG and DPG migrations:
 - **`[CodeGenMember("MemberName")]`** — Link a custom property to its generated counterpart when names differ.
 - **Match existing custom code folder convention** — Check if the package uses `Custom/`, `Customization/`, or `Customized/`. Use the same one.
 
+> **Further reading**: See the [C# Customization Guide](https://github.com/microsoft/typespec/blob/main/packages/http-client-csharp/.tspd/docs/customization.md) for full documentation on available customization patterns, and [TypeSpec client customization](../../../eng/common/knowledge/customizing-client-tsp.md) for TypeSpec decorator-based customizations.
+
 ### SQL Error Tracking
 
 Track errors and fixes for observability:
