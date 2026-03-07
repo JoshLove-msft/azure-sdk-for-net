@@ -95,13 +95,13 @@ Follow the `sdk-migration` skill's "Update .csproj Files" phase:
 
 ---
 
-## Step 7: Remove `Autorest.CSharp.Core` using statements
+## Step 7: Remove `AutoRest.CSharp.Core` using statements
 
 **Goal**: Remove references to the old generator namespace.
 **Actions**:
 
 - In all non-Generated `.cs` files under `{LIBRARY_PATH}/src/`:
-  - Remove lines matching `using Autorest.CSharp.Core;`.
+  - Remove lines matching `using AutoRest.CSharp.Core;`.
 
 ---
 
@@ -220,7 +220,7 @@ Given: error in file F with message M
 7. IF M mentions `_serializedAdditionalRawData`:
    → Replace with _additionalBinaryDataProperties
 
-8. IF M mentions `Autorest.CSharp.Core`:
+8. IF M mentions `AutoRest.CSharp.Core`:
    → Remove the using statement
 
 9. IF M mentions `CodeGenClient` or `CodeGenModel`:
