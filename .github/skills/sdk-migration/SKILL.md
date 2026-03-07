@@ -76,7 +76,7 @@ Resolve the commit SHA using this algorithm:
 **Goal**: Remove old AutoRest dependencies.
 **Actions**:
 
-1. Find all `.csproj` files under `{LIBRARY_PATH}/src/`.
+1. Find all `.csproj` files under `{LIBRARY_PATH}/src/` for the pattern `{LIBRARY_PATH}/src/**/*.csproj`
 2. Remove `<IncludeAutorestDependency>true</IncludeAutorestDependency>` if present.
 3. Clean up any resulting empty lines.
 
