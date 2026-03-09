@@ -216,46 +216,22 @@ Given: error in file F with message M
 
 ## Step 11: Build the full solution (including tests)
 
-**Goal**: Ensure tests also compile after migration.
-
-Follow the `sdk-migration` skill's "Test Project Build" phase:
-
-1. Run `dotnet build` from the library root directory `{LIBRARY_PATH}` to build the full solution including tests.
-2. If build errors occur in test projects, apply the same migration patterns above (test files are not generated, so edit them directly).
-3. Repeat until the solution builds successfully.
+Follow the `sdk-migration` skill's "Test Project Build" phase. If build errors occur in test projects, apply the same DPG migration patterns above (test files are not generated, so edit them directly).
 
 ---
 
 ## Step 12: Run tests
 
-**Goal**: Verify tests pass after migration.
-
-Follow the `sdk-migration` skill's "Test Execution" phase:
-
-1. Run `dotnet test --no-build --filter "TestCategory!=Live"` from the library root directory.
-2. Fix failures in test files, rebuild, and re-test.
-3. Repeat (max 5 iterations).
+Follow the `sdk-migration` skill's "Test Execution" phase.
 
 ---
 
 ## Step 13: Finalization
 
-**Goal**: Run post-migration housekeeping.
-
-Follow the `sdk-migration` skill's "Finalization" phase:
-
-1. Export API: `.\eng\scripts\Export-API.ps1 -ServiceDirectory SERVICE_NAME`
-2. Update snippets: `.\eng\scripts\Update-Snippets.ps1 -ServiceDirectory SERVICE_NAME`
-3. Announce: "Migration completed successfully"
+Follow the `sdk-migration` skill's "Finalization" phase.
 
 ---
 
 ## Step 14: Verify and summarize
 
-**Goal**: Confirm migration is complete.
-**Actions**:
-
-- Report a summary of all completed steps and any warnings.
-- Note if any `CodeGenType` attributes may need manual updates due to type name changes.
-- Remind the user to review the changes with `git diff` before committing.
-- Suggest running `pre-commit-checks` skill before committing.
+Follow the `sdk-migration` skill's "Verify and Summarize" phase.

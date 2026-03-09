@@ -272,6 +272,18 @@ Run from the **repository root** (not the project directory):
 
 ---
 
+## Phase: Verify and Summarize
+
+**Goal**: Confirm migration is complete.
+**Actions**:
+
+1. Report a summary of all completed steps and any warnings.
+2. Note if any `CodeGenType` attributes may need manual updates due to type name changes.
+3. Remind the user to review the changes with `git diff` before committing.
+4. Suggest running the `pre-commit-checks` skill before committing.
+
+---
+
 ## Generator Bug Diagnosis
 
 A true generator bug is when Generated/ code is wrong even with **no** customization files influencing it.
