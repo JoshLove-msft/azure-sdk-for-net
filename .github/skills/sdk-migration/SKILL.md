@@ -153,10 +153,15 @@ LOOP:
      - IF error count increased from previous iteration → escalate to user
   6. Apply fixes in batch (see plane-specific skill for fix patterns)
   7. Increment attempt_count for each targeted error
-  8. IF any fix involved generator attributes ([CodeGenSuppress], [CodeGenType], etc.)
-     → run [GENERATE] then [BUILD]
-  9. OTHERWISE → just run [BUILD]
-  10. GOTO 1
+  8. Regenerate based on what changed:
+     - IF any fix involved generator attributes ([CodeGenSuppress], [CodeGenType], etc.)
+       → run [GENERATE] then [BUILD]
+     - IF any fix required spec changes (e.g., adding decorators to client.tsp)
+       → run [GENERATE] (with LocalSpecRepo if using local spec repo) then [BUILD]
+     - IF any fix required local generator changes
+       → see plane-specific skill for regeneration (e.g., MPG uses RegenSdkLocal.ps1)
+     - IF customization-only change → just run [BUILD]
+  9. GOTO 1
 ```
 
 Max 10 iterations per phase. If still failing, escalate to user.
