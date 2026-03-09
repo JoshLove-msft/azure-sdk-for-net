@@ -62,6 +62,12 @@ Resolve the commit SHA using this algorithm:
      → Find the earliest commit AFTER the current commit on `main` that adds
        the target emitter to tspconfig.yaml for this directory.
      → Use that commit SHA.
+   - IF the directory no longer exists at the target commit
+     → the spec project may have been relocated.
+     → Search the spec repo at that commit for TypeSpec projects (`tspconfig.yaml`)
+       with similar service names or matching service namespace.
+     → If found, update the `directory` field in tsp-location.yaml with the new path.
+     → Re-run the commit resolution using the updated directory.
 4. IF no commit can be found with the target emitter configured
    → fall back to the latest commit on `main` for the directory path.
    → Warn the user that tspconfig.yaml may need manual emitter configuration.
