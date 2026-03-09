@@ -54,34 +54,19 @@ Follow the `sdk-migration` skill's "Create/Update tsp-location.yaml" phase with 
 
 ## Step 3: Remove old AutoRest dependencies
 
-**Goal**: Clean up `.csproj` files.
-**Actions**:
-
-Follow the `sdk-migration` skill's "Update .csproj Files" phase:
-
-- Remove `<IncludeAutorestDependency>true</IncludeAutorestDependency>` from all `.csproj` files under `{LIBRARY_PATH}/src/`.
+Follow the `sdk-migration` skill's "Update .csproj Files" phase.
 
 ---
 
 ## Step 4: Update CodeGen namespace
 
-**Goal**: Switch custom code files to the new customization namespace.
-**Actions**:
-
-- Find all `.cs` files under `{LIBRARY_PATH}/src/` that are **NOT** in `Generated/` folders.
-- For each file that contains `[CodeGen` attributes (not commented out) and does not already have the new using:
-  - Add `using Microsoft.TypeSpec.Generator.Customizations;` after the last `using` statement.
+Follow the `sdk-migration` skill's "Update CodeGen Namespace" phase.
 
 ---
 
 ## Step 5: Replace `CodeGenClient` / `CodeGenModel` with `CodeGenType`
 
-**Goal**: Update deprecated attributes to the new unified attribute.
-**Actions**:
-
-- In all non-Generated `.cs` files under `{LIBRARY_PATH}/src/`:
-  - Replace `CodeGenClient` → `CodeGenType`
-  - Replace `CodeGenModel` → `CodeGenType`
+Follow the `sdk-migration` skill's "Replace Deprecated CodeGen Attributes" phase.
 
 ---
 

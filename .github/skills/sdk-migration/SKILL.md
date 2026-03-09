@@ -82,6 +82,28 @@ Resolve the commit SHA using this algorithm:
 
 ---
 
+## Phase: Update CodeGen Namespace
+
+**Goal**: Switch custom code files to the new customization namespace.
+**Actions**:
+
+1. Find all `.cs` files under `{LIBRARY_PATH}/src/` that are **NOT** in `Generated/` folders.
+2. For each file that contains `[CodeGen` attributes (not commented out) and does not already have the new using:
+   - Add `using Microsoft.TypeSpec.Generator.Customizations;` after the last `using` statement.
+
+---
+
+## Phase: Replace Deprecated CodeGen Attributes
+
+**Goal**: Update deprecated attributes to the new unified attribute.
+**Actions**:
+
+1. In all non-Generated `.cs` files under `{LIBRARY_PATH}/src/`:
+   - Replace `CodeGenClient` → `CodeGenType`
+   - Replace `CodeGenModel` → `CodeGenType`
+
+---
+
 ## Phase: Code Generation
 
 **Goal**: Regenerate code with the new TypeSpec emitter.
