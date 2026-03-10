@@ -604,9 +604,9 @@ After all PRs are created, report:
 ## Phase 13 — Retrospective [MPG only]
 
 After migration, update skill files with:
-1. New error patterns → [error-reference.md](error-reference.md)
+1. New error patterns → [error-reference.md](https://github.com/Azure/azure-sdk-for-net/blob/main/.github/skills/sdk-migration/error-reference.md)
 2. New decorators/TypeSpec patterns → `mitigate-breaking-changes` skill
-3. New workarounds/pitfalls → [error-reference.md](error-reference.md)
+3. New workarounds/pitfalls → [error-reference.md](https://github.com/Azure/azure-sdk-for-net/blob/main/.github/skills/sdk-migration/error-reference.md)
 
 ---
 
