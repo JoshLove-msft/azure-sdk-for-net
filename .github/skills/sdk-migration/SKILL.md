@@ -465,29 +465,33 @@ Report: error messages, generated code snippet, repro steps. Do NOT manually fix
 
 ### Hard Rules (Never Violate)
 
-1. **Never edit files under `Generated/`** — overwritten by codegen.
-2. **Never hand-edit `metadata.json`** — auto-generated.
+1. **Never edit files under `Generated/`** — they are overwritten by codegen.
+2. **Never hand-edit `metadata.json`** — it is auto-generated.
 3. **Never use `tsp-client update`** — use `dotnet build /t:GenerateCode`.
-4. **Preserve git history** — prefer renames over delete+create.
+4. **Never add entries to `ApiCompatBaseline.txt`** without explicit user approval.
+5. **Never bump the major version** of an Azure SDK package.
+6. **Preserve git history** — prefer renames over delete+create.
 
-### Permitted Without User Confirmation
+### Autonomous Mode (Default)
 
-1. Adding/editing customization files (`[CodeGenType]`, `[CodeGenSuppress]`).
-2. Updating custom code to reference new generated type names.
-3. Regenerating code using `dotnet build /t:GenerateCode`.
-4. Deleting `autorest.md` after extracting directives.
-5. Updating `CHANGELOG.md` and metadata files.
-6. Adding `@@clientName`, `@@access`, `@@markAsPageable`, `@@alternateType` to `client.tsp`.
-7. **[MPG only]** Regenerating with `RegenSdkLocal.ps1`.
+During the build-fix loop, Copilot operates autonomously. These actions are **permitted without user confirmation**:
+
+1. **Spec changes**: Adding `@@clientName`, `@@access`, `@@markAsPageable`, `@@alternateType`, and other decorators to `client.tsp` — these are safe, reversible, and csharp-scoped.
+2. **Custom code**: Adding partial classes in the SDK custom code folder. Use `[CodeGenType]`/`[CodeGenSuppress]`/`[CodeGenMember]` only when needed.
+3. **Deleting `autorest.md`** after extracting directives — git history preserves it.
+4. **Updating custom code** to reference new generated type names.
+5. **Regenerating code** using `dotnet build /t:GenerateCode` or **[MPG only]** `RegenSdkLocal.ps1`.
+6. **Updating CHANGELOG.md** and other metadata files.
 
 ### Actions Requiring User Confirmation
 
-1. Generator code changes that affect other SDKs.
-2. Removing public API surface with no backward-compat option.
-3. Deleting existing custom code files.
-4. Modifying spec `.tsp` files beyond `client.tsp`.
-5. Adding `ApiCompatBaseline.txt` entries — almost never appropriate.
-6. Never bump the major version of an Azure SDK package.
+These actions **require explicit user approval** (use `ask_user`):
+
+1. **Modifying spec `.tsp` files beyond `client.tsp`** — e.g., changing `main.tsp`, model definitions, or operation signatures. These affect all languages, not just C#.
+2. **Generator code changes** that affect other SDKs — run `Generate.ps1` to verify scope first.
+3. **Removing public API surface** with no backward-compat option (true breaking change).
+4. **Adding `ApiCompatBaseline.txt` entries** — this should almost never be done.
+5. **Deleting existing custom code files** — may lose manually-written logic.
 
 ### Escalation Criteria
 
