@@ -328,7 +328,7 @@ PREFER generator fix when:
 - **`[CodeGenMember("MemberName")]`** — Link custom property to generated counterpart.
 - **Match existing custom code folder convention** — `Custom/`, `Customization/`, or `Customized/`.
 
-> **Further reading**: [C# Customization Guide](https://github.com/microsoft/typespec/blob/main/packages/http-client-csharp/.tspd/docs/customization.md), [TypeSpec client customization](../../../eng/common/knowledge/customizing-client-tsp.md).
+> **Further reading**: [C# Customization Guide](https://github.com/microsoft/typespec/blob/main/packages/http-client-csharp/.tspd/docs/customization.md), [TypeSpec client customization](https://github.com/Azure/azure-sdk-for-net/blob/main/eng/common/knowledge/customizing-client-tsp.md).
 
 ### SQL Error Tracking
 
@@ -432,9 +432,9 @@ Once `dotnet build` passes, create **separate PRs** for each category:
 ## Phase 13 — Retrospective [MPG only]
 
 After migration, update skill files with:
-1. New error patterns → [error-reference.md](mpg/error-reference.md)
+1. New error patterns → [error-reference.md](error-reference.md)
 2. New decorators/TypeSpec patterns → `mitigate-breaking-changes` skill
-3. New workarounds/pitfalls → [error-reference.md](mpg/error-reference.md)
+3. New workarounds/pitfalls → [error-reference.md](error-reference.md)
 
 ---
 
