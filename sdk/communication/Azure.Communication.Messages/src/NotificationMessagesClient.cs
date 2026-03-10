@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -25,7 +25,7 @@ namespace Azure.Communication.Messages
         /// <param name="connectionString">Connection string acquired from the Azure Communication Services resource.</param>
         public NotificationMessagesClient(string connectionString)
             : this(
-                ParseConnectionString(connectionString),
+                ConnectionString.Parse(Argument.CheckNotNullOrEmpty(connectionString, nameof(connectionString))),
                 new CommunicationMessagesClientOptions())
         {
         }
@@ -35,7 +35,7 @@ namespace Azure.Communication.Messages
         /// <param name="options">Client options exposing <see cref="ClientOptions.Diagnostics"/>, <see cref="ClientOptions.Retry"/>, <see cref="ClientOptions.Transport"/>, etc.</param>
         public NotificationMessagesClient(string connectionString, CommunicationMessagesClientOptions options)
             : this(
-                ParseConnectionString(connectionString),
+                ConnectionString.Parse(Argument.CheckNotNullOrEmpty(connectionString, nameof(connectionString))),
                 options ?? new CommunicationMessagesClientOptions())
         {
         }
@@ -46,8 +46,8 @@ namespace Azure.Communication.Messages
         /// <param name="options">Client options exposing <see cref="ClientOptions.Diagnostics"/>, <see cref="ClientOptions.Retry"/>, <see cref="ClientOptions.Transport"/>, etc.</param>
         public NotificationMessagesClient(Uri endpoint, AzureKeyCredential credential, CommunicationMessagesClientOptions options = default)
              : this(
-                (endpoint ?? throw new ArgumentNullException(nameof(endpoint))).AbsoluteUri,
-                credential ?? throw new ArgumentNullException(nameof(credential)),
+                Argument.CheckNotNull(endpoint, nameof(endpoint)).AbsoluteUri,
+                Argument.CheckNotNull(credential, nameof(credential)),
                 options ?? new CommunicationMessagesClientOptions())
         {
         }
@@ -74,7 +74,7 @@ namespace Azure.Communication.Messages
         private NotificationMessagesClient(Uri endpoint, HttpPipeline httpPipeline, CommunicationMessagesClientOptions options)
         {
             ClientDiagnostics = new ClientDiagnostics(options);
-            Pipeline = httpPipeline;
+            _pipeline = httpPipeline;
             _endpoint = endpoint;
             _apiVersion = options.Version;
         }
@@ -94,7 +94,7 @@ namespace Azure.Communication.Messages
 
             try
             {
-                RequestContext context = cancellationToken.ToRequestContext();
+                RequestContext context = FromCancellationToken(cancellationToken);
                 Response response = await DownloadMediaInternalAsync(mediaContentId, context).ConfigureAwait(false);
                 return Response.FromValue(response.Content.ToStream(), response);
             }
@@ -120,7 +120,7 @@ namespace Azure.Communication.Messages
 
             try
             {
-                RequestContext context = cancellationToken.ToRequestContext();
+                RequestContext context = FromCancellationToken(cancellationToken);
                 Response response = DownloadMediaInternal(mediaContentId, context);
                 return Response.FromValue(response.Content.ToStream(), response);
             }
@@ -261,11 +261,5 @@ namespace Azure.Communication.Messages
             result.Dispose();
         }
         #endregion
-
-        private static ConnectionString ParseConnectionString(string connectionString)
-        {
-            Argument.AssertNotNullOrEmpty(connectionString, nameof(connectionString));
-            return ConnectionString.Parse(connectionString);
-        }
     }
 }

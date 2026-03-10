@@ -7,12 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Azure.Communication.Messages.Models.Channels;
-using Microsoft.TypeSpec.Generator.Customizations;
 
 namespace Azure.Communication.Messages
 {
     /// <summary> Model factory for models. </summary>
-    [CodeGenType("MessagesModelFactory")]
     public static partial class CommunicationMessagesModelFactory
     {
         /// <summary> Initializes a new instance of <see cref="Messages.MessageTemplate"/>. </summary>
@@ -33,7 +31,7 @@ namespace Azure.Communication.Messages
         {
             values ??= new List<MessageTemplateValue>();
 
-            return new MessageTemplate(name, language, values?.ToList(), bindings, additionalBinaryDataProperties: null);
+            return new MessageTemplate(name, language, values?.ToList(), bindings, serializedAdditionalRawData: null);
         }
 
         /// <summary> Initializes a new instance of <see cref="Messages.MessageTemplateValue"/>. </summary>
@@ -42,7 +40,7 @@ namespace Azure.Communication.Messages
         /// <returns> A new <see cref="Messages.MessageTemplateValue"/> instance for mocking. </returns>
         public static MessageTemplateValue MessageTemplateValue(string name = null, string kind = null)
         {
-            return new UnknownMessageTemplateValue(name, kind == null ? default : new MessageTemplateValueKind(kind), additionalBinaryDataProperties: null);
+            return new UnknownMessageTemplateValue(name, kind == null ? default : new MessageTemplateValueKind(kind), serializedAdditionalRawData: null);
         }
 
         /// <summary> Initializes a new instance of <see cref="Messages.MessageTemplateText"/>. </summary>
@@ -51,7 +49,7 @@ namespace Azure.Communication.Messages
         /// <returns> A new <see cref="Messages.MessageTemplateText"/> instance for mocking. </returns>
         public static MessageTemplateText MessageTemplateText(string name = null, string text = null)
         {
-            return new MessageTemplateText(name, MessageTemplateValueKind.Text, additionalBinaryDataProperties: null, text);
+            return new MessageTemplateText(name, MessageTemplateValueKind.Text, serializedAdditionalRawData: null, text);
         }
 
         /// <summary> Initializes a new instance of <see cref="Messages.MessageTemplateImage"/>. </summary>
@@ -65,7 +63,7 @@ namespace Azure.Communication.Messages
             return new MessageTemplateImage(
                 name,
                 MessageTemplateValueKind.Image,
-                additionalBinaryDataProperties: null,
+                serializedAdditionalRawData: null,
                 uri,
                 caption,
                 fileName);
@@ -82,7 +80,7 @@ namespace Azure.Communication.Messages
             return new MessageTemplateDocument(
                 name,
                 MessageTemplateValueKind.Document,
-                additionalBinaryDataProperties: null,
+                serializedAdditionalRawData: null,
                 uri,
                 caption,
                 fileName);
@@ -99,7 +97,7 @@ namespace Azure.Communication.Messages
             return new MessageTemplateVideo(
                 name,
                 MessageTemplateValueKind.Video,
-                additionalBinaryDataProperties: null,
+                serializedAdditionalRawData: null,
                 uri,
                 caption,
                 fileName);
@@ -112,7 +110,7 @@ namespace Azure.Communication.Messages
         /// <returns> A new <see cref="Messages.MessageTemplateQuickAction"/> instance for mocking. </returns>
         public static MessageTemplateQuickAction MessageTemplateQuickAction(string name = null, string text = null, string payload = null)
         {
-            return new MessageTemplateQuickAction(name, MessageTemplateValueKind.QuickAction, additionalBinaryDataProperties: null, text, payload);
+            return new MessageTemplateQuickAction(name, MessageTemplateValueKind.QuickAction, serializedAdditionalRawData: null, text, payload);
         }
 
 #pragma warning disable CS0618 // Type or member is obsolete - Need to manually add this custom code due to the defect here: https://github.com/Azure/autorest.csharp/issues/5114
@@ -130,7 +128,7 @@ namespace Azure.Communication.Messages
                 channelRegistrationId,
                 to?.ToList(),
                 CommunicationMessageKind.ImageV0,
-                additionalBinaryDataProperties: null,
+                serializedAdditionalRawData: null,
                 content,
                 mediaUri);
         }
