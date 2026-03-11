@@ -8,7 +8,7 @@ Unified migration workflow for Azure SDK for .NET libraries. This file is the si
 
 ## When Invoked
 
-Trigger phrases: "migrate service X", "update spec", "bring SDK to latest", "help with mgmt migration", "mpg migration", "mgmt sdk migration", "data-plane migration", "dpg migration", "migrate to TypeSpec", "swagger to TypeSpec migration", "upgrade generator", "generator migration help".
+Trigger phrases: "migrate service X", "help with mgmt migration", "mpg migration", "mgmt sdk migration", "data-plane migration", "dpg migration", "migrate to TypeSpec", "swagger to TypeSpec migration", "upgrade generator", "generator migration help".
 
 ## Inputs
 
@@ -209,7 +209,7 @@ After generation, additionally:
 2. Use `git diff --stat` to confirm the scope of changes. A typical migration touches hundreds of files with significant content changes.
 3. Verify no compile errors: `dotnet build`. ApiCompat errors (`MembersMustExist`, `TypesMustExist`) indicate **breaking changes** — these must be investigated and fixed, not skipped.
 4. Run existing tests if available: `dotnet test`.
-5. **[MPG only]** Check ApiCompat with `dotnet pack --no-restore` — ApiCompat errors only surface during pack, not during build.
+5. **[MPG only]** Also run `dotnet pack --no-restore` to verify packaging succeeds — `dotnet build` already surfaces ApiCompat errors, but pack can catch additional packaging issues.
 6. **Export the API surface** after all errors are fixed:
    ```powershell
    pwsh eng/scripts/Export-API.ps1 <SERVICE_NAME>
