@@ -1,6 +1,6 @@
 ---
 name: sdk-migration
-description: Shared migration logic for Azure SDK for .NET libraries migrating from AutoRest/Swagger to TypeSpec-based generation. Common phases used by both management-plane (sdk-migration/mpg) and data-plane (sdk-migration/dpg) skills.
+description: Migration logic for Azure SDK for .NET libraries migrating from AutoRest/Swagger to TypeSpec-based generation.
 ---
 # SDK Migration Workflow
 
