@@ -49,24 +49,7 @@ For the purposes of diagnosing generator bugs, the management-plane emitter is l
 
 ## Phase 0 — Sync Repositories
 
-Before any migration work, merge the latest `main` branch into both repos:
-
-```powershell
-# Sync spec repo
-cd ..\azure-rest-api-specs
-git fetch origin main
-git merge origin/main
-
-# Sync SDK repo
-cd ..\azure-sdk-for-net
-git fetch origin main
-git merge origin/main
-
-# Sync base generator repo (if needed for generator fixes)
-cd ..\typespec
-git fetch origin main
-git merge origin/main
-```
+Before any migration work, merge the latest `main` branch into all 3 repos:
 
 ---
 
@@ -220,7 +203,6 @@ dotnet build /t:GenerateCode
 ```
 
 After generation, additionally:
-- **[MPG only]** Check ApiCompat with `dotnet pack --no-restore`.
 - Export the API surface: `pwsh eng/scripts/Export-API.ps1 <SERVICE_NAME>`.
 
 ### Post-Generation Checklist
@@ -229,8 +211,7 @@ After generation, additionally:
 2. Use `git diff --stat` to confirm the scope of changes. A typical migration touches hundreds of files with significant content changes.
 3. Verify no compile errors: `dotnet build`. ApiCompat errors (`MembersMustExist`, `TypesMustExist`) indicate **breaking changes** — these must be investigated and fixed, not skipped.
 4. Run existing tests if available: `dotnet test`.
-5. **[MPG only]** Also run `dotnet pack --no-restore` to verify packaging succeeds — `dotnet build` already surfaces ApiCompat errors, but pack can catch additional packaging issues.
-6. **Export the API surface** after all errors are fixed:
+5.**Export the API surface** after all errors are fixed:
    ```powershell
    pwsh eng/scripts/Export-API.ps1 <SERVICE_NAME>
    ```
