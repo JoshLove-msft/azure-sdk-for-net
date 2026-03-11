@@ -90,13 +90,21 @@ Present a summary plan and **ask the user** to confirm.
 
 **Goal**: Point the library at the correct spec and emitter.
 
-1. Read `{LIBRARY_PATH}/tsp-location.yaml`.
-2. Parse `repo`, `directory`, and `commit` fields.
-3. Set `emitterPackageJsonPath` to the plane-specific value (see Inputs table).
-4. Resolve the correct commit SHA (see below).
-5. Update the `commit` field with the resolved SHA.
-6. If the `directory` path no longer exists, search for TypeSpec projects with similar service names.
-7. Preserve all other existing fields.
+1. Check if `{LIBRARY_PATH}/tsp-location.yaml` exists.
+   - **If it exists** (already TypeSpec-based): Read and parse `repo`, `directory`, and `commit` fields. Skip to step 3.
+   - **If it does not exist** (migrating from swagger): Create `tsp-location.yaml` with the following fields:
+     ```yaml
+     directory: specification/<service>/resource-manager/Microsoft.<Provider>/<ServiceName>
+     commit: <latest commit SHA from azure-rest-api-specs main>
+     repo: Azure/azure-rest-api-specs
+     cleanup: true
+     ```
+     Find the correct `directory` by searching `../azure-rest-api-specs/specification/<service>/` for a TypeSpec project (`main.tsp` + `tspconfig.yaml`) that targets the same service.
+2. Set `emitterPackageJsonPath` to the plane-specific value (see Inputs table).
+3. Resolve the correct commit SHA (see below).
+4. Update the `commit` field with the resolved SHA.
+5. If the `directory` path no longer exists, search for TypeSpec projects with similar service names.
+6. Preserve all other existing fields.
 
 ### Commit SHA Resolution
 
