@@ -524,7 +524,6 @@ extends:
 ## <VERSION> (Unreleased)
 
 ### Features Added
-- Upgraded API version to `<API_VERSION>`
 - Migrated from Swagger to TypeSpec-based generation
 ```
 
