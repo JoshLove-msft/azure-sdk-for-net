@@ -159,45 +159,6 @@ function Get-PreMigrationCommit {
 }
 
 # ----------------------------------------------
-# Snapshot expected state
-# ----------------------------------------------
-
-function Snapshot-ExpectedState {
-    Write-Host "`n=== Snapshotting expected migration output ===" -ForegroundColor Yellow
-
-    $script:ExpectedDir = Join-Path ([System.IO.Path]::GetTempPath()) "migration-e2e-expected-$([System.IO.Path]::GetRandomFileName())"
-    New-Item -ItemType Directory -Path $script:ExpectedDir -Force | Out-Null
-
-    # Export the library files at the migration commit to the expected directory
-    Write-Host "  Exporting files from migration commit to: $script:ExpectedDir"
-
-    # Use git archive to extract just the library directory
-    $archiveResult = git -C $RepoRoot archive --format=tar "$script:FullMigrationCommitSha" -- $LibraryPath 2>&1
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to archive library files from migration commit. Error: $archiveResult"
-    }
-
-    # Extract to temp directory
-    git -C $RepoRoot archive "$script:FullMigrationCommitSha" -- $LibraryPath | tar -x -C $script:ExpectedDir 2>&1
-    if ($LASTEXITCODE -ne 0) {
-        # Fallback: use git show for each file
-        Write-Host "  tar extraction failed, using file-by-file export fallback" -ForegroundColor Yellow
-        $files = git -C $RepoRoot ls-tree -r --name-only "$script:FullMigrationCommitSha" -- $LibraryPath
-        foreach ($file in $files) {
-            $destFile = Join-Path $script:ExpectedDir $file
-            $destDir = Split-Path $destFile -Parent
-            if (-not (Test-Path $destDir)) {
-                New-Item -ItemType Directory -Path $destDir -Force | Out-Null
-            }
-            git -C $RepoRoot show "${script:FullMigrationCommitSha}:$file" | Set-Content -Path $destFile -NoNewline -Encoding UTF8
-        }
-    }
-
-    $fileCount = (Get-ChildItem -Path $script:ExpectedDir -Recurse -File).Count
-    Write-Host "  Exported $fileCount files to expected snapshot" -ForegroundColor Green
-}
-
-# ----------------------------------------------
 # Create worktree at pre-migration state
 # ----------------------------------------------
 
@@ -380,28 +341,26 @@ function Invoke-GeneratorAgent {
 function Generate-DiffReport {
     Write-Host "`n=== Generating diff report ===" -ForegroundColor Yellow
 
-    $worktreeLibPath = Join-Path $script:WorktreeDir $LibraryPath
-    $expectedLibPath = Join-Path $script:ExpectedDir $LibraryPath
+    # Diff only tracked files under the library directory.
+    # We compare the worktree state against the expected migration commit,
+    # scoping to LibraryPath so files outside the project are ignored.
+    # We also exclude build artifacts (obj/, bin/) that the agent may have
+    # produced during build-fix cycles.
 
-    if (-not (Test-Path $expectedLibPath)) {
-        throw "Expected library path not found at '$expectedLibPath'"
-    }
+    # First, stage any new/modified files in the worktree so they show up in diff
+    Write-Host "  Staging worktree changes under $LibraryPath..." -ForegroundColor DarkGray
+    git -C $script:WorktreeDir add -- $LibraryPath 2>&1 | Out-Null
 
-    # Use git diff --no-index to compare the two directories
-    # This works even outside a git repo and produces standard unified diff format
-    $diffOutput = git diff --no-index --stat -- $expectedLibPath $worktreeLibPath 2>&1
+    # Diff the worktree index against the expected migration commit, scoped to the library path
+    $diffOutput = git -C $script:WorktreeDir diff --stat "$script:FullMigrationCommitSha" -- $LibraryPath 2>&1
     $diffExitCode = $LASTEXITCODE
 
-    # Generate full diff for the patch file
-    $fullDiff = git diff --no-index -- $expectedLibPath $worktreeLibPath 2>&1
+    $fullDiff = git -C $script:WorktreeDir diff "$script:FullMigrationCommitSha" -- $LibraryPath 2>&1
     $fullDiffExitCode = $LASTEXITCODE
 
     # Write the full diff to the output file
     if ($fullDiff) {
-        # Clean up temp paths in the diff for readability
-        $cleanDiff = ($fullDiff -join "`n") -replace [regex]::Escape($expectedLibPath), "a/$LibraryPath"
-        $cleanDiff = $cleanDiff -replace [regex]::Escape($worktreeLibPath), "b/$LibraryPath"
-        Set-Content -Path $OutputDiffPath -Value $cleanDiff -Encoding UTF8
+        Set-Content -Path $OutputDiffPath -Value ($fullDiff -join "`n") -Encoding UTF8
     }
     else {
         Set-Content -Path $OutputDiffPath -Value "No differences found." -Encoding UTF8
@@ -414,7 +373,7 @@ function Generate-DiffReport {
     Write-Host "  Pre-migration commit: $script:PreMigrationCommitSha" -ForegroundColor Cyan
     Write-Host "  Elapsed so far: $("{0:N1} sec" -f $script:Stopwatch.Elapsed.TotalSeconds)" -ForegroundColor Cyan
 
-    if ($diffExitCode -eq 0) {
+    if ($diffExitCode -eq 0 -and -not $fullDiff) {
         Write-Host "`n  Result: PASS - Agent migration output matches expected migration" -ForegroundColor Green
         Write-Host "  Diff file: $OutputDiffPath (empty - no differences)" -ForegroundColor Green
         return 0
@@ -455,11 +414,6 @@ function Cleanup {
         }
     }
 
-    if ($script:ExpectedDir -and (Test-Path $script:ExpectedDir)) {
-        Write-Host "  Removing expected snapshot: $script:ExpectedDir"
-        Remove-Item -Recurse -Force $script:ExpectedDir -ErrorAction SilentlyContinue
-    }
-
     Write-Host "  Cleanup complete" -ForegroundColor Green
 }
 
@@ -469,7 +423,6 @@ function Cleanup {
 
 $script:FullMigrationCommitSha = $null
 $script:PreMigrationCommitSha = $null
-$script:ExpectedDir = $null
 $script:WorktreeDir = $null
 $script:Stopwatch = [System.Diagnostics.Stopwatch]::new()
 $script:StepTimings = [ordered]@{}
@@ -500,7 +453,6 @@ try {
 
     Measure-Step "Validate inputs" { Validate-Inputs }
     Measure-Step "Determine pre-migration commit" { Get-PreMigrationCommit }
-    Measure-Step "Snapshot expected state" { Snapshot-ExpectedState }
     Measure-Step "Setup worktree" { Setup-Worktree }
     Measure-Step "Invoke migration" { Invoke-Migration }
     $exitCode = Measure-Step "Generate diff report" { Generate-DiffReport }
