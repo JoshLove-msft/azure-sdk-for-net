@@ -24,11 +24,18 @@
     Path to write the diff file. Defaults to a temp file.
 
 .PARAMETER SkipAgentInvocation
-    If set, skips running the GeneratorAgent and only sets up the worktree and expected snapshot.
+    If set, skips running the migration and only sets up the worktree and expected snapshot.
     Useful for testing the harness itself.
+
+.PARAMETER UseSkill
+    If set, uses the Copilot CLI with the sdk-migration skill instead of the GeneratorAgent tool.
+    Requires 'copilot' CLI to be installed and authenticated.
 
 .EXAMPLE
     ./Test-Migration-E2E.ps1 -LibraryPath "sdk/cognitivelanguage/Azure.AI.Language.Text" -MigrationCommitSha "eee894db7c3"
+
+.EXAMPLE
+    ./Test-Migration-E2E.ps1 -LibraryPath "sdk/cognitivelanguage/Azure.AI.Language.Text" -MigrationCommitSha "eee894db7c3" -UseSkill
 #>
 
 [CmdletBinding()]
@@ -46,7 +53,10 @@ param(
     [string]$OutputDiffPath,
 
     [Parameter(Mandatory = $false)]
-    [switch]$SkipAgentInvocation
+    [switch]$SkipAgentInvocation,
+
+    [Parameter(Mandatory = $false)]
+    [switch]$UseSkill
 )
 
 Set-StrictMode -Version Latest
@@ -219,16 +229,79 @@ function Setup-Worktree {
 }
 
 # ----------------------------------------------
-# Invoke GeneratorAgent
+# Invoke migration (GeneratorAgent or Copilot Skill)
 # ----------------------------------------------
+
+function Invoke-Migration {
+    if ($SkipAgentInvocation) {
+        Write-Host "`n=== Skipping migration invocation (-SkipAgentInvocation flag set) ===" -ForegroundColor Yellow
+        return
+    }
+
+    if ($UseSkill) {
+        Invoke-CopilotSkill
+    }
+    else {
+        Invoke-GeneratorAgent
+    }
+}
+
+function Invoke-CopilotSkill {
+    Write-Host "`n=== Invoking Copilot CLI with sdk-migration skill ===" -ForegroundColor Yellow
+
+    # Verify copilot CLI is available
+    $copilotCmd = Get-Command copilot -ErrorAction SilentlyContinue
+    if (-not $copilotCmd) {
+        throw "Copilot CLI not found. Install it from https://docs.github.com/en/copilot/using-github-copilot/using-github-copilot-in-the-command-line"
+    }
+    Write-Host "  Copilot CLI: $($copilotCmd.Source)" -ForegroundColor Green
+
+    $worktreeLibPath = Join-Path $script:WorktreeDir $LibraryPath
+    $prompt = "Invoke the sdk-migration skill to migrate the library at $worktreeLibPath"
+
+    Write-Host "  Working directory: $script:WorktreeDir"
+    Write-Host "  Prompt: $prompt" -ForegroundColor DarkGray
+
+    $copilotArgs = @(
+        "-p", $prompt,
+        "--yolo",
+        "--no-ask-user"
+    )
+
+    Write-Host "  Command: copilot $($copilotArgs -join ' ')" -ForegroundColor DarkGray
+
+    $stdoutLog = Join-Path $script:WorktreeDir "skill-stdout.log"
+    $stderrLog = Join-Path $script:WorktreeDir "skill-stderr.log"
+
+    $process = Start-Process -FilePath $copilotCmd.Source -ArgumentList $copilotArgs `
+        -WorkingDirectory $script:WorktreeDir `
+        -NoNewWindow -PassThru -RedirectStandardOutput $stdoutLog -RedirectStandardError $stderrLog
+
+    # Wait for completion (no timeout)
+    $process.WaitForExit()
+
+    $stdout = Get-Content $stdoutLog -Raw -ErrorAction SilentlyContinue
+    $stderr = Get-Content $stderrLog -Raw -ErrorAction SilentlyContinue
+
+    if ($stdout) {
+        Write-Host "`n  --- Copilot stdout ---" -ForegroundColor DarkGray
+        Write-Host $stdout -ForegroundColor DarkGray
+    }
+    if ($stderr) {
+        Write-Host "`n  --- Copilot stderr ---" -ForegroundColor DarkGray
+        Write-Host $stderr -ForegroundColor DarkGray
+    }
+
+    if ($process.ExitCode -ne 0) {
+        Write-Host "  Copilot CLI exited with code $($process.ExitCode)" -ForegroundColor Red
+        throw "Copilot CLI failed with exit code $($process.ExitCode)"
+    }
+
+    Write-Host "  Copilot skill migration completed successfully" -ForegroundColor Green
+}
 
 function Invoke-GeneratorAgent {
     Write-Host "`n=== Invoking GeneratorAgent migrate command ===" -ForegroundColor Yellow
-
-    if ($SkipAgentInvocation) {
-        Write-Host "  Skipping agent invocation (-SkipAgentInvocation flag set)" -ForegroundColor Yellow
-        return
-    }
 
     $worktreeLibPath = Join-Path $script:WorktreeDir $LibraryPath
 
@@ -416,13 +489,20 @@ try {
 
     Write-Host "=========================================" -ForegroundColor Cyan
     Write-Host "  GeneratorAgent E2E Migration Test" -ForegroundColor Cyan
+    if ($UseSkill) {
+        Write-Host "  Mode: Copilot CLI (sdk-migration skill)" -ForegroundColor Cyan
+    } elseif ($SkipAgentInvocation) {
+        Write-Host "  Mode: Harness only (skip migration)" -ForegroundColor Cyan
+    } else {
+        Write-Host "  Mode: GeneratorAgent CLI tool" -ForegroundColor Cyan
+    }
     Write-Host "=========================================" -ForegroundColor Cyan
 
     Measure-Step "Validate inputs" { Validate-Inputs }
     Measure-Step "Determine pre-migration commit" { Get-PreMigrationCommit }
     Measure-Step "Snapshot expected state" { Snapshot-ExpectedState }
     Measure-Step "Setup worktree" { Setup-Worktree }
-    Measure-Step "Invoke GeneratorAgent" { Invoke-GeneratorAgent }
+    Measure-Step "Invoke migration" { Invoke-Migration }
     $exitCode = Measure-Step "Generate diff report" { Generate-DiffReport }
 }
 catch {
