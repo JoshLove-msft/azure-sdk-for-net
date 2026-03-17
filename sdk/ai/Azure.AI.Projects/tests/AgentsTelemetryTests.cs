@@ -79,9 +79,9 @@ public partial class AgentsTelemetryTests : AgentsTestBase
 
     private string GetModelDeploymentName()
     {
-        //string modelDeploymentName = TestEnvironment.MODELDEPLOYMENTNAME;
+        //string modelDeploymentName = TestEnvironment.FOUNDRY_MODEL_NAME;
         //return modelDeploymentName;
-        return TestEnvironment.MODELDEPLOYMENTNAME;
+        return TestEnvironment.FOUNDRY_MODEL_NAME;
     }
 
     [RecordedTest]
@@ -242,7 +242,7 @@ public partial class AgentsTelemetryTests : AgentsTestBase
 
         // Get the version from the response
         AgentRecord updatedAgent = ModelReaderWriter.Read<AgentRecord>(protocolUpdateResult.GetRawResponse().Content);
-        string versionNumber = updatedAgent.Versions.Latest.Version;
+        string versionNumber = updatedAgent.GetLatestVersion().Version;
 
         await projectClient.Agents.DeleteAgentAsync(agentName: agentName);
 
