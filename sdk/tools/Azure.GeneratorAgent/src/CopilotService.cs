@@ -162,7 +162,9 @@ public sealed class CopilotService : IAsyncDisposable
         var dir = startPath.TrimEnd(Path.DirectorySeparatorChar);
         while (!string.IsNullOrEmpty(dir))
         {
-            if (Directory.Exists(Path.Combine(dir, ".git")))
+            var gitPath = Path.Combine(dir, ".git");
+            // Check for both .git directory (normal repos) and .git file (worktrees)
+            if (Directory.Exists(gitPath) || File.Exists(gitPath))
             {
                 return dir.EndsWith(Path.DirectorySeparatorChar) ? dir : dir + Path.DirectorySeparatorChar;
             }
