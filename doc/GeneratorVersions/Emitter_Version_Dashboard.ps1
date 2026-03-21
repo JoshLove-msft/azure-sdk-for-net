@@ -1,19 +1,18 @@
 #Requires -Version 7.0
 <#
 .SYNOPSIS
-    Generates the emitter version dependency dashboard (doc/GeneratorVersions/EMITTER_VERSION_DASHBOARD.md).
+    Generates the emitter version dependency dashboard (doc/GeneratorVersions/Emitter_Version_Dashboard.md).
 
 .DESCRIPTION
-    Reads version information from the emitter package.json files and central NuGet
-    package management props, and queries the npm registry for the latest published
-    versions, to produce a checked-in Markdown dashboard showing the dependency chain
-    across all C# TypeSpec emitters.
+    Reads version information from the emitter package.json files and queries the npm
+    registry for the latest published versions, to produce a checked-in Markdown
+    dashboard showing the dependency chain across all C# TypeSpec emitters.
 
     Run this script whenever emitter dependency versions change to keep the dashboard
     up to date. Requires network access to query the npm registry.
 
 .EXAMPLE
-    ./doc/GeneratorVersions/Generate-EmitterVersionDashboard.ps1
+    ./doc/GeneratorVersions/Emitter_Version_Dashboard.ps1
 #>
 
 param(
@@ -52,7 +51,6 @@ function Get-NpmLatestVersion([string]$PackageName) {
 }
 
 function Get-NpmVersionLink([string]$PackageName, [string]$Version) {
-    $encodedName = $PackageName -replace '/', '%2F'
     return "https://www.npmjs.com/package/$PackageName/v/$Version"
 }
 
@@ -131,21 +129,17 @@ function Get-CommitForVersionGitHub([string]$Owner, [string]$Repo, [string]$Path
 
 # @typespec/http-client-csharp is from microsoft/typespec
 $commitBase = Get-CommitForVersionGitHub "microsoft" "typespec" "packages/http-client-csharp" $baseDep_azure
-$commitBaseLink = "https://github.com/microsoft/typespec/commit/$($commitBase.Hash)"
+$commitBaseLink = if ($commitBase.Hash) { "https://github.com/microsoft/typespec/commit/$($commitBase.Hash)" } else { $null }
 
 # Azure packages are from this repo
 $commitAzure = Get-CommitForVersion $RepoRoot "eng/packages/http-client-csharp" $azureDep_mgmt
 $commitMgmt  = Get-CommitForVersion $RepoRoot "eng/packages/http-client-csharp-mgmt" $mgmtDep_prov
 
-$gitBaseUrl = git -C $RepoRoot remote get-url origin 2>$null
-if ($gitBaseUrl -match 'github\.com[:/](.+?)(?:\.git)?$') {
-    $gitBaseUrl = "https://github.com/$($Matches[1])"
-} else {
-    $gitBaseUrl = "https://github.com/Azure/azure-sdk-for-net"
-}
+# Always link to the canonical Azure SDK for .NET repository
+$gitBaseUrl = "https://github.com/Azure/azure-sdk-for-net"
 
-$commitLinkAzure = "$gitBaseUrl/commit/$($commitAzure.Hash)"
-$commitLinkMgmt  = "$gitBaseUrl/commit/$($commitMgmt.Hash)"
+$commitLinkAzure = if ($commitAzure.Hash) { "$gitBaseUrl/commit/$($commitAzure.Hash)" } else { $null }
+$commitLinkMgmt  = if ($commitMgmt.Hash)  { "$gitBaseUrl/commit/$($commitMgmt.Hash)" } else { $null }
 
 # --- Build Markdown ---
 
@@ -170,9 +164,9 @@ $md = @"
 
 | Emitter | Depends On | Dependency Version | Latest on npm | Dependency Commit |
 |---|---|---|---|---|
-| ``@azure-typespec/http-client-csharp`` | ``@typespec/http-client-csharp`` | [$baseDep_azure]($linkBaseDep) | [$latestBase]($linkLatestBase) | [$($commitBase.Short)]($commitBaseLink) |
-| ``@azure-typespec/http-client-csharp-mgmt`` | ``@azure-typespec/http-client-csharp`` | [$azureDep_mgmt]($linkAzureDep) | [$latestAzure]($linkLatestAzure) | [$($commitAzure.Short)]($commitLinkAzure) |
-| ``@azure-typespec/http-client-csharp-provisioning`` | ``@azure-typespec/http-client-csharp-mgmt`` | [$mgmtDep_prov]($linkMgmtDep) | [$latestMgmt]($linkLatestMgmt) | [$($commitMgmt.Short)]($commitLinkMgmt) |
+| ``@azure-typespec/http-client-csharp`` | ``@typespec/http-client-csharp`` | [$baseDep_azure]($linkBaseDep) | [$latestBase]($linkLatestBase) | $(if ($commitBaseLink) { "[$($commitBase.Short)]($commitBaseLink)" } else { $commitBase.Short }) |
+| ``@azure-typespec/http-client-csharp-mgmt`` | ``@azure-typespec/http-client-csharp`` | [$azureDep_mgmt]($linkAzureDep) | [$latestAzure]($linkLatestAzure) | $(if ($commitLinkAzure) { "[$($commitAzure.Short)]($commitLinkAzure)" } else { $commitAzure.Short }) |
+| ``@azure-typespec/http-client-csharp-provisioning`` | ``@azure-typespec/http-client-csharp-mgmt`` | [$mgmtDep_prov]($linkMgmtDep) | [$latestMgmt]($linkLatestMgmt) | $(if ($commitLinkMgmt) { "[$($commitMgmt.Short)]($commitLinkMgmt)" } else { $commitMgmt.Short }) |
 
 ## Source Files
 
