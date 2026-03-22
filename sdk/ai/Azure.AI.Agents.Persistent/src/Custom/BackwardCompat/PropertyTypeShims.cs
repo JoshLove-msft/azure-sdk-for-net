@@ -50,7 +50,7 @@ namespace Azure.AI.Agents.Persistent
     [CodeGenSuppress("Object")]
     public partial class VectorStoreFileBatch
     {
-        /// <summary> The object type, which is always `vector_store.file_batch`. </summary>
+        /// <summary> The object type, which is always `vector_store.files_batch`. </summary>
         public VectorStoreFileBatchObject Object { get; } = new VectorStoreFileBatchObject("vector_store.files_batch");
     }
 

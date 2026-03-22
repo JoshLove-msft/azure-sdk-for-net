@@ -36,7 +36,7 @@ public class TextAnnotationUpdate
         => _fileSearchCitation?.EndIndex
         ?? _codeCitation?.EndIndex
         ?? _uriAnnotation?.EndIndex
-        ?? (_internalAnnotation?._additionalBinaryDataProperties.TryGetValue("start_index", out BinaryData indexData) == true
+        ?? (_internalAnnotation?._additionalBinaryDataProperties.TryGetValue("end_index", out BinaryData indexData) == true
             ? int.Parse(indexData.ToString())
             : null);
 

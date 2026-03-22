@@ -19,7 +19,9 @@ public partial class SubmitToolOutputsAction : RequiredAction
      */
 
     /// <inheritdoc cref="InternalSubmitToolOutputsDetails.ToolCalls"/>
-    public IReadOnlyList<RequiredToolCall> ToolCalls => InternalDetails.ToolCalls.ToList();
+    public IReadOnlyList<RequiredToolCall> ToolCalls => InternalDetails.ToolCalls is IReadOnlyList<RequiredToolCall> readOnly
+        ? readOnly
+        : InternalDetails.ToolCalls.ToList();
 
     /// <summary> The details describing tools that should be called to submit tool outputs. </summary>
     internal InternalSubmitToolOutputsDetails InternalDetails { get; }

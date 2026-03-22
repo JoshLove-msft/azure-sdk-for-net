@@ -18,12 +18,11 @@ namespace Azure.AI.Agents.Persistent
         /// <summary> Initializes a new instance of VectorStores. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="tokenCredential"> The token credential to copy. </param>
         /// <param name="endpoint"> Project endpoint in the form of: https://&lt;aiservices-id&gt;.services.ai.azure.com/api/projects/&lt;project-name&gt;. </param>
         /// <param name="apiVersion"> The API version to use for this operation. </param>
         /// <param name="files">The files client to be used for file operations. </param>
-        /// <param name="fileBatches">Te file batches client used to for file batches operations. </param>
-        internal VectorStores(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, TokenCredential tokenCredential, Uri endpoint, string apiVersion, VectorStoreFiles files, VectorStoreFileBatches fileBatches) : this(clientDiagnostics: clientDiagnostics, pipeline: pipeline, endpoint: endpoint, apiVersion: apiVersion)
+        /// <param name="fileBatches">The file batches client used for file batches operations. </param>
+        internal VectorStores(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint, string apiVersion, VectorStoreFiles files, VectorStoreFileBatches fileBatches) : this(clientDiagnostics: clientDiagnostics, pipeline: pipeline, endpoint: endpoint, apiVersion: apiVersion)
         {
             _filesClient = files;
             _batchFileClient = fileBatches;

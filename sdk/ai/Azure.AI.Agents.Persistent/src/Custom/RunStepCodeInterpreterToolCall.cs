@@ -21,7 +21,9 @@ public partial class RunStepCodeInterpreterToolCall
     public string Input => InternalDetails.Input;
 
     /// <inheritdoc cref="InternalCodeInterpreterToolCallDetails.Outputs"/>
-    public IReadOnlyList<RunStepCodeInterpreterToolCallOutput> Outputs => InternalDetails.Outputs.ToList();
+    public IReadOnlyList<RunStepCodeInterpreterToolCallOutput> Outputs => InternalDetails.Outputs is IReadOnlyList<RunStepCodeInterpreterToolCallOutput> readOnly
+        ? readOnly
+        : InternalDetails.Outputs.ToList();
 
     internal InternalCodeInterpreterToolCallDetails InternalDetails { get; }
 }

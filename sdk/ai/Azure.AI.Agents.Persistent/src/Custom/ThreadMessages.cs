@@ -300,7 +300,7 @@ namespace Azure.AI.Agents.Persistent
                 BinaryData blockData = ((IPersistableModel<MessageInputContentBlock>)block).Write(ModelSerializationExtensions.WireOptions);
 
                 // Parse to a JsonDocument, then clone the root element so we can reuse it
-                using var tempDoc = JsonDocument.Parse(blockData);
+                using var tempDoc = JsonDocument.Parse(blockData.ToMemory());
                 jsonElements.Add(tempDoc.RootElement.Clone());
             }
 
