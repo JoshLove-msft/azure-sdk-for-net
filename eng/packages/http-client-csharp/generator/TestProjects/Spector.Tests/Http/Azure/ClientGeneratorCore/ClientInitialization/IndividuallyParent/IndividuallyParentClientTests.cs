@@ -7,7 +7,6 @@ using NUnit.Framework;
 
 namespace TestProjects.Spector.Tests.Http.Azure.ClientGeneratorCore.ClientInitialization.IndividuallyParent
 {
-    [Ignore("https://github.com/microsoft/typespec/issues/9775")]
     public class IndividuallyParentClientTests : SpectorTestBase
     {
         [SpectorTest]
