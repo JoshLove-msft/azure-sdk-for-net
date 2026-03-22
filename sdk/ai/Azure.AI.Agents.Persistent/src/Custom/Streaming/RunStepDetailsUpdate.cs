@@ -33,7 +33,7 @@ public class RunStepDetailsUpdate : StreamingUpdate
         ?? _asFileSearchCall?.Id
         ?? _asFunctionCall?.Id
         ?? _asMcpCall?.Id
-        ?? (_toolCall?.SerializedAdditionalRawData?.TryGetValue("id", out BinaryData idData) == true
+        ?? (_toolCall?._additionalBinaryDataProperties?.TryGetValue("id", out BinaryData idData) == true
             ? idData.ToString()
             : null);
 

@@ -14,4 +14,8 @@ namespace Azure.AI.Agents.Persistent;
 /// <item> <see cref="RequiredFunctionToolCall"/> </item>
 /// </list>
 /// </remarks>
-public abstract partial class RequiredToolCall : RequiredAction { }
+public abstract partial class RequiredToolCall : RequiredAction
+{
+    // Workaround: generated constructor calls base(@type) without a @type parameter
+    private const string type = null;
+}
