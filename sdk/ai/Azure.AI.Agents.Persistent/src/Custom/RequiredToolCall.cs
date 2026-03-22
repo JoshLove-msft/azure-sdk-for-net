@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.TypeSpec.Generator.Customizations;
+
 namespace Azure.AI.Agents.Persistent;
 
 /// <summary>
@@ -14,8 +16,16 @@ namespace Azure.AI.Agents.Persistent;
 /// <item> <see cref="RequiredFunctionToolCall"/> </item>
 /// </list>
 /// </remarks>
+[CodeGenSuppress("RequiredToolCall", typeof(string))]
 public abstract partial class RequiredToolCall : RequiredAction
 {
     // Workaround: generated constructor calls base(@type) without a @type parameter
     private const string type = null;
+
+    /// <summary> Initializes a new instance of <see cref="RequiredToolCall"/>. </summary>
+    /// <param name="id"> The ID of the tool call. </param>
+    protected RequiredToolCall(string id) : base(null)
+    {
+        Id = id;
+    }
 }

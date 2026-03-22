@@ -151,7 +151,7 @@ namespace Azure.AI.Agents.Persistent
                 role,
                 contentJson,
                 attachments,
-                metadata?.ToDictionary(x => x.Key, x => x.Value),
+                (IDictionary<string, string>)metadata?.ToDictionary(x => x.Key, x => x.Value),
                 cancellationToken
             ).ConfigureAwait(false);
         }
@@ -194,7 +194,7 @@ namespace Azure.AI.Agents.Persistent
                 role,
                 contentJson,
                 attachments,
-                metadata?.ToDictionary(x => x.Key, x => x.Value),
+                (IDictionary<string, string>)metadata?.ToDictionary(x => x.Key, x => x.Value),
                 cancellationToken
             );
         }
@@ -240,7 +240,7 @@ namespace Azure.AI.Agents.Persistent
                 role,
                 serializedBlocks,
                 attachments,
-                metadata?.ToDictionary(x => x.Key, x => x.Value),
+                (IDictionary<string, string>)metadata?.ToDictionary(x => x.Key, x => x.Value),
                 cancellationToken
             ).ConfigureAwait(false);
         }
@@ -286,7 +286,7 @@ namespace Azure.AI.Agents.Persistent
                 role,
                 serializedBlocks,
                 attachments,
-                metadata?.ToDictionary(x => x.Key, x => x.Value),
+                (IDictionary<string, string>)metadata?.ToDictionary(x => x.Key, x => x.Value),
                 cancellationToken
             );
         }

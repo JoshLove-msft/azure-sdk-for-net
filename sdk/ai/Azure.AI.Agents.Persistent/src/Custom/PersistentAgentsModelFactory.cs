@@ -17,7 +17,10 @@ namespace Azure.AI.Agents.Persistent;
  * This file restores substantial portions of generated model factory surface lost via type customization and
  * visibility adjustments.
  */
-[CodeGenType("AIAgentsPersistentModelFactory")]
+[CodeGenType("AgentsPersistentModelFactory")]
+[CodeGenSuppress("FileSearchToolCallContent", typeof(FileSearchToolCallContentType), typeof(string))]
+[CodeGenSuppress("PersistentAgentsVectorStore", typeof(string), typeof(PersistentAgentsVectorStoreObject), typeof(DateTimeOffset), typeof(string), typeof(int), typeof(VectorStoreFileCount), typeof(VectorStoreStatus), typeof(VectorStoreExpirationPolicy), typeof(DateTimeOffset?), typeof(DateTimeOffset?), typeof(IReadOnlyDictionary<string, string>))]
+[CodeGenSuppress("VectorStoreFile", typeof(string), typeof(VectorStoreFileObject), typeof(int), typeof(DateTimeOffset), typeof(string), typeof(VectorStoreFileStatus), typeof(VectorStoreFileError), typeof(VectorStoreChunkingStrategyResponse))]
 public static partial class PersistentAgentsModelFactory
 {
     /// <summary> Initializes a new instance of <see cref="Azure.AI.Agents.Persistent.PersistentAgent"/>. </summary>
