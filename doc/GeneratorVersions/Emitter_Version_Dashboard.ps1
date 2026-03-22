@@ -174,10 +174,10 @@ These are the files where versions are defined:
 
 | File | What it controls |
 |---|---|
-| [eng/packages/http-client-csharp/package.json](../../eng/packages/http-client-csharp/package.json) | Azure emitter's dependency on ``@typespec/http-client-csharp`` |
-| [eng/packages/http-client-csharp-mgmt/package.json](../../eng/packages/http-client-csharp-mgmt/package.json) | Mgmt emitter's dependency on ``@azure-typespec/http-client-csharp`` |
-| [eng/packages/http-client-csharp-provisioning/package.json](../../eng/packages/http-client-csharp-provisioning/package.json) | Provisioning emitter's dependency on ``@azure-typespec/http-client-csharp-mgmt`` |
-| [eng/centralpackagemanagement/Directory.Generation.Packages.props](../../eng/centralpackagemanagement/Directory.Generation.Packages.props) | NuGet versions for generator packages |
+| [eng/packages/http-client-csharp/package.json](https://github.com/Azure/azure-sdk-for-net/blob/main/eng/packages/http-client-csharp/package.json) | Azure emitter's dependency on ``@typespec/http-client-csharp`` |
+| [eng/packages/http-client-csharp-mgmt/package.json](https://github.com/Azure/azure-sdk-for-net/blob/main/eng/packages/http-client-csharp-mgmt/package.json) | Mgmt emitter's dependency on ``@azure-typespec/http-client-csharp`` |
+| [eng/packages/http-client-csharp-provisioning/package.json](https://github.com/Azure/azure-sdk-for-net/blob/main/eng/packages/http-client-csharp-provisioning/package.json) | Provisioning emitter's dependency on ``@azure-typespec/http-client-csharp-mgmt`` |
+| [eng/centralpackagemanagement/Directory.Generation.Packages.props](https://github.com/Azure/azure-sdk-for-net/blob/main/eng/centralpackagemanagement/Directory.Generation.Packages.props) | NuGet versions for generator packages |
 "@
 
 $md | Out-File -FilePath $OutputPath -Encoding utf8NoBOM -Force
