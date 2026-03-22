@@ -40,7 +40,7 @@ namespace Azure.Generator.Visitors
         private static readonly CSharpType AzureKeyCredentialType = typeof(AzureKeyCredential);
         private static readonly CSharpType HttpPipelinePolicyType = typeof(HttpPipelinePolicy);
         private readonly HashSet<ClientOptionsProvider> _visitedOptions = new();
-        private readonly HashSet<ClientProvider> _visitedClients = new();
+        private readonly HashSet<InputClient> _visitedClients = new();
 
         protected override ClientProvider? Visit(InputClient client, ClientProvider? clientProvider)
         {
@@ -57,7 +57,7 @@ namespace Azure.Generator.Visitors
             // Guard against re-entrant visiting. UpdateClientConstructors accesses
             // clientProvider.Constructors which can trigger GetRootClient/GetSubClients,
             // causing CreateClient → Visit cycles for parent/child hierarchies.
-            if (_visitedClients.Add(clientProvider))
+            if (_visitedClients.Add(client))
             {
                 UpdateClientConstructors(clientProvider);
             }
