@@ -79,7 +79,7 @@ namespace Azure.AI.Agents.Persistent
                 throw new FormatException($"The model {nameof(ResponseFormatJsonSchemaType)} does not support writing '{format}' format.");
             }
             writer.WritePropertyName("type"u8);
-            writer.WriteStringValue(Type);
+            writer.WriteStringValue(Type.ToString());
             writer.WritePropertyName("json_schema"u8);
             writer.WriteObjectValue(JsonSchema, options);
             if (options.Format != "W" && _additionalBinaryDataProperties != null)

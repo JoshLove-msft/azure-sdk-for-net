@@ -89,7 +89,7 @@ namespace Azure.AI.Agents.Persistent
             writer.WritePropertyName("id"u8);
             writer.WriteStringValue(Id);
             writer.WritePropertyName("object"u8);
-            writer.WriteStringValue(Object);
+            writer.WriteStringValue(Object.ToString());
             writer.WritePropertyName("usage_bytes"u8);
             writer.WriteNumberValue(UsageBytes);
             writer.WritePropertyName("created_at"u8);

@@ -81,7 +81,7 @@ namespace Azure.AI.Agents.Persistent
             writer.WritePropertyName("id"u8);
             writer.WriteStringValue(Id);
             writer.WritePropertyName("object"u8);
-            writer.WriteStringValue(Object);
+            writer.WriteStringValue(Object.ToString());
             writer.WritePropertyName("delta"u8);
             writer.WriteObjectValue(Delta, options);
             if (options.Format != "W" && _additionalBinaryDataProperties != null)

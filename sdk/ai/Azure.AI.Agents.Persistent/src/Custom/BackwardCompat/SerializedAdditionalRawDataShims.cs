@@ -2,25 +2,29 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
-// backward-compat: shim for renamed _additionalBinaryDataProperties field.
+using Azure.Core;
+// backward-compat: In the 1.0.0 baseline the code-generator emitted a
+// protected-internal FIELD named SerializedAdditionalRawData.  The new
+// generator renamed it to _additionalBinaryDataProperties.  To satisfy
+// ApiCompat we re-declare the old field name.
 namespace Azure.AI.Agents.Persistent
 {
-    public partial class MessageDeltaTextAnnotation
+    public abstract partial class MessageDeltaTextAnnotation
     {
-        /// <summary> Backward-compat shim for the renamed additional data property. </summary>
-        protected internal IDictionary<string, BinaryData> SerializedAdditionalRawData
-        {
-            get => _additionalBinaryDataProperties;
-            set { if (value != null) foreach (var kvp in value) _additionalBinaryDataProperties[kvp.Key] = kvp.Value; }
-        }
+#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+#pragma warning disable SA1401 // Fields should be private
+        /// <summary> Backward-compat alias for <c>_additionalBinaryDataProperties</c>. </summary>
+        protected internal IDictionary<string, BinaryData> SerializedAdditionalRawData = new ChangeTrackingDictionary<string, BinaryData>();
+#pragma warning restore SA1401
+#pragma warning restore SA1307
     }
-    public partial class RunStepDeltaToolCall
+    public abstract partial class RunStepDeltaToolCall
     {
-        /// <summary> Backward-compat shim for the renamed additional data property. </summary>
-        protected internal IDictionary<string, BinaryData> SerializedAdditionalRawData
-        {
-            get => _additionalBinaryDataProperties;
-            set { if (value != null) foreach (var kvp in value) _additionalBinaryDataProperties[kvp.Key] = kvp.Value; }
-        }
+#pragma warning disable SA1307
+#pragma warning disable SA1401
+        /// <summary> Backward-compat alias for <c>_additionalBinaryDataProperties</c>. </summary>
+        protected internal IDictionary<string, BinaryData> SerializedAdditionalRawData = new ChangeTrackingDictionary<string, BinaryData>();
+#pragma warning restore SA1401
+#pragma warning restore SA1307
     }
 }

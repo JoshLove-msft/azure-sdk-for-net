@@ -79,7 +79,7 @@ namespace Azure.AI.Agents.Persistent
                 throw new FormatException($"The model {nameof(AzureFunctionBinding)} does not support writing '{format}' format.");
             }
             writer.WritePropertyName("type"u8);
-            writer.WriteStringValue(Type);
+            writer.WriteStringValue(Type.ToString());
             writer.WritePropertyName("storage_queue"u8);
             writer.WriteObjectValue(StorageQueue, options);
             if (options.Format != "W" && _additionalBinaryDataProperties != null)
