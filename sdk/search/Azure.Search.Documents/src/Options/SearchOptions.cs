@@ -138,22 +138,6 @@ namespace Azure.Search.Documents
         [CodeGenMember("Filter")]
         public string Filter { get; set; }
 
-        /// <summary>
-        /// The list of field names to use for hit highlights.  Only searchable
-        /// fields can be used for hit highlighting.
-        /// </summary>
-        public IList<string> HighlightFields { get; internal set; } = new List<string>();
-
-        /// <summary>
-        /// Join HighlightFields so it can be sent as a comma separated string.
-        /// </summary>
-        [CodeGenMember("HighlightFields")]
-        internal string HighlightFieldsRaw
-        {
-            get => HighlightFields.CommaJoin();
-            set => HighlightFields = InternalSearchExtensions.CommaSplit(value);
-        }
-
         /// <summary> A string tag that is appended to hit highlights. Must be set with highlightPreTag. Default is &lt;/em&gt;. </summary>
         [CodeGenMember("HighlightPostTag")]
         public string HighlightPostTag { get; set; }
@@ -194,67 +178,6 @@ namespace Azure.Search.Documents
         /// Lucene query, the field names of each fielded search expression
         /// take precedence over any field names listed in this parameter.
         /// </summary>
-        public IList<string> SearchFields { get; internal set; } = new List<string>();
-
-        /// <summary>
-        /// Join SearchFields so it can be sent as a comma separated string.
-        /// </summary>
-        [CodeGenMember("SearchFields")]
-        internal string SearchFieldsRaw
-        {
-            get => SearchFields.CommaJoin();
-            set => SearchFields = InternalSearchExtensions.CommaSplit(value);
-        }
-
-        /// <summary>
-        /// The list of fields to retrieve.  If unspecified, all fields marked
-        /// as retrievable in the schema are included.
-        /// </summary>
-        public IList<string> Select { get; internal set; } = new List<string>();
-
-        /// <summary>
-        /// Join Select so it can be sent as a comma separated string.
-        /// </summary>
-        [CodeGenMember("Select")]
-        internal string SelectRaw
-        {
-            get => Select.CommaJoin();
-            set => Select = InternalSearchExtensions.CommaSplit(value);
-        }
-
-        /// <summary>
-        /// The number of search results to retrieve. This can be used in
-        /// conjunction with <see cref="Skip"/> to implement client-side
-        /// paging of search results.  If results are truncated due to
-        /// server-side paging, the response will include a continuation token
-        /// that can be used to issue another Search request for the next page
-        /// of results.
-        /// </summary>
-        [CodeGenMember("Top")]
-        public int? Size { get; set; }
-
-        /// <summary>
-        /// The list of OData $orderby expressions by which to sort the
-        /// results. Each expression can be either a field name or a call to
-        /// either the geo.distance() or the search.score() functions. Each
-        /// expression can be followed by asc to indicate ascending, or desc to
-        /// indicate descending. The default is ascending order. Ties will be
-        /// broken by the match scores of documents. If no $orderby is
-        /// specified, the default sort order is descending by document match
-        /// score. There can be at most 32 $orderby clauses.
-        /// </summary>
-        public IList<string> OrderBy { get; internal set; } = new List<string>();
-
-        /// <summary>
-        /// Join OrderBy so it can be sent as a comma separated string.
-        /// </summary>
-        [CodeGenMember("OrderBy")]
-        internal string OrderByRaw
-        {
-            get => OrderBy.CommaJoin();
-            set => OrderBy = InternalSearchExtensions.CommaSplit(value);
-        }
-
         /// <summary>
         /// A value that specifies whether to fetch the total count of results
         /// as the <see cref="Models.SearchResults{T}.TotalCount"/> property.

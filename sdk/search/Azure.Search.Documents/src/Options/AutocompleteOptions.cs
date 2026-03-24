@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using Azure.Search.Documents.Models;
 using Microsoft.TypeSpec.Generator.Customizations;
@@ -59,25 +58,6 @@ namespace Azure.Search.Documents
         /// </summary>
         [CodeGenMember("Top")]
         public int? Size { get; set; }
-
-        /// <summary>
-        /// The list of field names to consider when querying for
-        /// auto-completed terms. Target fields must be included in the
-        /// specified suggester.
-        /// </summary>
-        public IList<string> SearchFields { get; internal set; } = new List<string>();
-
-#pragma warning disable CA1822 // Only (unused but required) setters are static
-        /// <summary>
-        /// Join SearchFields so it can be sent as a comma separated string.
-        /// </summary>
-        [CodeGenMember("SearchFields")]
-        internal string SearchFieldsRaw
-        {
-            get => SearchFields.CommaJoin();
-            set => throw new InvalidOperationException($"Cannot deserialize {nameof(AutocompleteOptions)}.");
-        }
-#pragma warning restore CA1822
 
         /// <summary> A value indicating whether to use fuzzy matching for the autocomplete query. Default is false. When set to true, the query will autocomplete terms even if there's a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy autocomplete queries are slower and consume more resources. </summary>
         public bool? UseFuzzyMatching { get; set; }
