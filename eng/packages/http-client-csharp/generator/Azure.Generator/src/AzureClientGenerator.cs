@@ -8,8 +8,6 @@ using Microsoft.TypeSpec.Generator.ClientModel;
 using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using Azure.Core.Expressions.DataFactory;
 using Azure.Generator.Providers;
 
@@ -98,76 +96,5 @@ public class AzureClientGenerator : ScmCodeModelGenerator
         AddVisitor(new InvokeDelimitedMethodVisitor());
         AddVisitor(new XmlSerializableVisitor());
         AddVisitor(new ClientSettingsVisitor());
-
-        // Load and apply external plugins specified via the 'plugin' emitter option
-        LoadPluginFromConfiguration();
-    }
-
-    private const string PluginOptionKey = "plugin";
-
-    /// <summary>
-    /// Loads a generator plugin from the path specified in the 'plugin' configuration option.
-    /// The plugin assembly must contain a class that extends <see cref="GeneratorPlugin"/>.
-    /// </summary>
-    private void LoadPluginFromConfiguration()
-    {
-        if (!Configuration.AdditionalConfigurationOptions.TryGetValue(PluginOptionKey, out var value))
-        {
-            return;
-        }
-
-        var pluginPath = value.ToString().Trim('"');
-        if (string.IsNullOrEmpty(pluginPath))
-        {
-            return;
-        }
-
-        var assemblies = LoadPluginAssemblies(pluginPath);
-        foreach (var assembly in assemblies)
-        {
-            ApplyPluginsFromAssembly(assembly);
-        }
-    }
-
-    private Assembly[] LoadPluginAssemblies(string path)
-    {
-        if (File.Exists(path) && path.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
-        {
-            return [Assembly.LoadFrom(path)];
-        }
-
-        if (Directory.Exists(path))
-        {
-            return Directory.GetFiles(path, "*.dll")
-                .Select(dll =>
-                {
-                    try
-                    {
-                        return Assembly.LoadFrom(dll);
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                })
-                .Where(a => a != null)
-                .ToArray()!;
-        }
-
-        throw new InvalidOperationException(
-            $"Plugin path '{path}' does not exist. " +
-            $"Specify a path to a DLL file or a directory containing plugin assemblies.");
-    }
-
-    private void ApplyPluginsFromAssembly(Assembly assembly)
-    {
-        var pluginTypes = assembly.GetTypes()
-            .Where(t => typeof(GeneratorPlugin).IsAssignableFrom(t) && !t.IsAbstract);
-
-        foreach (var pluginType in pluginTypes)
-        {
-            var plugin = (GeneratorPlugin)Activator.CreateInstance(pluginType)!;
-            plugin.Apply(this);
-        }
     }
 }

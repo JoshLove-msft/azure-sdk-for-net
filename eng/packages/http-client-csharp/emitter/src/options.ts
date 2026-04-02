@@ -10,7 +10,6 @@ import {
 export interface AzureEmitterOptions extends CSharpEmitterOptions {
   namespace?: string;
   "model-namespace"?: boolean;
-  plugin?: string;
 }
 
 export const AzureEmitterOptionsSchema: JSONSchemaType<AzureEmitterOptions> = {
@@ -30,14 +29,6 @@ export const AzureEmitterOptionsSchema: JSONSchemaType<AzureEmitterOptions> = {
       description:
         "Whether to put models under a separate 'Models' sub-namespace. This only applies if the 'namespace' option is set. " +
         " The default value is 'false'."
-    },
-    plugin: {
-      type: "string",
-      nullable: true,
-      description:
-        "Path to a generator plugin assembly (DLL) or a directory containing plugin assemblies. " +
-        "The plugin must contain a class that extends GeneratorPlugin. " +
-        "This eliminates the need for a separate npm package and emitter-package.json for custom visitors."
     }
   },
   required: []

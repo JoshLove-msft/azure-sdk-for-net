@@ -137,9 +137,3 @@ The C# namespace to use for the generated code. This will override the TypeSpec 
 **Type:** `boolean`
 
 Whether to put models under a separate 'Models' sub-namespace. This only applies if the 'namespace' option is set. The default value is 'false'.
-
-### `plugin`
-
-**Type:** `string`
-
-Path to a generator plugin assembly (DLL) or a directory containing plugin assemblies. The plugin must contain a class that extends `GeneratorPlugin`. Relative paths are resolved against the emitter output directory. This allows registering custom visitors without creating a separate npm package or emitter-package.json.
