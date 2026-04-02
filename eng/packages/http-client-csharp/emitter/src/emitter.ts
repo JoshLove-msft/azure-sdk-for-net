@@ -3,6 +3,7 @@
 
 import { EmitContext, NoTarget, resolvePath } from "@typespec/compiler";
 import { createSdkContext } from "@azure-tools/typespec-client-generator-core";
+import { resolve } from "path";
 
 import { $onEmit as $onMTGEmit } from "@typespec/http-client-csharp";
 import { AzureEmitterOptions } from "./options.js";
@@ -16,6 +17,14 @@ export async function $onEmit(context: EmitContext<AzureEmitterOptions>) {
     company: "Microsoft Corporation"
   };
   context.options["package-name"] ??= context.options["namespace"];
+
+  // Resolve plugin path to absolute if specified
+  if (context.options["plugin"]) {
+    context.options["plugin"] = resolve(
+      context.emitterOutputDir,
+      context.options["plugin"]
+    );
+  }
 
   // Merge additional decorators
   context.options["sdk-context-options"] ??= {};

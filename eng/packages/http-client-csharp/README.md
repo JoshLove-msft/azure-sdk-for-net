@@ -154,3 +154,22 @@ The C# namespace to use for the generated code. This will override the TypeSpec 
 **Type:** `boolean`
 
 Whether to put models under a separate 'Models' sub-namespace. This only applies if the 'namespace' option is set. The default value is 'false'.
+
+### `plugin`
+
+**Type:** `string`
+
+Path to a generator plugin assembly (DLL) or a directory containing plugin assemblies. The plugin must contain a class that extends `GeneratorPlugin`. Relative paths are resolved against the emitter output directory.
+
+This option allows you to register custom visitors without creating a separate npm package or custom emitter-package.json. You only need:
+
+1. A C# project that references `Microsoft.TypeSpec.Generator.ClientModel` and implements `GeneratorPlugin`
+2. The `plugin` option pointing to the built output
+
+**Example:**
+
+```yaml
+options:
+  "@azure-typespec/http-client-csharp":
+    plugin: "path/to/MyPlugin.dll"
+```
