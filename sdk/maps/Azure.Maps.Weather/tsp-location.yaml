@@ -1,5 +1,5 @@
 directory: specification/maps/data-plane/Weather
-commit: 7c18c4c4ab1c16a1d96685795089cf98ffe70131
+commit: 0b8d8f25ae31af3099165228c4cfcf0a3035515d
 repo: Azure/azure-rest-api-specs
 cleanup: true
 emitterPackageJsonPath: eng/azure-typespec-http-client-csharp-emitter-package.json
