@@ -1,14 +1,49 @@
 # Release History
 
-## 2.1.0-beta.1 (Unreleased)
+## 2.1.0-beta.3 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
+- **Breaking changes since version 2.0.0** `MemorySearchToolCallResponseItem` was replaced by `MemorySearchToolCall`, `MemoryCommandToolCall` and `MemoryCommandToolCallOutput`.
+- **Breaking changes since version 2.0.0** `MemoryToolSearchItem` was removed, because it is not used anymore.
 
 ### Bugs Fixed
 
 ### Other Changes
+
+### Sample Updates
+- Added a sample for Fabric IQ Tool (preview).
+- Added a sample for Work IQ Tool (preview).
+
+## 2.1.0-beta.2 (2026-05-14)
+
+### Features Added
+- Added `ResponsesToolboxSearchPreviewTool` for discovering deferred tools via `search_tools` queries at runtime.
+- Added `Name` and `Description` properties to Responses tool classes.
+- Added new method `GetProjectResponsesClientForAgentEndpoint` on the `ProjectOpenAIClient`.
+
+### Breaking Changes
+- `ComputerScreenshotImage` property `ImageUrl` was renamed to `ImageUri`.
+- `ResponsesAutoCodeInterpreterToolParam` property `Type` was renamed to `Kind`.
+- `ResponsesAzureAISearchTool` property `AzureAiSearch` was renamed to `AzureAISearch`.
+- `ResponsesAzureFunctionBinding` property `Type` was renamed to `Kind`.
+- `ResponsesBingGroundingSearchConfiguration` property `SetLang` was renamed to `Language`.
+- `ResponsesCustomToolParam` property `DeferLoading` was renamed to `ShouldDeferLoading`.
+- `ResponsesFunctionToolParam` property `DeferLoading` was renamed to `ShouldDeferLoading`.
+- `ResponsesFunctionToolParam` property `Strict` was renamed to `IsStrict`.
+- `ResponsesFunctionCallOutputStatusEnum` was renamed to `ResponsesFunctionCallOutputStatus`.
+- `ResponsesMCPToolFilter` property `ReadOnly` was renamed to `IsReadOnly`.
+- `ResponsesMemorySearchPreviewTool` property `UpdateDelay` was renamed to `UpdateDelayInSeconds`.
+- `ResponsesOpenApiFunctionDefinition` property `Spec` was renamed to `Specification`.
+- `ResponsesOpenApiTool` property `Openapi` was renamed to `OpenApi`.
+- `ResponsesStructuredOutputDefinition` property `Strict` was renamed to `IsStrict`.
+- `ResponsesWebSearchApproximateLocation` property `Type` was renamed to `Kind`.
+
+## 2.1.0-beta.1 (2026-04-21)
+
+### Features Added
+- The sample for Hosted agent was updated.
 
 ## 2.0.0 (2026-03-31)
 
