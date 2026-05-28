@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "AzureClients": {
+      "type": "object",
+      "properties": {
+        "MapsWeatherClient": {
+          "type": "object",
+          "description": "Configuration for MapsWeatherClient.",
+          "properties": {
+            "Endpoint": {
+              "type": "string",
+              "format": "uri",
+              "description": "Gets or sets the Endpoint."
+            },
+            "Credential": {
+              "$ref": "#/definitions/credential"
+            },
+            "Options": {
+              "$ref": "#/definitions/mapsWeatherClientOptions"
+            }
+          }
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "description": "Configuration for a named client instance."
+      }
+    }
+  },
+  "definitions": {
+    "mapsWeatherClientOptions": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/azureOptions"
+        }
+      ]
+    }
+  }
+}
