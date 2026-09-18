@@ -5,50 +5,86 @@
 
 #nullable disable
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure;
 using Azure.Core;
+using Azure.Core.GeoJson;
 using Azure.Core.Pipeline;
 
-namespace _Specs_.Azure.ClientGenerator.Core.AlternateType._ExternalType
+namespace Specs.Azure.ClientGenerator.Core.AlternateType._ExternalType
 {
     public partial class ExternalType
     {
         protected ExternalType() => throw null;
 
-        public virtual HttpPipeline Pipeline => throw null;
+        internal ExternalType(ClientDiagnostics clientDiagnostics, global::Azure.Core.Pipeline.HttpPipeline pipeline, Uri endpoint) => throw null;
 
-        public virtual Response GetModel(RequestContext context) => throw null;
+        public virtual global::Azure.Core.Pipeline.HttpPipeline Pipeline => throw null;
 
-        public virtual Task<Response> GetModelAsync(RequestContext context) => throw null;
+        public virtual global::Azure.Response GetModel(global::Azure.RequestContext context) => throw null;
 
-        public virtual Response<Feature> GetModel(CancellationToken cancellationToken = default) => throw null;
+        public virtual Task<global::Azure.Response> GetModelAsync(global::Azure.RequestContext context) => throw null;
 
-        public virtual Task<Response<Feature>> GetModelAsync(CancellationToken cancellationToken = default) => throw null;
+        public virtual global::Azure.Response<Feature> GetModel(CancellationToken cancellationToken = default) => throw null;
 
-        public virtual Response PutModel(RequestContent content, RequestContext context = null) => throw null;
+        public virtual Task<global::Azure.Response<Feature>> GetModelAsync(CancellationToken cancellationToken = default) => throw null;
 
-        public virtual Task<Response> PutModelAsync(RequestContent content, RequestContext context = null) => throw null;
+        public virtual global::Azure.Response PutModel(global::Azure.Core.RequestContent content, global::Azure.RequestContext context = null) => throw null;
 
-        public virtual Response PutModel(Feature body, CancellationToken cancellationToken = default) => throw null;
+        public virtual Task<global::Azure.Response> PutModelAsync(global::Azure.Core.RequestContent content, global::Azure.RequestContext context = null) => throw null;
 
-        public virtual Task<Response> PutModelAsync(Feature body, CancellationToken cancellationToken = default) => throw null;
+        public virtual global::Azure.Response PutModel(Feature body, CancellationToken cancellationToken = default) => throw null;
 
-        public virtual Response GetProperty(RequestContext context) => throw null;
+        public virtual Task<global::Azure.Response> PutModelAsync(Feature body, CancellationToken cancellationToken = default) => throw null;
 
-        public virtual Task<Response> GetPropertyAsync(RequestContext context) => throw null;
+        public virtual global::Azure.Response GetProperty(global::Azure.RequestContext context) => throw null;
 
-        public virtual Response<ModelWithFeatureProperty> GetProperty(CancellationToken cancellationToken = default) => throw null;
+        public virtual Task<global::Azure.Response> GetPropertyAsync(global::Azure.RequestContext context) => throw null;
 
-        public virtual Task<Response<ModelWithFeatureProperty>> GetPropertyAsync(CancellationToken cancellationToken = default) => throw null;
+        public virtual global::Azure.Response<ModelWithFeatureProperty> GetProperty(CancellationToken cancellationToken = default) => throw null;
 
-        public virtual Response PutProperty(RequestContent content, RequestContext context = null) => throw null;
+        public virtual Task<global::Azure.Response<ModelWithFeatureProperty>> GetPropertyAsync(CancellationToken cancellationToken = default) => throw null;
 
-        public virtual Task<Response> PutPropertyAsync(RequestContent content, RequestContext context = null) => throw null;
+        public virtual global::Azure.Response PutProperty(global::Azure.Core.RequestContent content, global::Azure.RequestContext context = null) => throw null;
 
-        public virtual Response PutProperty(ModelWithFeatureProperty body, CancellationToken cancellationToken = default) => throw null;
+        public virtual Task<global::Azure.Response> PutPropertyAsync(global::Azure.Core.RequestContent content, global::Azure.RequestContext context = null) => throw null;
 
-        public virtual Task<Response> PutPropertyAsync(ModelWithFeatureProperty body, CancellationToken cancellationToken = default) => throw null;
+        public virtual global::Azure.Response PutProperty(ModelWithFeatureProperty body, CancellationToken cancellationToken = default) => throw null;
+
+        public virtual Task<global::Azure.Response> PutPropertyAsync(ModelWithFeatureProperty body, CancellationToken cancellationToken = default) => throw null;
+
+        public virtual global::Azure.Response GetPoint(global::Azure.RequestContext context) => throw null;
+
+        public virtual Task<global::Azure.Response> GetPointAsync(global::Azure.RequestContext context) => throw null;
+
+        public virtual global::Azure.Response<global::Azure.Core.GeoJson.GeoPoint> GetPoint(CancellationToken cancellationToken = default) => throw null;
+
+        public virtual Task<global::Azure.Response<global::Azure.Core.GeoJson.GeoPoint>> GetPointAsync(CancellationToken cancellationToken = default) => throw null;
+
+        public virtual global::Azure.Response PutPoint(global::Azure.Core.RequestContent content, global::Azure.RequestContext context = null) => throw null;
+
+        public virtual Task<global::Azure.Response> PutPointAsync(global::Azure.Core.RequestContent content, global::Azure.RequestContext context = null) => throw null;
+
+        public virtual global::Azure.Response PutPoint(global::Azure.Core.GeoJson.GeoPoint body, CancellationToken cancellationToken = default) => throw null;
+
+        public virtual Task<global::Azure.Response> PutPointAsync(global::Azure.Core.GeoJson.GeoPoint body, CancellationToken cancellationToken = default) => throw null;
+
+        public virtual global::Azure.Response GetPointProperty(global::Azure.RequestContext context) => throw null;
+
+        public virtual Task<global::Azure.Response> GetPointPropertyAsync(global::Azure.RequestContext context) => throw null;
+
+        public virtual global::Azure.Response<ModelWithPointProperty> GetPointProperty(CancellationToken cancellationToken = default) => throw null;
+
+        public virtual Task<global::Azure.Response<ModelWithPointProperty>> GetPointPropertyAsync(CancellationToken cancellationToken = default) => throw null;
+
+        public virtual global::Azure.Response PutPointProperty(global::Azure.Core.RequestContent content, global::Azure.RequestContext context = null) => throw null;
+
+        public virtual Task<global::Azure.Response> PutPointPropertyAsync(global::Azure.Core.RequestContent content, global::Azure.RequestContext context = null) => throw null;
+
+        public virtual global::Azure.Response PutPointProperty(ModelWithPointProperty body, CancellationToken cancellationToken = default) => throw null;
+
+        public virtual Task<global::Azure.Response> PutPointPropertyAsync(ModelWithPointProperty body, CancellationToken cancellationToken = default) => throw null;
     }
 }
