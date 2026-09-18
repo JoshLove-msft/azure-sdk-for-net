@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace _Specs_.Azure.ClientGenerator.Core.AlternateType._ExternalType
+namespace Specs.Azure.ClientGenerator.Core.AlternateType._ExternalType
 {
     public partial class Feature
     {

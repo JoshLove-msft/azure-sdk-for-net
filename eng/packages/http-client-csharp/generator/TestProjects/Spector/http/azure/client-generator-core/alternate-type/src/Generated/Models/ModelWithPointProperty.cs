@@ -5,13 +5,15 @@
 
 #nullable disable
 
-namespace _Specs_.Azure.ClientGenerator.Core.AlternateType._ExternalType
-{
-    public partial class ModelWithFeatureProperty
-    {
-        public ModelWithFeatureProperty(Feature feature, string additionalProperty) => throw null;
+using Azure.Core.GeoJson;
 
-        public Feature Feature
+namespace Specs.Azure.ClientGenerator.Core.AlternateType._ExternalType
+{
+    public partial class ModelWithPointProperty
+    {
+        public ModelWithPointProperty(global::Azure.Core.GeoJson.GeoPoint point, string additionalProperty) => throw null;
+
+        public global::Azure.Core.GeoJson.GeoPoint Point
         {
             get => throw null;
             set => throw null;

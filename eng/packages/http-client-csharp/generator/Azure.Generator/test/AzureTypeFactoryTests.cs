@@ -3,6 +3,7 @@
 
 using Azure.Core;
 using Azure.Core.Expressions.DataFactory;
+using Azure.Core.GeoJson;
 using Azure.Core.Pipeline;
 using Azure.Generator.Tests.Common;
 using Azure.Generator.Tests.TestHelpers;
@@ -15,6 +16,7 @@ using NUnit.Framework;
 using System;
 using System.ClientModel.Primitives;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Xml;
@@ -36,6 +38,7 @@ namespace Azure.Generator.Tests
         [TestCase(typeof(AzureLocation), ExpectedResult = "writer.WriteStringValue(value);\n")]
         [TestCase(typeof(ResourceIdentifier), ExpectedResult = "writer.WriteStringValue(value);\n")]
         [TestCase(typeof(ResponseError), ExpectedResult = "((global::System.ClientModel.Primitives.IJsonModel<global::Azure.ResponseError>)value).Write(writer, options);\n")]
+        [TestCase(typeof(GeoPoint), ExpectedResult = "writer.WriteObjectValue<global::Azure.Core.GeoJson.GeoPoint>(value, options);\n")]
         public string ValidateSerializationStatement(Type type)
         {
             var value = new ParameterProvider("value", $"", type).AsVariable().As(type);
@@ -54,6 +57,7 @@ namespace Azure.Generator.Tests
         [TestCase(typeof(AzureLocation), ExpectedResult = "new global::Azure.Core.AzureLocation(element.GetString())")]
         [TestCase(typeof(ResourceIdentifier), ExpectedResult = "new global::Azure.Core.ResourceIdentifier(element.GetString())")]
         [TestCase(typeof(ResponseError), ExpectedResult = "global::System.ClientModel.Primitives.ModelReaderWriter.Read<global::Azure.ResponseError>(new global::System.BinaryData(global::System.Text.Encoding.UTF8.GetBytes(element.GetRawText())), options, global::Samples.SamplesContext.Default)")]
+        [TestCase(typeof(GeoPoint), ExpectedResult = "global::System.ClientModel.Primitives.ModelReaderWriter.Read<global::Azure.Core.GeoJson.GeoPoint>(data, global::Samples.ModelSerializationExtensions.WireOptions, global::Samples.SamplesContext.Default)")]
         public string ValidateDeserializationExpression(Type type)
         {
             var element = new ParameterProvider("element", $"", typeof(JsonElement)).AsVariable().As<JsonElement>();
@@ -309,20 +313,42 @@ namespace Azure.Generator.Tests
                 displayString);
         }
 
-        [Test]
-        public void ExternalIdentityOnModelResolvesToFrameworkType()
+        [TestCase("Azure.Core.ResourceIdentifier", typeof(ResourceIdentifier))]
+        [TestCase("Azure.Core.GeoJson.GeoPoint", typeof(GeoPoint))]
+        public void ExternalIdentityOnModelResolvesToFrameworkType(string identity, Type expectedType)
         {
-            // Simulate @@alternateType(SomeModel, { identity: "Azure.Core.ResourceIdentifier" }, "csharp")
-            // The InputModelType has External.Identity set to a fully-qualified type name.
-            // Without explicit handling, the property would be silently dropped from generated code.
-            var externalType = new InputExternalTypeMetadata("Azure.Core.ResourceIdentifier", null, null);
+            var externalType = new InputExternalTypeMetadata(identity, null, null);
             var model = InputFactory.Model("AliasedModel", externalTypeMetadata: externalType);
 
             var actual = AzureClientGenerator.Instance.TypeFactory.CreateCSharpType(model);
 
             Assert.IsNotNull(actual);
             Assert.IsTrue(actual!.IsFrameworkType);
-            Assert.AreEqual(typeof(ResourceIdentifier), actual.FrameworkType);
+            Assert.AreEqual(expectedType, actual.FrameworkType);
+        }
+
+        [Test]
+        public void GeoPointFrameworkTypeIsResolvable()
+        {
+            var factory = new TestTypeFactory();
+
+            Assert.AreEqual(typeof(GeoPoint), factory.InvokeCreateFrameworkType("Azure.Core.GeoJson.GeoPoint"));
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ExternalGeoPointPropertyPreservesType(bool isRequired)
+        {
+            var point = InputFactory.Model("Point",
+                externalTypeMetadata: new InputExternalTypeMetadata("Azure.Core.GeoJson.GeoPoint", "Azure.Core", "1.61.0"));
+            var inputModel = InputFactory.Model("ModelWithPointProperty",
+                properties: [InputFactory.Property("point", point, isRequired: isRequired)]);
+            var model = new ModelProvider(inputModel);
+
+            var property = model.Properties.Single(p => p.Name == "Point");
+            Assert.IsTrue(property.Type.IsFrameworkType);
+            Assert.AreEqual(typeof(GeoPoint), property.Type.FrameworkType);
+            Assert.AreEqual(!isRequired, property.Type.IsNullable);
         }
 
         [Test]
